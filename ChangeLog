@@ -1,0 +1,19 @@
+
+SDLjump changelog
+=================
+
++ SDLjump 0.91 (02-12-2005)
+	* New Features:
+	- Changelog, manpage and webpage created.
+	- Added 'lives' for multiplayer mode.
+	- Added new skin: 'auri'
+	- Small new fx in the user interface.
+	* Bugs solved:
+	- Now it runs fluent in Ati cards when fps limit is disabled and opengl
+	  rendering is activated (just added a GlFinish() at the end of everyframe).
+	- Some artifacts in the highscores and some other don't appear anymore.
+	- Other small bugs where solved but I can't remember them. lol.
+	
+
++ SDLjump 0.90 (17-10-2005)
+	* Initial Realease

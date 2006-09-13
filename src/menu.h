@@ -1,0 +1,149 @@
+/*
+ * SDLjump
+ * (C) 2005 Juan Pedro Bol�ar Puente
+ * 
+ * This simple but addictive game is based on xjump. Thanks for its author for
+ * making such a great game :-)
+ * 
+ * menu.h
+ */
+
+/*
+    Copyright (C) 2003-2004, Juan Pedro Bolivar Puente
+
+    SDLjump is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    SDLjump is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SDLjump; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#ifndef _MENU_H_
+#define _MENU_H_
+
+#include "sprite.h"
+#include "game.h"
+
+#define MENUFADE 1000
+#define ABLINKTIME 300
+
+#define NONE -1
+
+enum {
+	KIDLE,
+	KUP,
+	KDOWN,
+	KENTER,
+	KLEFT,
+	KRIGHT,
+	KMUP,
+	KMDOWN,
+	KMENTER,
+	KBACK
+};
+
+enum {
+	A_DOWN,
+	A_UP,
+	ARROWS
+};
+
+enum {
+	MB_INPUT = 0x0001,
+	MB_RETURN = 0x0002,
+	MB_KEYDEF = 0x0004,
+	MB_CHOOSE = 0x0008
+};
+
+typedef struct option {
+	char* caption;
+	char* tip;
+	
+	int flags;
+	int nops;
+	char** opcap;
+	void* data;
+} opt_t;
+
+typedef struct {
+	int id;
+	int x;
+	int y;
+	int clicked;
+	L_spriteCtl sprite[M_STATES];
+} mouse_t;
+
+typedef struct menu {
+	int nops;
+	opt_t* opt;
+} menu_t;
+
+/* NEW MENUS */
+void initMenuT(menu_t* menu);
+
+void addMenuTOption(menu_t* menu, char* caption, char* tip, int flags,
+					void* data, int nops, ...);
+					
+void freeMenuTOption(opt_t* opt);
+
+void freeMenuT(menu_t* menu);
+
+int playMenuT(data_t* gfx, menu_t* menu);
+
+void drawMenuTArrows(data_t* gfx, int alphaUp, int alphaDown);
+
+void drawMenuT(data_t* gfx, menu_t* menu, int offset);
+
+void drawMenuTOption(data_t* gfx,  int opt, int offset, opt_t* option, int alpha);
+
+char* inputMenu (data_t* gfx, char* tip, char* inittext, int maxWidth);
+
+/* OLD MENUS*/
+int playMenu(data_t* gfx, int nops, ...);
+
+int playMenuTab(data_t* gfx, int nops, char **options, char **tips);
+
+void drawTip (data_t* gfx, char* tip);
+
+int checkMenuKeys(mouse_t* mouse);
+
+void drawMenu(data_t* gfx, int nops, char** ops);
+
+void drawOption(data_t* gfx,  int opt, char* option, int alpha);
+
+/* ACTUAL MENUS */
+void saveReplayMenu(data_t* gfx, replay_t* rep);
+
+void mainMenu(data_t* gfx);
+
+void newGameMenu(data_t* gfx);
+
+void configurePlayersMenu(data_t* gfx);
+
+void optionsMenu(data_t* gfx);
+
+void folderOptionsMenu(data_t* gfx);
+
+void gfxOptionsMenu(data_t* gfx);
+
+void gameOptionsMenu(data_t* gfx);
+
+void themeMenu(data_t* gfx);
+
+void viewReplayMenu(data_t* gfx);
+
+void chooseThemeMenu(data_t* gfx);
+
+int chooseLangMenu(data_t* gfx);
+
+int manageDirsMenu(data_t* gfx, char*** folders, int nfolders);
+
+#endif //_MENU_H_
