@@ -27,6 +27,12 @@ AC_CHECK_HEADER([SDL/SDL_image.h],
 )
 LIBS="$LIBS -lSDL_image"
 
+AC_CHECK_HEADER([SDL/SDL_mixer.h],
+		:,
+		[ AC_MSG_ERROR([*** Could not find SDL/SDL_mixer.h ! Install the SDL_image devel package.]) ]
+)
+LIBS="$LIBS -lSDL_mixer"
+
 dnl Set PACKAGE PREFIX
 if test "x${prefix}" = "xNONE"; then
   packageprefix=${ac_default_prefix}

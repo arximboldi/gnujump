@@ -17,6 +17,10 @@ comment = "This is the default theme of SDLjump"
 window_width = 640
 window_height = 480
 
+# If "default" it will use the one distributed with the SDLjump package.
+# Else, give a relative path to the folder of the sound theme.
+sound_theme = "default"
+
 # ==============================================================================
 #   Mouse
 # ==============================================================================

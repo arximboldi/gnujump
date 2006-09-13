@@ -406,6 +406,8 @@ int loadGraphics(data_t* data, char* fname)
     
     EngineInit(0, gblOps.fullsc, gblOps.w,gblOps.h,gblOps.bpp, gblOps.useGL);
 	
+	getValue_str(fh,"sound_theme",str,FALSE);
+	
 	/*
 	 * Mouse icon
 	 */

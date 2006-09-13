@@ -523,7 +523,7 @@ s,@DEFS@,|#_!!_#|-DHAVE_CONFIG_H,g
 s,@ECHO_C@,|#_!!_#|,g
 s,@ECHO_N@,|#_!!_#|-n,g
 s,@ECHO_T@,|#_!!_#|,g
-s,@LIBS@,|#_!!_#| -L/usr/lib -lSDL -lGL   -lSDL_image,g
+s,@LIBS@,|#_!!_#| -L/usr/lib -lSDL -lGL   -lSDL_image -lSDL_mixer,g
 s,@build_alias@,|#_!!_#|,g
 s,@host_alias@,|#_!!_#|,g
 s,@target_alias@,|#_!!_#|,g
