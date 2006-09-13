@@ -1,0 +1,4 @@
+
+SUBDIRS = auri default xjump
+
+

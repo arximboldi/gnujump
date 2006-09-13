@@ -1,0 +1,280 @@
+
+## SDLjump theme file
+## ==================
+## Important:
+## - You can't alter the order in which these values are present.
+## - The string length can't be larger than 512 characters
+## - String variables must go between ""
+
+# ==============================================================================
+#   General
+# ==============================================================================
+
+format = "01"
+
+comment = "Language: English
+Description: This is a new funny theme for SDLjump"
+
+window_width = 640
+window_height = 480
+
+# None -> 0, Full -> 1, Original -> 2
+default_rotation = 0
+
+# ==============================================================================
+#   Menu 
+# ==============================================================================
+
+menu_bg = "menu.png"
+
+# The fonts
+menu_font  = "font.png"
+tip_font = "textfont.png"
+
+# Define the text alignment for the meny entries and the tips
+# Left -> 0;  Center -> 1; Right -> 2;
+menu_align = 1
+tip_align = 1
+
+# Define the menu rectangle
+menu_x = 87
+menu_y = 185
+menu_width = 477
+menu_height = 300
+
+# Gap between items
+menu_gap = 0
+
+# Define the tips rectangle
+tip_x = 90
+tip_y = 352
+tip_width = 477
+tip_height = 60
+
+# Higligthed item color 
+hl_red = 10
+hl_green = 255
+hl_blue = 10
+hl_alpha = 170
+
+# ==============================================================================
+#   In-game
+# ==============================================================================
+
+# The background of the in-game screen
+game_bg = "gamebg.png"
+
+# The live picture
+live_pic = "live.png"
+# 0: Horizontal; 1: Vertical
+live_align = 1
+
+# The scoreboard font
+score_font = "scorefont.png"
+
+# The in-game text font
+game_font = "textfont.png"
+
+# Un-game text square color 
+g_red = 40
+g_green = 200
+g_blue = 40
+g_alpha = 168
+
+# Where the match grid starts
+game_x = 24
+game_y = 70
+
+# Postition of the score boards (remember: 4!)
+score_x = 560
+score_y = 100
+lives_x = 540
+lives_y = 98
+
+score_x = 560
+score_y = 160
+lives_x = 540
+lives_y = 158
+
+score_x = 560
+score_y = 220
+lives_x = 540
+lives_y = 218
+
+score_x = 560
+score_y = 280
+lives_x = 540
+lives_y = 278
+
+# The floor bricks
+floor_left   = "floorL.png"
+floor_right  = "floorR.png"
+floor_center = "floorC.png"
+
+# The hero sprite
+hero_stand_anim  = "heroanim1/stand.anim"
+hero_run_anim  = "heroanim1/run.anim"
+hero_jump_anim  = "heroanim1/jump.anim"
+
+hero_stand_anim  = "heroanim2/stand.anim"
+hero_run_anim  = "heroanim2/run.anim"
+hero_jump_anim  = "heroanim2/jump.anim"
+
+hero_stand_anim  = "heroanim3/stand.anim"
+hero_run_anim  = "heroanim3/run.anim"
+hero_jump_anim  = "heroanim3/jump.anim"
+
+hero_stand_anim  = "heroanim4/stand.anim"
+hero_run_anim  = "heroanim4/run.anim"
+hero_jump_anim  = "heroanim4/jump.anim"
+
+# ==============================================================================
+#   Translations
+# ==============================================================================
+
+## TEXT
+
+txt_name = "Name"
+txt_floor = "Floor"
+txt_mode = "Mode"
+txt_time = "Time"
+
+txt_hscnote = "Press any key to continue. Read the README or the 'man' page to learn the meaning of the 'mode' column."
+txt_newhsc = "Congratulations! You have made a new high score. Do you want to play again (Y/n)"
+txt_gameover = "You all are dead. Do you want to play again (Y/n)."
+txt_askquit = "Are you sure you want to end this match? (Y/n)"
+txt_pause = "PAUSED"
+
+## MENU
+
+msg_newgame = "New Game"
+msg_options = "Options"
+msg_highscores = "High Scores"
+msg_themes = "Themes"
+msg_quit = "Quit"
+
+msg_back = "Back"
+
+msg_themefolders = "Theme folders"
+msg_choostheme = "Choose Theme"
+msg_addthemefolder = "Add"
+msg_deletefolder = "Delete"
+msg_editfolder = "Modify"
+
+msg_1playergame = "Single player game"
+msg_2playergame = "Two players game"
+msg_3playergame = "Three players game"
+msg_4playergame = "Four players game"
+
+msg_gameoptions = "Game Options"
+msg_graphicoptions = "Graphic Options"
+msg_playernames = "Player Names"
+msg_redefinekeys = "Redefine Keys"
+
+msg_fpslimit = "FPS limit"
+msg_jumpingrot = "Jumping Rotation"
+msg_scrollmode = "Scroll Mode"
+msg_mplives = "Lives"
+
+msg_40fps = "40 fps (Xjump)"
+msg_100fps = "100 fps"
+msg_300fps = "300 fps"
+msg_nolimit = "No limit"
+
+msg_norot = "No rotation"
+msg_orginalrot = "Xjump"
+msg_fullrot = "Full"
+msg_fullrotaa = "Full AA"
+
+msg_softscroll = "Soft Scroll"
+msg_hardscroll = "Hard Scroll (Xjump)"
+
+msg_opengl = "OpenGL Rendering"
+msg_bpp = "Screen Colour Depth"
+msg_fullscreen = "Fulscreen"
+
+msg_8bpp = "8 bpp"
+msg_16bpp = "16 bpp"
+msg_24bpp = "24 bpp"
+msg_32bpp = "32 bpp"
+
+msg_yes = "Yes"
+msg_no = "No"
+
+msg_player1name = "Player 1 name"
+msg_player2name = "Player 2 name"
+msg_player3name = "Player 3 name"
+msg_player4name = "Player 4 name"
+
+msg_player1keys = "Player 1 keys"
+msg_player2keys = "Player 2 keys"
+msg_player3keys = "Player 3 keys"
+msg_player4keys = "Player 4 keys"
+
+msg_redefkeyleft = "Left"
+msg_redefkeyright = "Right"
+msg_redefkeyup = "Jump"
+
+## TIPS
+
+tip_newgame = "Start a new game"
+tip_options = "Configure different options related to the gameplay, graphics, players..."
+tip_highscores = "Lets have a look at the hall of fame"
+tip_themes = "Change the game look."
+tip_quit = "Are you sure you want to leave this great game?"
+
+tip_back = "Get me outta here!"
+
+tip_themefolders = "Choose where the themes are located."
+tip_choostheme = "Choose the theme to use."
+tip_addthemefolder = "Add a theme folder to the list."
+tip_themefolder = "View more options about this folder."
+tip_deletefolder = "Delete the folder from the list"
+tip_editfolder = "Change this folders path"
+tip_writefolder = "Write the full path where the themes are stored."
+
+tip_1playergame = "Play on your own in a cruel figth against the falling tower"
+tip_2playergame = "Play against 1 people in the falling tower"
+tip_3playergame = "Play against 2 people, who will survive more time?"
+tip_4playergame = "Oh man, keep your hands in the keyboard or you'll be punching each other"
+
+tip_gameoptions = "Modify options related to the game play. The XJump advice in some options means thats how it works in Xjump"
+tip_graphicoptions = "Modify options related to the game visuals"
+tip_playernames = "Change the player names. These names are the ones that will be stored in the records"
+tip_redefinekeys = "If you don't like the current keys, change them here"
+
+tip_fpslimit = "The original Xjump worked at 40 fps, but limiting to higher number is also good if you don't want to use all your CPU"
+tip_jumpingrot = "If you want to change how the player rotates when jumping"
+tip_scrollmode = "How do you want the tower to fall"
+tip_mplives = "Select the number of lives in multiplayer games. Remember that your final score will be divided by this number"
+
+tip_40fps = "If you want to the feeling of Xjump"
+tip_100fps =  "If you don't want to eat all your CPU"
+tip_300fps = "If your computer is quite fast but you still want to save some CPU"
+tip_nolimit = "Who cares? Keep on rolling baby!"
+
+tip_norot = "You look like a circus man when rotating, stop!"
+tip_orginalrot = "I like the original feeling of Xjump and its 90º rotations"
+tip_fullrot = "Rotate all around! Yeah, you are the washing-machine boy"
+tip_fullrotaa = "I want the washing machine boy with some nice antialiasing"
+
+tip_softscroll = "I want its original Xjump feeling with its 16 pixel falling. This might make it a little bit more difficult"
+tip_hardscroll = "If you prefer a nice soft falling, choose this one!"
+
+tip_opengl = "Use OpenGL if you've got a 3d accelerator card. In most cases it will improve the performance and use less CPU"
+tip_bpp = "How many colours you want? The less colours, the ugliest I look but the faster I go."
+tip_fullscreen = "If you want to play in a window or feel the overwhelming sensation of falling in all your screen!"
+
+tip_8bpp = "256 colours. Do you really want this?"
+tip_16bpp = "Around 16.000 colors. This way it looks better"
+tip_24bpp = "More than 4.000.000 colors, this rules!"
+tip_32bpp = "Same as above, but works fastest."
+
+tip_yes = "Of course!"
+tip_no = "Never!"
+
+tip_redefkeyleft = "The player will move to the left when you press that key"
+tip_redefkeyright = "Same as before, but to the right"
+tip_redefkeyup = "The jump key. Trust me, you can't survive without this one :) "
+
+tip_inputname = "Yeah, gimme a nice fancy name!"
