@@ -110,6 +110,8 @@ void updateReplay(game_t* game, float ms)
 	if (game->replay.timer >= game->replay.mspf)  {
 		game->replay.timer -= game->replay.mspf;
 		game->replay.nframes++;
+		repPushUInt8(&(game->replay), game->replay.sounds);
+		game->replay.sounds = 0;
 		repPushGrid(game);
 		repPushHeros(game);
 	}
@@ -159,6 +161,7 @@ void getPlayerReplay(hero_t* hero, replay_t* rep)
 	hero->dir = repGetUInt8(rep);
 	hero->angle = repGetUInt16(rep);
 	newid = repGetUInt8(rep);
+	hero->previd = hero->id;
 	if (newid != hero->id) {
 		hero->sprite[newid].elpTime = hero->sprite[newid].frame = 0;
 	}
@@ -232,6 +235,14 @@ void scrollReplay(game_t* game, data_t* gfx, replay_t* rep)
 	game->scrollCount = newScrollCount;
 }
 
+void playRepSounds(data_t* gfx, replay_t* rep)
+{
+	int sounds = repGetUInt8(rep);
+	if ((sounds & S_JUMP) == S_JUMP) Mix_PlayChannel(-1, gfx->gjump, 0);
+	if ((sounds & S_FALL) == S_FALL) Mix_PlayChannel(-1, gfx->gfall, 0);
+	if ((sounds & S_DIE) == S_DIE) Mix_PlayChannel(-1, gfx->gdie, 0);
+}
+
 void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms)
 {
     int i;
@@ -239,12 +250,15 @@ void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms)
     for (i=0; i<game->numHeros; i++) {
 		undrawHero(i, gfx, game);
     }
+    
+    playRepSounds(gfx, rep);
     scrollReplay(game, gfx, rep);
     for (i=0; i<game->numHeros; i++) {
-		//undrawHero(i, gfx, game);
-		getPlayerReplay(&(game->heros[i]), rep);
-		animateSpriteRot(&(game->heros[i].sprite[game->heros[i].id]), ms);
-		drawHero(gfx, &(game->heros[i]));
+		if (game->heros[i].dead == FALSE) {
+			getPlayerReplay(&(game->heros[i]), rep);
+			animateSpriteRot(&(game->heros[i].sprite[game->heros[i].id]), ms);
+			drawHero(gfx, &(game->heros[i]));
+		}
     }
 
 }
@@ -284,6 +298,8 @@ int playReplay(data_t* gfx, replay_t* rep)
     game_t game;
 	int done = FALSE;
 	int r, i = 0;
+    
+    Mix_PlayMusic(gfx->musgame, -1);
     
     drawBg(gfx->gameBg,0,0,gblOps.w,gblOps.h);
     initGameReplay(&game, gfx, rep);

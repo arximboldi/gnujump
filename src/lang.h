@@ -80,6 +80,7 @@ enum {
 	msg_lang,
 	msg_gameoptions,
 	msg_graphicoptions,
+	msg_soundoptions,
 	msg_folders,
 	
 	msg_themefolders,
@@ -95,6 +96,9 @@ enum {
 	msg_bpp,
 	msg_fullscreen,
 	msg_antialiasing,
+	
+	msg_sndvolume,
+	msg_musvolume,
 	
 	msg_repname,
 	msg_repcomment,
@@ -136,6 +140,7 @@ enum {
 	tip_lang,
 	tip_gameoptions,
 	tip_graphicoptions,
+	tip_soundoptions,
 	tip_folders,
 	
 	tip_themefolders,
@@ -151,6 +156,9 @@ enum {
 	tip_bpp,
 	tip_fullscreen,
 	tip_antialiasing,
+	
+	tip_sndvolume,
+	tip_musvolume,
 	
 	tip_repname,
 	tip_repcomment,

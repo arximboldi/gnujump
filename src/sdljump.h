@@ -69,23 +69,35 @@
 #define THEME_VERS "02" 
 #define SOUND_VERS "01" 
 #define LANG_VERS  "01"
-#define REP_VERS 1
+#define REP_VERS 2
 
 #ifndef HAVE_CONFIG_H
   #define VERSION "1.0.0"
 #endif
 
+/* Some code switchs */
+#define DEVEL
+#define GLFINISH
+
 /* Files */
 #define THEMEFILE "/config.theme"
 #define SOUNDFILE "/config.sounds"
-#define DEFOLDER "default"
+#define DEFTHEME "default"
 #define CFGFILE "sdljump.cfg"
 #define HSCFILE "sdljump.hsc"
 #define DEFLANG "lang/english.lang"
 #define LANGEXT ".lang"
 #define REPEXT ".rep"
 
-#define MAX_THEMEFOLDERS 5
+#ifdef WIN32
+  #define DEFSOUND "sound"
+#else
+  #ifdef DEVEL
+	#define DEFSOUND "../sound"
+  #else
+    #define DEFSOUND DATA_PREFIX"/"PACKAGE"/sound"
+  #endif
+#endif
 
 #define MAX_CHAR 512
 
@@ -178,10 +190,6 @@ enum {
 /* Default player name */
 #define PNAME "Player"
 
-/* Some code switchs */
-#define DEVEL
-#define GLFINISH
-
 
 //==============================================================================
 // LOCAL TYPES
@@ -210,7 +218,9 @@ typedef struct
     int h;
     int bpp;
     int fullsc;
-    
+    int sndvolume;
+	int musvolume;
+	
     int fps;
     int rotMode;
     int scrollMode;
@@ -253,6 +263,7 @@ typedef struct
 	Mix_Chunk* mback;
 	Mix_Music* musmenu;
 	Mix_Music* musgame;
+	int soundloaded;
 	
 	/* Mouse */
 	L_spriteData* mouse[M_STATES];

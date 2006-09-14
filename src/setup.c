@@ -54,6 +54,8 @@ void initGblOps(void)
     gblOps.nplayers = 0;
     gblOps.recReplay = 0;
     gblOps.repFps = 40;
+    gblOps.sndvolume = 9;
+    gblOps.musvolume = 6;
     
 #ifndef WIN32
 	homeDir = getenv("HOME");
@@ -76,11 +78,11 @@ void initGblOps(void)
   #ifndef DEVEL
     gblOps.dataDir  = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen("/skins/") + strlen(DEFOLDER)+2));
     gblOps.langFile = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen(DEFLANG)+3));
-    sprintf(gblOps.dataDir, "%s/%s/skins/%s",DATA_PREFIX,PACKAGE,DEFOLDER);
+    sprintf(gblOps.dataDir, "%s/%s/skins/%s",DATA_PREFIX,PACKAGE,DEFTHEME);
     sprintf(gblOps.langFile, "%s/%s/%s", DATA_PREFIX,PACKAGE,DEFLANG);
   #else
-	gblOps.dataDir = malloc(sizeof(char) *(strlen("../skins/") + strlen(DEFOLDER)+1));
-    sprintf(gblOps.dataDir, "../skins/%s",DEFOLDER);
+	gblOps.dataDir = malloc(sizeof(char) *(strlen("../skins/") + strlen(DEFTHEME)+1));
+    sprintf(gblOps.dataDir, "../skins/%s",DEFTHEME);
     gblOps.langFile = malloc(sizeof(char)*(strlen("../") + strlen(DEFLANG)+1));
     sprintf(gblOps.langFile, "../%s", DEFLANG);
   #endif
@@ -201,6 +203,8 @@ int loadConfigFile(char* fname)
     gblOps.fullsc = getValue_int(tfile,"fullscreen");
     gblOps.aa = getValue_int(tfile,"antialiasing");
     
+    gblOps.sndvolume = getValue_int(tfile,"sound_volume");
+    gblOps.musvolume = getValue_int(tfile,"music_volume");
     
     gblOps.dataDir = getValue_charp(tfile,"default_skin");	
 	gblOps.ntfolders = getValue_int(tfile,"skin_folders");
@@ -270,6 +274,9 @@ int writeConfigFile(char* fname)
     putValue_int(tfile,"screen_height",gblOps.h);
     putValue_int(tfile,"fullscreen",gblOps.fullsc);
     putValue_int(tfile,"antialiasing",gblOps.aa);
+    
+    putValue_int(tfile,"sound_volume", gblOps.sndvolume);
+    putValue_int(tfile,"music_volume", gblOps.musvolume);
     
     putLine(tfile);
     putComment(tfile,"Skin options");
@@ -368,68 +375,62 @@ char* getLangComment(char* fname)
 	return ret;
 }
 
-void resetTheme(data_t* gfxdata)
-{
-    
-    freeGraphics(gfxdata);
-    SDL_Quit();
-    loadGraphics(gfxdata, gblOps.dataDir);
-}
-
-void EngineInit(int mouse, int fullscreen, int w, int h, int bpp, int gl)
-{
-	const SDL_VideoInfo* info = NULL;
-	
+void EngineInit()
+{	
     //Everything starts!!
     if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) <0 ) {
-        printf("ERROR: SDL_Init did not work because: %s\n", SDL_GetError());
+        fprintf(stderr, "ERROR: SDL_Init did not work because: %s\n", SDL_GetError());
     	exit(2);
     }
     
+	atexit(SDL_Quit); //this avoids exiting without ending 
+        
     if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
-		printf("Mix_OpenAudio: %s\n", Mix_GetError());
+		fprintf(stderr, "ERROR: Mix_OpenAudio: %s\n", Mix_GetError());
 		exit(2);
 	}
+}
+
+void setWindow()
+{
+	int bpp;
+	const SDL_VideoInfo* info = NULL;
 	
-    atexit(SDL_Quit); //this avoids exiting without ending SDL
-    
-    switch(gblOps.bpp) {
-    case BPPAUTO:
-    	info = SDL_GetVideoInfo();
-    	bpp = info->vfmt->BitsPerPixel;
-    	break;
-    case BPP32:
-    	bpp = 32; break;
-    case BPP16:
-    	bpp = 16; break;
-    case BPP8:
-    	bpp = 8; break;
-    default:
-    	info = SDL_GetVideoInfo();
-    	bpp = info->vfmt->BitsPerPixel;
-    	break;
-    }
-    
-    if (!gblOps.aa) gblOps.texFilter = GL_NEAREST;
+	switch(gblOps.bpp) {
+		case BPPAUTO:
+			info = SDL_GetVideoInfo();
+			bpp = info->vfmt->BitsPerPixel;
+			break;
+		case BPP32:
+			bpp = 32; break;
+		case BPP16:
+			bpp = 16; break;
+		case BPP8:
+			bpp = 8; break;
+		default:
+			info = SDL_GetVideoInfo();
+			bpp = info->vfmt->BitsPerPixel;
+			break;
+	}
+		
+	if (!gblOps.aa) gblOps.texFilter = GL_NEAREST;
 	else gblOps.texFilter = GL_LINEAR;
 				
-    if (gl) {
-    	SetVideoGl(w, h, fullscreen, bpp);
-    	SDL_WM_SetCaption("SDLjump " VERSION " (OpenGL rendering)",NULL);
+	if (gblOps.useGL) {
+		SetVideoGl(gblOps.w, gblOps.h, gblOps.fullsc, bpp);
+		SDL_WM_SetCaption("SDLjump " VERSION " (OpenGL rendering)",NULL);
 	} else {
-    	SetVideoSw(w, h, fullscreen, bpp);
-    	SDL_WM_SetCaption("SDLjump " VERSION " (Sofware rendering)",NULL);
-    }
-    
-    printf("Video system initialized. BPP: %d, Resolution: %dx%d, OpenGL: %d\n",
-    	screen->format->BitsPerPixel,
-    	screen->w,screen->h,
-    	(screen->flags & SDL_OPENGL) == SDL_OPENGL
-    );
-    
-    if (!mouse) { //Disables the mouse
-        SDL_ShowCursor(SDL_DISABLE);
-    }
+		SetVideoSw(gblOps.w, gblOps.h, gblOps.fullsc, bpp);
+		SDL_WM_SetCaption("SDLjump " VERSION " (Sofware rendering)",NULL);
+	}
+	
+	printf("Window created. BPP: %d, Resolution: %dx%d, OpenGL: %d\n",
+		screen->format->BitsPerPixel,
+		screen->w,screen->h,
+		(screen->flags & SDL_OPENGL) == SDL_OPENGL
+	);
+	
+	SDL_ShowCursor(SDL_DISABLE);
 }
 
 void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
@@ -487,7 +488,7 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp)
         screen = SDL_SetVideoMode(w,h,bpp, 
                           SDL_ANYFORMAT |
                           SDL_FULLSCREEN |
-                          SDL_HWSURFACE);
+                          SDL_SWSURFACE);
 		if (screen == NULL) {
             printf("ERROR: The screen wasn't initialized beacause: %s\n", SDL_GetError());
         }
@@ -497,6 +498,12 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp)
             printf("ERROR: The screen wasn't initialized beacause: %s\n", SDL_GetError());
         }
     }
+}
+
+void resetVolumes()
+{
+	Mix_Volume(-1, ((float)gblOps.sndvolume/9.0)*MIX_MAX_VOLUME);
+	Mix_VolumeMusic(((float)gblOps.musvolume/9.0)*MIX_MAX_VOLUME);
 }
 
 int loadSounds(data_t* data, char* fname)
@@ -509,7 +516,8 @@ int loadSounds(data_t* data, char* fname)
 	strcpy (file,fname); strcat(file,SOUNDFILE);
 	
 	printf("Loading sounds: %s\n",file);
-
+	data->soundloaded = TRUE;
+	
 	if ((fh = fopen(file,"r")) == NULL){
         fprintf(stderr,"ERROR: Can open sounds file (%s).\n", file);
 		free(file);
@@ -541,9 +549,9 @@ int loadSounds(data_t* data, char* fname)
     getValue_str(fh,"mus_menu",str,fname);
     data->musmenu = Mix_LoadMUS(str);
     getValue_str(fh,"snd_click",str,fname);
-    data->gdie = Mix_LoadWAV(str);
+    data->mclick = Mix_LoadWAV(str);
     getValue_str(fh,"snd_back",str,fname);
-    data->gfall = Mix_LoadWAV(str);
+    data->mback = Mix_LoadWAV(str);
     
     fclose(fh);
 	
@@ -563,6 +571,7 @@ void freeSounds(data_t* data)
 	Mix_FreeChunk(data->mback);
 	Mix_FreeMusic(data->musgame);
 	Mix_FreeMusic(data->musmenu);
+	data->soundloaded = 0;
 }
 
 int loadGraphics(data_t* data, char* fname)
@@ -601,9 +610,12 @@ int loadGraphics(data_t* data, char* fname)
     gblOps.w = getValue_int(fh,"window_width");
     gblOps.h = getValue_int(fh,"window_height");
     
-    EngineInit(0, gblOps.fullsc, gblOps.w,gblOps.h,gblOps.bpp, gblOps.useGL);
+    setWindow();
 	
 	getValue_str(fh,"sound_theme",str,FALSE);
+	if (data->soundloaded) freeSounds(data);
+	if (!strcmp(str, "default")) loadSounds(data, DEFSOUND);
+	else loadSounds(data, str);
 	
 	/*
 	 * Mouse icon
@@ -850,6 +862,7 @@ int loadLanguage(data_t* data, char* fname)
 	data->msg[msg_lang] = getValue_charp(fh, "msg_lang");
 	data->msg[msg_gameoptions] = getValue_charp(fh, "msg_gameoptions");
 	data->msg[msg_graphicoptions] = getValue_charp(fh, "msg_graphicoptions");
+	data->msg[msg_soundoptions] = getValue_charp(fh, "msg_soundoptions");
 	data->msg[msg_folders] = getValue_charp(fh, "msg_folders");
 	
 	data->msg[msg_themefolders] = getValue_charp(fh, "msg_themefolders");
@@ -865,6 +878,9 @@ int loadLanguage(data_t* data, char* fname)
 	data->msg[msg_bpp] = getValue_charp(fh, "msg_bpp");
 	data->msg[msg_fullscreen] = getValue_charp(fh, "msg_fullscreen");
 	data->msg[msg_antialiasing] = getValue_charp(fh, "msg_antialiasing");
+	
+	data->msg[msg_sndvolume] = getValue_charp(fh, "msg_sndvolume");
+	data->msg[msg_musvolume] = getValue_charp(fh, "msg_musvolume");
 	
 	data->msg[msg_repname] = getValue_charp(fh, "msg_repname");
 	data->msg[msg_repcomment] = getValue_charp(fh, "msg_repcomment");
@@ -905,6 +921,7 @@ int loadLanguage(data_t* data, char* fname)
 	data->tip[tip_lang] = getValue_charp(fh, "tip_lang");
 	data->tip[tip_gameoptions] = getValue_charp(fh, "tip_gameoptions");
 	data->tip[tip_graphicoptions] = getValue_charp(fh, "tip_graphicoptions");
+	data->tip[tip_soundoptions] = getValue_charp(fh, "tip_soundoptions");
 	data->tip[tip_folders] = getValue_charp(fh, "tip_folders");
 	
 	data->tip[tip_themefolders] = getValue_charp(fh, "tip_themefolders");
@@ -915,12 +932,15 @@ int loadLanguage(data_t* data, char* fname)
 	data->tip[tip_fpslimit] = getValue_charp(fh, "tip_fpslimit");
 	data->tip[tip_jumpingrot] = getValue_charp(fh, "tip_jumpingrot");
 	data->tip[tip_scrollmode] = getValue_charp(fh, "tip_scrollmode");
-	data->tip[tip_opengl] = getValue_charp(fh, "tip_opengl");
 	
+	data->tip[tip_opengl] = getValue_charp(fh, "tip_opengl");
 	data->tip[tip_bpp] = getValue_charp(fh, "tip_bpp");
 	data->tip[tip_fullscreen] = getValue_charp(fh, "tip_fullscreen");
 	data->tip[tip_antialiasing] = getValue_charp(fh, "tip_antialiasing");
-	
+
+	data->tip[tip_sndvolume] = getValue_charp(fh, "tip_sndvolume");
+	data->tip[tip_musvolume] = getValue_charp(fh, "tip_musvolume");
+
 	data->tip[tip_repname] = getValue_charp(fh, "tip_repname");
 	data->tip[tip_repcomment] = getValue_charp(fh, "tip_repcomment");
 	data->tip[tip_repplay] = getValue_charp(fh, "tip_repplay");

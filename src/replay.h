@@ -35,6 +35,12 @@
 #define REP_BUFFER_SIZE 500000
 #define REP_MIN_FREE 500
 
+enum {
+	S_JUMP = 1,
+	S_FALL = 2,
+	S_DIE = 4
+};
+
 /*  
 	REPLAY FORMAT:
 	==============
@@ -58,6 +64,7 @@
 		lives (Uint8)
 		floor (Uint16)
 	 * For every frame:
+	  + sounds played in this frame
 	  + scrollCount (Uint8)
 	  + Number of scrolls since last frame (Uint8):
 	  + For every sroll:

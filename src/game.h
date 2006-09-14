@@ -76,6 +76,7 @@ typedef struct {
 	int fps;
 	
 	int scrolls;
+	int sounds;
 	float timer;
 	float mspf;
 } replay_t;
@@ -94,6 +95,7 @@ typedef struct hero
     int id;
     int previd;
     int dir;
+    int st;
     
     float angle;
     float rotateto;
@@ -138,6 +140,8 @@ void hardScrollUp(game_t* game, data_t* gfx);
 void scrollGrid(game_t* game, data_t* gfx);
 
 void initGame(game_t* game, data_t* gfx, int numHeros);
+
+void playHeroSounds(data_t* gfx, hero_t* hero);
 
 int playGame(data_t* gfx, int numHeros);
 

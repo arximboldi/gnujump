@@ -57,10 +57,11 @@ enum {
 };
 
 enum {
-	MB_INPUT = 0x0001,
-	MB_RETURN = 0x0002,
-	MB_KEYDEF = 0x0004,
-	MB_CHOOSE = 0x0008
+	MB_INPUT = 1,
+	MB_RETURN = 2,
+	MB_KEYDEF = 4,
+	MB_CHOOSE = 8,
+	MB_VOLSET = 16,
 };
 
 typedef struct option {
@@ -131,6 +132,8 @@ void configurePlayersMenu(data_t* gfx);
 void optionsMenu(data_t* gfx);
 
 void folderOptionsMenu(data_t* gfx);
+
+void soundOptionsMenu(data_t* gfx);
 
 void gfxOptionsMenu(data_t* gfx);
 

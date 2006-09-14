@@ -319,12 +319,14 @@ int playGame(data_t* gfx, int numHeros)
 	return r;
 }
 
-void drawAnimatedSquare(Uint32 color, Uint8 alpha, int x, int y, int w, int h, int time)
+void drawAnimatedSquare(data_t* gfx, Uint32 color, Uint8 alpha, int x, int y, int w, int h, int time)
 {
 	fader_t fader;
 	L_timer timer;
 	int xc = 0;
 	int ret = 0;
+	
+	Mix_PlayChannel(-1, gfx->gquestion, 0);
 	
 	x += w/2;
 	initTimer(&timer, getFps());
@@ -353,7 +355,7 @@ int pauseGame(data_t* gfx, game_t* game,  char* text)
 	SDL_Event event;
 	
 
-	drawAnimatedSquare(gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
+	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
 	SFont_WriteAligned(gfx->textfont, x + BLOCKSIZE, y + BLOCKSIZE/2, w - 2*BLOCKSIZE, 0, ACENTER, text);
 	FlipScreen();
 	
@@ -406,6 +408,7 @@ int endMatch(data_t* gfx, game_t* game, int time)
 		drawBg(gfx->gameBg,0,0,gblOps.w,gblOps.h);
 	}
 	if (newrec) {
+		Mix_PlayChannel(-1, gfx->grecord, 0);
 		if (yesNoQuestion(gfx, game, gfx->txt[txt_newhsc])) {
 			return TRUE;
 		}
@@ -427,7 +430,7 @@ int yesNoQuestion(data_t* gfx, game_t* game, char* text)
     int done = FALSE;
 	SDL_Event event;
 	
-	drawAnimatedSquare(gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
+	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
 	
 	x += BLOCKSIZE;
 	y += BLOCKSIZE/2;
@@ -566,6 +569,14 @@ void reliveHero(game_t* game, int num)
     hero->prevLives = hero->lives;
 }
 
+void playHeroSound(data_t* gfx, int sound, replay_t* rep)
+{
+	if (sound == S_JUMP) Mix_PlayChannel(-1, gfx->gjump, 0);
+	if (sound == S_FALL) Mix_PlayChannel(-1, gfx->gfall, 0);
+	if (sound == S_DIE) Mix_PlayChannel(-1, gfx->gdie, 0);
+	if (gblOps.recReplay) rep->sounds |= sound;
+}
+
 int updateHero(game_t* game, data_t* gfx, int num, float ms)
 {
     int acc = 0;
@@ -588,8 +599,11 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
         
         game->T_count = 0;
     } else if( hero->y >= GRIDHEIGHT*BLOCKSIZE ) {
+		playHeroSound(gfx, S_DIE, &(game->replay));
         return DEAD;
     }
+    
+    if (hero->st == 0 && st > 0) playHeroSound(gfx, S_FALL, &(game->replay));
     
     /* If the player is standing in the floor... */
     if( st > 0 ){
@@ -613,14 +627,32 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
             hero->vy = -hero->jump/2 -12;
             hero->rotateto = 90+ 180*hero->dir;
             st = 0;
+            playHeroSound(gfx, S_JUMP, &(game->replay));
         }
     }else{
         acc = 2;
         floor = 0;
         hero->id = H_JUMP;
     }
-
-	/* Set actions */
+    
+    /* If we are floating in the air */
+    if( st == 0 ){
+        if( hero->jump > 0 ){
+            hero->vy = -hero->jump/2 -12;
+            if( hero->up.pressed )
+                hero->jump -= fact;
+            else
+                hero->jump = 0;
+        } else {
+            hero->vy += 2 *fact;
+            if( hero->vy > 0 )
+                hero->rotateto = 180;
+            if( hero->vy > BLOCKSIZE )
+                hero->vy = BLOCKSIZE;
+        }
+    }
+    
+    /* Set actions */
     if( hero->left.pressed){
         hero->vx -= acc *fact;
         if( hero->vx < -32 )
@@ -640,25 +672,9 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
             hero->vx = 0;
     } 
     
-    /* If we are floating in the air */
-    if( st == 0 ){
-        if( hero->jump > 0 ){
-            hero->vy = -hero->jump/2 -12;
-            if( hero->up.pressed )
-                hero->jump -= fact;
-            else
-                hero->jump = 0;
-        } else {
-            hero->vy += 2 *fact;
-            if( hero->vy > 0 )
-                hero->rotateto = 180;
-            if( hero->vy > BLOCKSIZE )
-                hero->vy = BLOCKSIZE;
-        }
-    }
-    
     rotateHero(hero,ms);
     
+	hero->st = st;
     if (hero->id != hero->previd) {
     	hero->previd = hero->id;
     	hero->sprite[hero->id].elpTime = hero->sprite[hero->id].frame = 0; 
@@ -908,7 +924,7 @@ void drawRecords(data_t* gfx, records_t* rtab)
 	y = gfx->gameY + (GRIDHEIGHT*BLOCKSIZE - h)/2;
 	
 	JPB_PrintSurface(gfx->gameBg, NULL, NULL);
-	drawAnimatedSquare(gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
+	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
 	/*
 	 x1:#  x2:Name                                x3:Floor x4:Mode x5:Time
 	 ---------------------------------------------------------------------

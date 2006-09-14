@@ -45,7 +45,9 @@ char* getLangComment(char* fname);
 
 void resetTheme(data_t* gfxdata);
 
-void EngineInit(int mouse, int fullscreen, int w, int h, int bpp, int gl);
+void EngineInit();
+
+void setWindow();
 
 void SetVideoGl(int w, int h, int use_fullscreen,int bpp);
 
@@ -54,6 +56,8 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp);
 int loadGraphics(data_t* data, char* fname);
 
 void freeGraphics(data_t* data);
+
+void resetVolumes();
 
 int loadSounds(data_t* data, char* fname);
 

@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 #endif
 	strcat(cfgFile,CFGFILE);
     strcat(hscFile,HSCFILE);
-	
+    
 	if (!loadConfigFile(cfgFile)) {
         /* Set default options */
         initGblOps();
@@ -77,9 +77,11 @@ int main(int argc, char *argv[])
         return 1;
     }
     
+    EngineInit();
+    
+	gfxdata.soundloaded = FALSE;
 	if (!loadGraphics(&gfxdata, gblOps.dataDir) 
-	 || !loadLanguage(&gfxdata, gblOps.langFile) 
-	 || !loadSounds(&gfxdata, "../sound"))
+	 || !loadLanguage(&gfxdata, gblOps.langFile))
 		return 1;
 	
 	//gblOps.fps = 20;
@@ -99,7 +101,6 @@ int main(int argc, char *argv[])
     
     free(cfgFile);
     free(hscFile);
-    
     
     printf("\nHave a nice day!\n\n");
         

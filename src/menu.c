@@ -182,6 +182,11 @@ int playMenuT(data_t* gfx, menu_t* menu)
 	int offset = 0, maxops = MIN(menu->nops,gfx->mMaxOps), maxoffset = menu->nops-gfx->mMaxOps;
 	int i;
 	
+	if (menu->nops == 0) {
+		Mix_PlayChannel(-1, gfx->mback, 0);
+		return NONE;
+	}
+	
 	initMouse(gfx, &mouse);
 	initTimer(&timer, getFps());
 	faders = malloc( sizeof(fader_t) * menu->nops );
@@ -229,8 +234,12 @@ int playMenuT(data_t* gfx, menu_t* menu)
 						}
 					}
 				}
+				if ((menu->opt[select].flags & MB_VOLSET) == MB_VOLSET)
+					resetVolumes();
 				if ((menu->opt[select].flags & MB_RETURN) == MB_RETURN)
 					done = TRUE;
+					
+				Mix_PlayChannel(-1, gfx->mclick, 0);
 					
 				break;
 				
@@ -249,6 +258,7 @@ int playMenuT(data_t* gfx, menu_t* menu)
 			case KBACK:
 				select = NONE;
 				done = TRUE;
+				Mix_PlayChannel(-1, gfx->mback, 0);
 				continue;
 				
 			case KLEFT:
@@ -258,8 +268,13 @@ int playMenuT(data_t* gfx, menu_t* menu)
 					if (*((int*)menu->opt[select].data) < 0)
 						*((int*)menu->opt[select].data) = menu->opt[select].nops-1;
 				}
+				if ((menu->opt[select].flags & MB_VOLSET) == MB_VOLSET)
+					resetVolumes();
 				if ((menu->opt[select].flags & MB_RETURN) == MB_RETURN)
 					done = TRUE;
+				
+				Mix_PlayChannel(-1, gfx->mclick, 0);
+				
 				break;
 				
 			case KRIGHT:
@@ -269,8 +284,13 @@ int playMenuT(data_t* gfx, menu_t* menu)
 					if (*((int*)menu->opt[select].data) >= menu->opt[select].nops)
 						*((int*)menu->opt[select].data) = 0;
 				}
+				if ((menu->opt[select].flags & MB_VOLSET) == MB_VOLSET)
+					resetVolumes();
 				if ((menu->opt[select].flags & MB_RETURN) == MB_RETURN)
 					done = TRUE;
+				
+				Mix_PlayChannel(-1, gfx->mclick, 0);
+				
 				break;
 			case KMUP:
 				if (mouse.id == M_OVER && offset < maxoffset) offset++;
@@ -650,7 +670,6 @@ void mainMenu(data_t* gfx)
     int opt;
     int done = FALSE;
     
-    Mix_VolumeMusic(MIX_MAX_VOLUME);
     Mix_PlayMusic(gfx->musmenu, -1);
 
     while (!done) {
@@ -763,6 +782,7 @@ void optionsMenu(data_t* gfx)
 	addMenuTOption(&menu, gfx->msg[msg_lang],           gfx->tip[tip_lang],           0, NULL, NONE);
 	addMenuTOption(&menu, gfx->msg[msg_gameoptions],    gfx->tip[tip_gameoptions],    0, NULL, NONE);
 	addMenuTOption(&menu, gfx->msg[msg_graphicoptions], gfx->tip[tip_graphicoptions], 0, NULL, NONE);
+	addMenuTOption(&menu, gfx->msg[msg_soundoptions], gfx->tip[tip_soundoptions],     0, NULL, NONE);
 	addMenuTOption(&menu, gfx->msg[msg_folders],        gfx->tip[tip_folders],        0, NULL, NONE);
 	addMenuTOption(&menu, gfx->msg[msg_back],           gfx->tip[tip_back],           0, NULL, NONE);
     	
@@ -783,9 +803,41 @@ void optionsMenu(data_t* gfx)
                 gfxOptionsMenu(gfx);
                 break;
             case 4:
+				soundOptionsMenu(gfx);
+				break;
+            case 5:
                 folderOptionsMenu(gfx);
                 break;
-            case 5:
+            case 6:
+            case NONE:
+                done = TRUE;
+                break;
+            default:
+                break;  
+        }
+    }
+    
+    freeMenuT(&menu);
+}
+
+void soundOptionsMenu(data_t* gfx)
+{
+	int opt;
+    int done = FALSE;
+    menu_t menu;
+    
+	initMenuT(&menu);
+	addMenuTOption(&menu, gfx->msg[msg_sndvolume], gfx->tip[tip_sndvolume],
+		MB_CHOOSE|MB_VOLSET, &(gblOps.sndvolume), 10, "0","1","2","3","4","5","6","7","8","9");
+	addMenuTOption(&menu, gfx->msg[msg_musvolume], gfx->tip[tip_musvolume],
+		MB_CHOOSE|MB_VOLSET, &(gblOps.musvolume), 10, "0","1","2","3","4","5","6","7","8","9");
+	addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
+    	
+    while (!done) {
+        opt = playMenuT(gfx, &menu);
+            
+        switch(opt) {
+            case 2:
             case NONE:
                 done = TRUE;
                 break;
@@ -876,6 +928,11 @@ void gfxOptionsMenu(data_t* gfx)
     
     initMenuT(&menu);
     
+	addMenuTOption(&menu, gfx->msg[msg_fullscreen], gfx->tip[tip_fullscreen], MB_CHOOSE|MB_RETURN,
+    			   &gblOps.fullsc, 2, 
+    			   gfx->opt[opt_off],
+    			   gfx->opt[opt_on]);
+    			   
     addMenuTOption(&menu, gfx->msg[msg_opengl], gfx->tip[tip_opengl], MB_CHOOSE|MB_RETURN,
     			   &ogl, 2,
     			   gfx->opt[opt_off],
@@ -888,11 +945,6 @@ void gfxOptionsMenu(data_t* gfx)
     			   gfx->opt[opt_16bpp],
     			   gfx->opt[opt_8bpp],
     			   gfx->opt[opt_autobpp]);
-			   
-	addMenuTOption(&menu, gfx->msg[msg_fullscreen], gfx->tip[tip_fullscreen], MB_CHOOSE|MB_RETURN,
-    			   &gblOps.fullsc, 2, 
-    			   gfx->opt[opt_off],
-    			   gfx->opt[opt_on]);
     
     addMenuTOption(&menu, gfx->msg[msg_antialiasing], gfx->tip[tip_antialiasing], MB_CHOOSE|MB_RETURN,
     			   &gblOps.aa, 2,
@@ -904,11 +956,15 @@ void gfxOptionsMenu(data_t* gfx)
     while(!done) {
 		switch (playMenuT(gfx, &menu)) {
 			case 0:
+				setWindow();
+				break;
 			case 1:
 			case 2:
 			case 3:
 				gblOps.useGL = ogl;
-				resetTheme(gfx);
+				freeGraphics(gfx);
+				loadGraphics(gfx, gblOps.dataDir);
+				Mix_PlayMusic(gfx->musmenu, -1);
 				break;
 			case 4:
 			case NONE:
@@ -968,6 +1024,7 @@ void viewReplayMenu(data_t* gfx)
 		r = playMenuTab(gfx,-no, options, tips);
 		if (r >= 0 && r < no) {
 			loadReplay(gfx, fullpaths[index[r]]);
+			Mix_PlayMusic(gfx->musmenu, -1);
 		} else if (r == NONE) {
 			done = TRUE;
 		}
@@ -1099,7 +1156,9 @@ void chooseThemeMenu(data_t* gfx)
 		gblOps.dataDir = realloc(gblOps.dataDir, 
 			sizeof(char)* (strlen( fullpaths[index[r]] )+1) );
 		strcpy(gblOps.dataDir, fullpaths[index[r]]);
-		resetTheme(gfx);
+		freeGraphics(gfx);
+		loadGraphics(gfx, gblOps.dataDir);
+		Mix_PlayMusic(gfx->musmenu, -1);
 	}
 	
 	for (i = 0; i < nf; i++) {
