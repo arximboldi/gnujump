@@ -71,8 +71,8 @@ typedef struct sprite_control_rot
     int frame;
 } L_spriteCtlRot;
 
-L_spriteDataRot* loadSpriteDataRot(char* filename, int sides);
-L_spriteData* loadSpriteData(char* filename, int sides);
+L_spriteDataRot* loadSpriteDataRot(char* filename, int sides, char* path);
+L_spriteData* loadSpriteData(char* filename, int sides, char* path);
 int animateSprite(L_spriteCtl *sprite, float dt);
 int animateSpriteRot(L_spriteCtlRot *sprite, float dt);
 void printSprite(L_spriteCtl *sprite, SDL_Rect *src_r, SDL_Rect *dest_r, int side);

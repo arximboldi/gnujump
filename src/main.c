@@ -78,23 +78,28 @@ int main(int argc, char *argv[])
     }
     
 	if (!loadGraphics(&gfxdata, gblOps.dataDir) 
-	 || !loadLanguage(&gfxdata, gblOps.langFile))
+	 || !loadLanguage(&gfxdata, gblOps.langFile) 
+	 || !loadSounds(&gfxdata, "../sound"))
 		return 1;
 	
 	//gblOps.fps = 20;
     mainMenu(&gfxdata);
     
+    writeConfigFile(cfgFile);
+	writeRecords(hscFile, gblOps.records);
+	
     /* Free some things */
     freeGraphics(&gfxdata);
     freeLanguage(&gfxdata);
-    
-    writeConfigFile(cfgFile);
-	writeRecords(hscFile, gblOps.records);
+    freeSounds(&gfxdata);
     
     cleanGblOps();
     
+    Mix_CloseAudio();
+    
     free(cfgFile);
     free(hscFile);
+    
     
     printf("\nHave a nice day!\n\n");
         

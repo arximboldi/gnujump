@@ -43,10 +43,6 @@ char* getThemeComment(char* fname);
 
 char* getLangComment(char* fname);
 
-int loadGraphics(data_t* data, char* fname);
-
-void freeGraphics(data_t* data);
-
 void resetTheme(data_t* gfxdata);
 
 void EngineInit(int mouse, int fullscreen, int w, int h, int bpp, int gl);
@@ -54,6 +50,14 @@ void EngineInit(int mouse, int fullscreen, int w, int h, int bpp, int gl);
 void SetVideoGl(int w, int h, int use_fullscreen,int bpp);
 
 void SetVideoSw(int w, int h, int fullscreen,int bpp);
+
+int loadGraphics(data_t* data, char* fname);
+
+void freeGraphics(data_t* data);
+
+int loadSounds(data_t* data, char* fname);
+
+void freeSounds(data_t* data);
 
 int loadLanguage(data_t* data, char* fname);
 

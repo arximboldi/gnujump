@@ -67,6 +67,7 @@
 /* Config, theme and language files format version */
 #define PROT_VERS "03"
 #define THEME_VERS "02" 
+#define SOUND_VERS "01" 
 #define LANG_VERS  "01"
 #define REP_VERS 1
 
@@ -76,6 +77,7 @@
 
 /* Files */
 #define THEMEFILE "/config.theme"
+#define SOUNDFILE "/config.sounds"
 #define DEFOLDER "default"
 #define CFGFILE "sdljump.cfg"
 #define HSCFILE "sdljump.hsc"
@@ -241,6 +243,17 @@ typedef struct
  */
 typedef struct
 {
+	/* Sound */
+	Mix_Chunk* gjump;
+	Mix_Chunk* gfall;
+	Mix_Chunk* gdie;
+	Mix_Chunk* grecord;
+	Mix_Chunk* gquestion;
+	Mix_Chunk* mclick;
+	Mix_Chunk* mback;
+	Mix_Music* musmenu;
+	Mix_Music* musgame;
+	
 	/* Mouse */
 	L_spriteData* mouse[M_STATES];
 	int mouseX;

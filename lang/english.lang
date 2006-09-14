@@ -73,6 +73,11 @@ msg_bpp = "Color depth:"
 msg_fullscreen = "Fulscreen:"
 msg_antialiasing = "Antialiasing:"
 
+#msg_sndvolume = "Sound Volume:"
+#msg_musvolume = "Music Volume:"
+#msg_menumusic = "Menu Music:"
+#msg_gamemusic = "Game Music:"
+
 msg_repname = "Filename:"
 msg_repcomment = "Comment:"
 msg_repplay = "Play"
@@ -128,6 +133,11 @@ tip_opengl = "Use OpenGL if you've got a 3d accelerator card. In most cases it w
 tip_bpp = "How many colours you want? The less colours, the ugliest I look but the faster I go."
 tip_fullscreen = "If you want to play in a window or feel the overwhelming sensation of falling in all your screen!"
 tip_antialiasing = "Antialiasing will improve the look of the character when full rotation is set."
+
+#tip_sndvolume = "Set how low you want to hear sounds. 0 means off. 9 is the max value."
+#tip_musvolume = "Set how low you want to hear music. 0 means off. 9 is the max value.:"
+#tip_menumusic = "Some themes include several music files for you to choose. Select which one do you like the most."
+#tip_gamemusic = "Some themes include several music files for you to choose. Select which one do you like the most."
 
 tip_repname = "Give a name to this replay file."
 tip_repcomment = "Give a description or comment to this replay."

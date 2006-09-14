@@ -324,7 +324,7 @@ float getValue_float(FILE * tfile, char * value)
     }   
 }
 
-void getValue_str(FILE * tfile, char * value, char * data, int isPath)
+void getValue_str(FILE * tfile, char * value, char * data, char* path)
 {
     char tvalue[MAX_CHAR];
     char empty[MAX_CHAR];
@@ -336,8 +336,8 @@ void getValue_str(FILE * tfile, char * value, char * data, int isPath)
         fscanf(tfile, "%[= \n\t\f\r]",empty);
         fscanf(tfile, "\"%[^\"]\"", info);
         // If the string is a path, we add the data folder path before.
-        if(isPath) {
-            sprintf(data,"%s/%s",gblOps.dataDir, info);      
+        if(path != NULL) {
+            sprintf(data,"%s/%s", path, info);      
         } else {
             sprintf(data,"%s", info);
         }

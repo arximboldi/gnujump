@@ -62,7 +62,7 @@ int getValue_int(FILE* tfile, char * value);
 
 float getValue_float(FILE * tfile, char * value);
 
-void getValue_str(FILE * tfile, char * value, char * data, int isPath);
+void getValue_str(FILE * tfile, char * value, char * data, char* path);
 
 char* getValue_charp(FILE * tfile, char * value);
 

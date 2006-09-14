@@ -650,7 +650,9 @@ void mainMenu(data_t* gfx)
     int opt;
     int done = FALSE;
     
-    
+    Mix_VolumeMusic(MIX_MAX_VOLUME);
+    Mix_PlayMusic(gfx->musmenu, -1);
+
     while (!done) {
         opt = playMenu(gfx,-5,
             gfx->msg[msg_newgame], gfx->tip[tip_newgame],
@@ -707,8 +709,10 @@ void newGameMenu(data_t* gfx)
 		gblOps.mpLives -= 1; // Start at 0
 		opt = playMenuT(gfx,&menu);
 		gblOps.mpLives += 1; // restore mplives
-		if      (opt == 0)
-			while (playGame(gfx, gblOps.nplayers+1)) SDL_Delay(1); 
+		if      (opt == 0) {
+			while (playGame(gfx, gblOps.nplayers+1)) SDL_Delay(1);
+			Mix_PlayMusic(gfx->musmenu, -1);
+		}
 		else if (opt == 4)
 			configurePlayersMenu(gfx);
 		else if (opt == 5 || opt == NONE)

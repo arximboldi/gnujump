@@ -35,7 +35,7 @@
 extern SDL_Surface * screen;
 extern L_gblOptions gblOps;
 
-L_spriteDataRot* loadSpriteDataRot(char* filename, int sides)
+L_spriteDataRot* loadSpriteDataRot(char* filename, int sides, char* path)
 {
     FILE *tfile;
     L_spriteDataRot* sprite = NULL;
@@ -62,7 +62,7 @@ L_spriteDataRot* loadSpriteDataRot(char* filename, int sides)
     for (i=0; i < sprite->nFrames; i++)
     {
         /*and loads the pic and time of each frame...*/  
-        getValue_str(tfile,"pic",fname,TRUE);
+        getValue_str(tfile,"pic",fname, path);
         sprite->pic[i+ (RIGHT*sprite->nFrames)] = JPB_LoadImgRot (fname, gblOps.useGL, 1, 0, 0);
         
         /*Loads the surface of the picture looking to the inverse side.*/
@@ -75,7 +75,7 @@ L_spriteDataRot* loadSpriteDataRot(char* filename, int sides)
     return sprite;
 }
 
-L_spriteData* loadSpriteData(char* filename, int sides)
+L_spriteData* loadSpriteData(char* filename, int sides, char* path)
 {
     FILE *tfile;
     L_spriteData* sprite = NULL;
@@ -98,7 +98,7 @@ L_spriteData* loadSpriteData(char* filename, int sides)
     
     for (i=0; i < sprite->nFrames; i++)   {
         /*and loads the pic and time of each frame...*/  
-        getValue_str(tfile,"pic",fname,TRUE);
+        getValue_str(tfile,"pic",fname,path);
         sprite->pic[i+LEFT*sprite->nFrames] = JPB_LoadImg(fname, gblOps.useGL, 1, 0, 0);
 
         /*Loads the surface of the picture looking to the inverse side.*/

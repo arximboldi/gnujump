@@ -368,188 +368,6 @@ char* getLangComment(char* fname)
 	return ret;
 }
 
-int loadGraphics(data_t* data, char* fname)
-{
-    FILE* fh;
-    char str[MAX_CHAR];
-    SDL_Surface* surf;
-    int i;
-    Uint8 b,g,r;
-	char* file = NULL;
-	
-	file = malloc(sizeof(char)*(strlen(fname)+strlen(THEMEFILE)+1));
-	strcpy (file,fname); strcat(file,THEMEFILE);
-	
-	printf("Loading theme: %s\n",file);
-
-	if ((fh = fopen(file,"r")) == NULL){
-        fprintf(stderr,"ERROR: Can open theme file (%s).\n", file);
-		free(file);
-        return 0;
-    }
-	
-	/* 
-	 * Global options 
-	 */
-	getValue_str(fh,"format",str,FALSE);
-    if (strcmp(str,THEME_VERS)!=0) {
-        fclose(fh);
-        fprintf(stderr,"ERROR: Theme file (%s) is not of the correct format.\n", file);
-		free(file);
-        return 0;
-    }
-		
-	skipValueStr(fh); /* Comment */
-	
-    gblOps.w = getValue_int(fh,"window_width");
-    gblOps.h = getValue_int(fh,"window_height");
-    
-    EngineInit(0, gblOps.fullsc, gblOps.w,gblOps.h,gblOps.bpp, gblOps.useGL);
-	
-	getValue_str(fh,"sound_theme",str,FALSE);
-	
-	/*
-	 * Mouse icon
-	 */
-	getValue_str(fh,"mouse_idle",str,TRUE);
-    data->mouse[M_IDLE] = loadSpriteData(str, 1);
-    getValue_str(fh,"mouse_over",str,TRUE);
-    data->mouse[M_OVER] = loadSpriteData(str, 1);
-	getValue_str(fh,"mouse_down",str,TRUE);
-    data->mouse[M_DOWN] = loadSpriteData(str, 1);
-    
-	data->mouseX = getValue_int(fh,"mouse_x");
-	data->mouseY = getValue_int(fh,"mouse_y");
-	
-	/* 
-	 * Menu data 
-	 */
-    getValue_str(fh,"menu_bg",str,TRUE);
-    data->menuBg = JPB_LoadImg( str, gblOps.useGL, 0, 0, 0);
-    getValue_str(fh,"menu_dwarrow",str,TRUE);
-    data->dwArrow = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
-    getValue_str(fh,"menu_uparrow",str,TRUE);
-    data->upArrow = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
-	
-	getValue_str(fh,"menu_font",str,TRUE);
-    surf = IMG_Load(str);    
-    data->menufont = SFont_InitFont(str, surf, gblOps.useGL, 1);
-    SDL_FreeSurface(surf);
-	
-	getValue_str(fh,"tip_font",str,TRUE);
-    surf = IMG_Load(str);    
-    data->tipfont = SFont_InitFont(str, surf, gblOps.useGL, 1);
-    SDL_FreeSurface(surf);
-	
-	data->mAlign = getValue_int(fh,"menu_align");
-    data->tAlign = getValue_int(fh,"tip_align");
-	
-	data->menuX = getValue_int(fh,"menu_x");
-    data->menuY = getValue_int(fh,"menu_y");
-	data->menuW = getValue_int(fh,"menu_width");
-	data->mMaxOps = getValue_int(fh,"menu_max_options");
-	
-	data->mDwArrowX = getValue_int(fh,"menu_dwarrow_x");
-    data->mDwArrowY = getValue_int(fh,"menu_dwarrow_y");
-    data->mUpArrowX = getValue_int(fh,"menu_uparrow_x");
-    data->mUpArrowY = getValue_int(fh,"menu_uparrow_y");
-	
-	data->mMargin = getValue_int(fh,"menu_margin");
-
-	data->tipX = getValue_int(fh,"tip_x");
-    data->tipY = getValue_int(fh,"tip_y");
-	data->tipW = getValue_int(fh,"tip_width");
-	data->tipH = getValue_int(fh,"tip_height");
-	
-	r = getValue_int(fh,"hl_red");
-    g = getValue_int(fh,"hl_green");
-    b = getValue_int(fh,"hl_blue");
-	data->hlalpha = getValue_int(fh,"hl_alpha");
-    data->hlcolor = SDL_MapRGB(screen->format, r, g, b);
-	
-	/* 
-	 * In-game data
-	 */
-    getValue_str(fh,"game_bg",str,TRUE);
-    data->gameBg = JPB_LoadImg( str, gblOps.useGL, 0, 0, 0);
-
-	getValue_str(fh,"live_pic",str,TRUE);
-    data->livePic = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
-	data->liveAlign = getValue_int(fh,"live_align");
-	
-    getValue_str(fh,"score_font",str,TRUE);
-    surf = IMG_Load(str);    
-    data->scorefont = SFont_InitFont(str, surf, gblOps.useGL, 1);
-    SDL_FreeSurface(surf);
-    
-	getValue_str(fh,"game_font",str,TRUE);
-    surf = IMG_Load(str);    
-    data->textfont = SFont_InitFont(str, surf, gblOps.useGL, 1);
-    SDL_FreeSurface(surf);
-	
-	r = getValue_int(fh,"g_red");
-    g = getValue_int(fh,"g_green");
-    b = getValue_int(fh,"g_blue");
-	data->galpha = getValue_int(fh,"g_alpha");
-    data->gcolor = SDL_MapRGB(screen->format, r, g, b);
-	
-    data->gameX = getValue_int(fh,"game_x");
-    data->gameY = getValue_int(fh,"game_y");
-    
-    for (i=0; i<MAX_PLAYERS; i++) {
-        data->scoreX[i] = getValue_int(fh,"score_x");
-        data->scoreY[i] = getValue_int(fh,"score_y");
-    	data->livesX[i] = getValue_int(fh,"lives_x");
-        data->livesY[i] = getValue_int(fh,"lives_y");
-    }
-    
-    getValue_str(fh,"floor_left",str,TRUE);
-    data->floorL = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
-    getValue_str(fh,"floor_right",str,TRUE);
-    data->floorR = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
-    getValue_str(fh,"floor_center",str,TRUE);
-    data->floorC = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
-    
-    for (i=0; i<MAX_PLAYERS; i++) {
-        getValue_str(fh,"hero_stand_anim",str,TRUE);
-        data->heroSprite[i][H_STAND] = loadSpriteDataRot(str, 2);
-        getValue_str(fh,"hero_run_anim",str,TRUE);
-        data->heroSprite[i][H_WALK] = loadSpriteDataRot(str, 2);
-        getValue_str(fh,"hero_jump_anim",str,TRUE);
-        data->heroSprite[i][H_JUMP] = loadSpriteDataRot(str, 2);
-    }
-    
-    fclose(fh);
-	
-	free(file);
-	
-    return TRUE;
-}
-
-
-void freeGraphics(data_t* data)
-{
-    int i,j;
-    for (j=0; j<M_STATES; j++)
-        freeSpriteData(data->mouse[j]);
-    JPB_FreeSurface(data->gameBg);
-    JPB_FreeSurface(data->livePic);
-    JPB_FreeSurface(data->floorR);
-    JPB_FreeSurface(data->floorL);
-    JPB_FreeSurface(data->floorC);
-    JPB_FreeSurface(data->menuBg);
-    JPB_FreeSurface(data->dwArrow);
-    JPB_FreeSurface(data->upArrow);
-    SFont_FreeFont(data->scorefont);
-    SFont_FreeFont(data->textfont);
-    SFont_FreeFont(data->menufont);
-	SFont_FreeFont(data->tipfont);
-	for (i=0; i<MAX_PLAYERS; i++) {
-    	for (j=0; j<HEROANIMS; j++)
-        	freeSpriteDataRot(data->heroSprite[i][j]);
-    }
-}
-
 void resetTheme(data_t* gfxdata)
 {
     
@@ -565,13 +383,19 @@ void EngineInit(int mouse, int fullscreen, int w, int h, int bpp, int gl)
     //Everything starts!!
     if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) <0 ) {
         printf("ERROR: SDL_Init did not work because: %s\n", SDL_GetError());
+    	exit(2);
     }
     
+    if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
+		printf("Mix_OpenAudio: %s\n", Mix_GetError());
+		exit(2);
+	}
+	
     atexit(SDL_Quit); //this avoids exiting without ending SDL
     
     switch(gblOps.bpp) {
     case BPPAUTO:
-    	info = SDL_GetVideoInfo( );
+    	info = SDL_GetVideoInfo();
     	bpp = info->vfmt->BitsPerPixel;
     	break;
     case BPP32:
@@ -581,7 +405,7 @@ void EngineInit(int mouse, int fullscreen, int w, int h, int bpp, int gl)
     case BPP8:
     	bpp = 8; break;
     default:
-    	info = SDL_GetVideoInfo( );
+    	info = SDL_GetVideoInfo();
     	bpp = info->vfmt->BitsPerPixel;
     	break;
     }
@@ -672,6 +496,254 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp)
         if (screen == NULL) {
             printf("ERROR: The screen wasn't initialized beacause: %s\n", SDL_GetError());
         }
+    }
+}
+
+int loadSounds(data_t* data, char* fname)
+{
+    FILE* fh;
+    char str[MAX_CHAR];
+	char* file = NULL;
+	
+	file = malloc(sizeof(char)*(strlen(fname)+strlen(SOUNDFILE)+1));
+	strcpy (file,fname); strcat(file,SOUNDFILE);
+	
+	printf("Loading sounds: %s\n",file);
+
+	if ((fh = fopen(file,"r")) == NULL){
+        fprintf(stderr,"ERROR: Can open sounds file (%s).\n", file);
+		free(file);
+        return 0;
+    }
+    
+	getValue_str(fh,"format",str,FALSE);
+    if (strcmp(str,SOUND_VERS)!=0) {
+        fclose(fh);
+        fprintf(stderr,"ERROR: Sound file (%s) is not of the correct format.\n", file);
+		free(file);
+        return 0;
+    }
+    
+    getValue_str(fh,"mus_game",str,fname);
+    data->musgame = Mix_LoadMUS(str);
+    
+    getValue_str(fh,"snd_die",str,fname);
+    data->gdie = Mix_LoadWAV(str);
+    getValue_str(fh,"snd_fall",str,fname);
+    data->gfall = Mix_LoadWAV(str);
+    getValue_str(fh,"snd_jump",str,fname);
+    data->gjump = Mix_LoadWAV(str);
+    getValue_str(fh,"snd_question",str,fname);
+    data->gquestion = Mix_LoadWAV(str);
+    getValue_str(fh,"snd_record",str,fname);
+    data->grecord = Mix_LoadWAV(str);
+    
+    getValue_str(fh,"mus_menu",str,fname);
+    data->musmenu = Mix_LoadMUS(str);
+    getValue_str(fh,"snd_click",str,fname);
+    data->gdie = Mix_LoadWAV(str);
+    getValue_str(fh,"snd_back",str,fname);
+    data->gfall = Mix_LoadWAV(str);
+    
+    fclose(fh);
+	
+	free(file);
+	
+    return TRUE;
+}
+
+void freeSounds(data_t* data)
+{
+	Mix_FreeChunk(data->gdie);
+	Mix_FreeChunk(data->gfall);
+	Mix_FreeChunk(data->gjump);
+	Mix_FreeChunk(data->gquestion);
+	Mix_FreeChunk(data->grecord);
+	Mix_FreeChunk(data->mclick);
+	Mix_FreeChunk(data->mback);
+	Mix_FreeMusic(data->musgame);
+	Mix_FreeMusic(data->musmenu);
+}
+
+int loadGraphics(data_t* data, char* fname)
+{
+    FILE* fh;
+    char str[MAX_CHAR];
+    SDL_Surface* surf;
+    int i;
+    Uint8 b,g,r;
+	char* file = NULL;
+	
+	file = malloc(sizeof(char)*(strlen(fname)+strlen(THEMEFILE)+1));
+	strcpy (file,fname); strcat(file,THEMEFILE);
+	
+	printf("Loading theme: %s\n",file);
+
+	if ((fh = fopen(file,"r")) == NULL){
+        fprintf(stderr,"ERROR: Can open theme file (%s).\n", file);
+		free(file);
+        return 0;
+    }
+	
+	/* 
+	 * Global options 
+	 */
+	getValue_str(fh,"format",str,FALSE);
+    if (strcmp(str,THEME_VERS)!=0) {
+        fclose(fh);
+        fprintf(stderr,"ERROR: Theme file (%s) is not of the correct format.\n", file);
+		free(file);
+        return 0;
+    }
+		
+	skipValueStr(fh); /* Comment */
+	
+    gblOps.w = getValue_int(fh,"window_width");
+    gblOps.h = getValue_int(fh,"window_height");
+    
+    EngineInit(0, gblOps.fullsc, gblOps.w,gblOps.h,gblOps.bpp, gblOps.useGL);
+	
+	getValue_str(fh,"sound_theme",str,FALSE);
+	
+	/*
+	 * Mouse icon
+	 */
+	getValue_str(fh,"mouse_idle",str,fname);
+    data->mouse[M_IDLE] = loadSpriteData(str, 1, fname);
+    getValue_str(fh,"mouse_over",str,fname);
+    data->mouse[M_OVER] = loadSpriteData(str, 1, fname);
+	getValue_str(fh,"mouse_down",str,fname);
+    data->mouse[M_DOWN] = loadSpriteData(str, 1, fname);
+    
+	data->mouseX = getValue_int(fh,"mouse_x");
+	data->mouseY = getValue_int(fh,"mouse_y");
+	
+	/* 
+	 * Menu data 
+	 */
+    getValue_str(fh,"menu_bg",str,fname);
+    data->menuBg = JPB_LoadImg( str, gblOps.useGL, 0, 0, 0);
+    getValue_str(fh,"menu_dwarrow",str,fname);
+    data->dwArrow = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
+    getValue_str(fh,"menu_uparrow",str,fname);
+    data->upArrow = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
+	
+	getValue_str(fh,"menu_font",str,fname);
+    surf = IMG_Load(str);    
+    data->menufont = SFont_InitFont(str, surf, gblOps.useGL, 1);
+    SDL_FreeSurface(surf);
+	
+	getValue_str(fh,"tip_font",str,fname);
+    surf = IMG_Load(str);    
+    data->tipfont = SFont_InitFont(str, surf, gblOps.useGL, 1);
+    SDL_FreeSurface(surf);
+	
+	data->mAlign = getValue_int(fh,"menu_align");
+    data->tAlign = getValue_int(fh,"tip_align");
+	
+	data->menuX = getValue_int(fh,"menu_x");
+    data->menuY = getValue_int(fh,"menu_y");
+	data->menuW = getValue_int(fh,"menu_width");
+	data->mMaxOps = getValue_int(fh,"menu_max_options");
+	
+	data->mDwArrowX = getValue_int(fh,"menu_dwarrow_x");
+    data->mDwArrowY = getValue_int(fh,"menu_dwarrow_y");
+    data->mUpArrowX = getValue_int(fh,"menu_uparrow_x");
+    data->mUpArrowY = getValue_int(fh,"menu_uparrow_y");
+	
+	data->mMargin = getValue_int(fh,"menu_margin");
+
+	data->tipX = getValue_int(fh,"tip_x");
+    data->tipY = getValue_int(fh,"tip_y");
+	data->tipW = getValue_int(fh,"tip_width");
+	data->tipH = getValue_int(fh,"tip_height");
+	
+	r = getValue_int(fh,"hl_red");
+    g = getValue_int(fh,"hl_green");
+    b = getValue_int(fh,"hl_blue");
+	data->hlalpha = getValue_int(fh,"hl_alpha");
+    data->hlcolor = SDL_MapRGB(screen->format, r, g, b);
+	
+	/* 
+	 * In-game data
+	 */
+    getValue_str(fh,"game_bg",str,fname);
+    data->gameBg = JPB_LoadImg( str, gblOps.useGL, 0, 0, 0);
+
+	getValue_str(fh,"live_pic",str,fname);
+    data->livePic = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
+	data->liveAlign = getValue_int(fh,"live_align");
+	
+    getValue_str(fh,"score_font",str,fname);
+    surf = IMG_Load(str);    
+    data->scorefont = SFont_InitFont(str, surf, gblOps.useGL, 1);
+    SDL_FreeSurface(surf);
+    
+	getValue_str(fh,"game_font",str,fname);
+    surf = IMG_Load(str);    
+    data->textfont = SFont_InitFont(str, surf, gblOps.useGL, 1);
+    SDL_FreeSurface(surf);
+	
+	r = getValue_int(fh,"g_red");
+    g = getValue_int(fh,"g_green");
+    b = getValue_int(fh,"g_blue");
+	data->galpha = getValue_int(fh,"g_alpha");
+    data->gcolor = SDL_MapRGB(screen->format, r, g, b);
+	
+    data->gameX = getValue_int(fh,"game_x");
+    data->gameY = getValue_int(fh,"game_y");
+    
+    for (i=0; i<MAX_PLAYERS; i++) {
+        data->scoreX[i] = getValue_int(fh,"score_x");
+        data->scoreY[i] = getValue_int(fh,"score_y");
+    	data->livesX[i] = getValue_int(fh,"lives_x");
+        data->livesY[i] = getValue_int(fh,"lives_y");
+    }
+    
+    getValue_str(fh,"floor_left",str,fname);
+    data->floorL = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
+    getValue_str(fh,"floor_right",str,fname);
+    data->floorR = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
+    getValue_str(fh,"floor_center",str,fname);
+    data->floorC = JPB_LoadImg( str, gblOps.useGL, 1, 0, 0);
+    
+    for (i=0; i<MAX_PLAYERS; i++) {
+        getValue_str(fh,"hero_stand_anim",str,fname);
+        data->heroSprite[i][H_STAND] = loadSpriteDataRot(str, 2, fname);
+        getValue_str(fh,"hero_run_anim",str,fname);
+        data->heroSprite[i][H_WALK] = loadSpriteDataRot(str, 2, fname);
+        getValue_str(fh,"hero_jump_anim",str,fname);
+        data->heroSprite[i][H_JUMP] = loadSpriteDataRot(str, 2, fname);
+    }
+    
+    fclose(fh);
+	
+	free(file);
+	
+    return TRUE;
+}
+
+
+void freeGraphics(data_t* data)
+{
+    int i,j;
+    for (j=0; j<M_STATES; j++)
+        freeSpriteData(data->mouse[j]);
+    JPB_FreeSurface(data->gameBg);
+    JPB_FreeSurface(data->livePic);
+    JPB_FreeSurface(data->floorR);
+    JPB_FreeSurface(data->floorL);
+    JPB_FreeSurface(data->floorC);
+    JPB_FreeSurface(data->menuBg);
+    JPB_FreeSurface(data->dwArrow);
+    JPB_FreeSurface(data->upArrow);
+    SFont_FreeFont(data->scorefont);
+    SFont_FreeFont(data->textfont);
+    SFont_FreeFont(data->menufont);
+	SFont_FreeFont(data->tipfont);
+	for (i=0; i<MAX_PLAYERS; i++) {
+    	for (j=0; j<HEROANIMS; j++)
+        	freeSpriteDataRot(data->heroSprite[i][j]);
     }
 }
 

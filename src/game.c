@@ -277,6 +277,8 @@ int playGame(data_t* gfx, int numHeros)
 	int done = FALSE;
 	int r;
     
+    Mix_PlayMusic(gfx->musgame, -1);
+    
     drawBg(gfx->gameBg,0,0,gblOps.w,gblOps.h);
     initGame(&game, gfx, numHeros);
 	initTimer(&timer, getFps());
