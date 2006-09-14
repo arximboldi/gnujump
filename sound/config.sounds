@@ -1,0 +1,30 @@
+## SDLjump theme file
+## ==================
+## Important:
+## - You can't alter the order in which these values are present.
+## - The string length can't be larger than 512 characters
+## - String variables must go between ""
+
+format = "01"
+
+# ==============================================================================
+#   GAME
+# ==============================================================================
+
+mus_game = "I_Put_A_Spell_On_You.mid"
+
+snd_die = "die.ogg"
+snd_fall = "fall.ogg"
+snd_jump = "jump.ogg"
+snd_question = "question.ogg"
+snd_record = "record.ogg"
+
+# ==============================================================================
+#   MENU
+# ==============================================================================
+
+mus_menu = "Midnight_Special.mid"
+
+snd_click = "mclick.ogg"
+snd_back = "mback.ogg"
+
