@@ -221,7 +221,7 @@ void updateScore(data_t* gfx, game_t* game, Uint32 currtime)
     char prevscore[32];
     char time[32];
     char prevtime[32];
-    static int lastsec = 0;
+    static int lastsec = -1;
     
     if ((currtime/=1000) != lastsec) {
 		sprintf(time,"%d", currtime);
