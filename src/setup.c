@@ -387,7 +387,7 @@ void EngineInit()
         
     if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
 		fprintf(stderr, "ERROR: Mix_OpenAudio: %s\n", Mix_GetError());
-		exit(2);
+		//exit(2);
 	}
 }
 
