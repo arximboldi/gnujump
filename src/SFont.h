@@ -105,6 +105,7 @@ int SFont_FillWith(SFont_Font *Font, int x, int y, int w, char c);
 void SFont_WriteMaxWidth (SFont_Font * Font, int x, int y, int w, 
 				int align, char* tag, char* text);
 
+int SFont_SetAlpha(SFont_Font* font, int alpha);
 
 #ifdef __cplusplus
 }

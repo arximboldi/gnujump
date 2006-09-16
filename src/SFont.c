@@ -369,8 +369,11 @@ void SFont_WriteMaxWidth (SFont_Font * Font, int x, int y, int w, int align, cha
 	
 }
 
-void SFont_SetAlpha(SFont_Font* font, int alpha)
+int SFont_SetAlpha(SFont_Font* font, int alpha)
 {
+	int r;
+	r = font->Surface->alpha;
 	font->Surface->alpha = alpha;
+	return r;
 }
 

@@ -34,6 +34,8 @@
 
 #define MENUFADE 1000
 #define ABLINKTIME 300
+#define TIPFADE 0
+/* If larger than 0 too slow in software mode */
 
 #define NONE -1
 
@@ -106,6 +108,8 @@ void drawMenuT(data_t* gfx, menu_t* menu, int offset);
 void drawMenuTOption(data_t* gfx,  int opt, int offset, opt_t* option, int alpha);
 
 char* inputMenu (data_t* gfx, char* tip, char* inittext, int maxWidth);
+
+void undrawTip(data_t* gfx);
 
 /* OLD MENUS*/
 int playMenu(data_t* gfx, int nops, ...);

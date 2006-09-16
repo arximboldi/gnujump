@@ -320,7 +320,7 @@ int playReplay(data_t* gfx, replay_t* rep)
         updateTimer(&timer);
         updateGameReplay(&game, gfx, rep, timer.ms);
 			
-        updateScore(gfx, &game);
+        updateScore(gfx, &game, timer.totalms);
         FlipScreen();
         
 		if (++i == rep->nframes) done = ENDMATCH;

@@ -690,6 +690,11 @@ int loadGraphics(data_t* data, char* fname)
     surf = IMG_Load(str);    
     data->scorefont = SFont_InitFont(str, surf, gblOps.useGL, 1);
     SDL_FreeSurface(surf);
+
+    getValue_str(fh,"timer_font",str,fname);
+    surf = IMG_Load(str);    
+    data->timefont = SFont_InitFont(str, surf, gblOps.useGL, 1);
+    SDL_FreeSurface(surf);
     
 	getValue_str(fh,"game_font",str,fname);
     surf = IMG_Load(str);    
@@ -704,6 +709,9 @@ int loadGraphics(data_t* data, char* fname)
 	
     data->gameX = getValue_int(fh,"game_x");
     data->gameY = getValue_int(fh,"game_y");
+    
+    data->timeX = getValue_int(fh,"timer_x");
+    data->timeY = getValue_int(fh,"timer_y");
     
     for (i=0; i<MAX_PLAYERS; i++) {
         data->scoreX[i] = getValue_int(fh,"score_x");

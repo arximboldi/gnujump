@@ -308,8 +308,11 @@ typedef struct
     int scoreY[MAX_PLAYERS];
     int livesX[MAX_PLAYERS];
     int livesY[MAX_PLAYERS];
+    int timeX;
+    int timeY;
     SFont_Font* scorefont;
 	SFont_Font* textfont;
+	SFont_Font* timefont;
 	Uint32 gcolor;
 	Uint8 galpha;
 	

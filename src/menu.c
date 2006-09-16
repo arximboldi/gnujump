@@ -173,7 +173,7 @@ int playMenuT(data_t* gfx, menu_t* menu)
 {
 	int done = FALSE;
 	int prevselect = 0, select = 0;
-	fader_t* faders;
+	fader_t* mfaders;
 	fader_t afaders[ARROWS];
 	char* tmpstr = NULL;
 	SDL_Event event;
@@ -189,10 +189,10 @@ int playMenuT(data_t* gfx, menu_t* menu)
 	
 	initMouse(gfx, &mouse);
 	initTimer(&timer, getFps());
-	faders = malloc( sizeof(fader_t) * menu->nops );
-	setFader( &faders[select], 0, gfx->hlalpha, 1, FALSE);
+	mfaders = malloc( sizeof(fader_t) * menu->nops );
+	setFader( &mfaders[select], 0, gfx->hlalpha, 1, FALSE);
 	for (i=select+1; i< menu->nops; i++)
-		setFader(&faders[i],0,0,1, FALSE);
+		setFader(&mfaders[i],0,0,1, FALSE);
 	for (i=0; i< ARROWS; i++)
 		setFader(&afaders[i],0,0,1, FALSE);
     drawMenuT(gfx, menu, offset);
@@ -202,12 +202,13 @@ int playMenuT(data_t* gfx, menu_t* menu)
     while (!done) {
 		updateTimer(&timer);
 		for (i=0; i< menu->nops; i++) {
-			updateFader(&faders[i], timer.ms);
+			updateFader(&mfaders[i], timer.ms);
 		}
 		for (i=0; i< ARROWS; i++) {
 			updateFader(&afaders[i], timer.ms);
 		}
 		unprintMouse(gfx, &mouse);
+		undrawTip(gfx);
 		checkMouse(gfx, &mouse, &select, menu->nops, offset);
         switch(checkMenuKeys(&mouse)) {
 			case KMENTER:
@@ -302,10 +303,8 @@ int playMenuT(data_t* gfx, menu_t* menu)
 				break;
         }
         if (select != prevselect) {
-        	setFader(&faders[prevselect], faders[prevselect].value, 0, MENUFADE, FALSE);
-			setFader(&faders[select], gfx->hlalpha, gfx->hlalpha, MENUFADE, FALSE);
-			if (menu->opt[select].tip != NULL)
-				drawTip(gfx, menu->opt[select].tip);
+        	setFader(&mfaders[prevselect], mfaders[prevselect].value, 0, MENUFADE, FALSE);
+			setFader(&mfaders[select], gfx->hlalpha, gfx->hlalpha, MENUFADE, FALSE);
 			prevselect = select;
 			if (select >= maxops+offset) {
 				offset = select-maxops+1;
@@ -319,17 +318,28 @@ int playMenuT(data_t* gfx, menu_t* menu)
 		else setFader(&afaders[A_UP], afaders[A_UP].value, SDL_ALPHA_TRANSPARENT, ABLINKTIME, FALSE);
 
 		for (i=offset; i < offset+maxops; i++) {
-			updateFader(&faders[i],timer.ms);
-			drawMenuTOption(gfx,  i, offset, &menu->opt[i], faders[i].value);
+			updateFader(&mfaders[i],timer.ms);
+			drawMenuTOption(gfx,  i, offset, &menu->opt[i], mfaders[i].value);
 		}
+		if (menu->opt[select].tip != NULL) drawTip(gfx, menu->opt[select].tip);
 		drawMenuTArrows(gfx, afaders[A_UP].value, afaders[A_DOWN].value);
 		animateSprite(&(mouse.sprite[mouse.id]), timer.ms);
 		printMouse(gfx, &mouse);
 		FlipScreen();
     }
 	
-	free(faders);
+	free(mfaders);
     return select;
+}
+
+void undrawTip(data_t* gfx)
+{
+	SDL_Rect dest;
+	dest.x = gfx->tipX;
+	dest.y = gfx->tipY;
+	dest.w = gfx->tipW;
+	dest.h = gfx->tipH;
+	JPB_PrintSurface(gfx->menuBg, &dest, &dest);
 }
 
 void drawMenuTArrows(data_t* gfx, int alphaUp, int alphaDown)
@@ -397,6 +407,11 @@ void drawMenuTOption(data_t* gfx,  int opt, int offset, opt_t* option, int alpha
 		else if ((option->flags & MB_CHOOSE) == MB_CHOOSE)
 			SFont_WriteMaxWidth (gfx->menufont, rect.x + capwidth, rect.y, rect.w -gfx->mMargin-capwidth, ARIGHT,"...", option->opcap[*((int*)option->data)]);
 	}
+}
+
+void drawTip (data_t* gfx, char* tip)
+{
+	SFont_WriteAligned(gfx->tipfont, gfx->tipX, gfx->tipY, gfx->tipW,0, gfx->tAlign, tip);
 }
 
 char* inputMenu (data_t* gfx, char* tip, char* inittext, int maxWidth)
@@ -472,17 +487,6 @@ char* inputMenu (data_t* gfx, char* tip, char* inittext, int maxWidth)
  */
 
 /* These four functions are still used by the new menu system */
-
-void drawTip (data_t* gfx, char* tip)
-{
-	SDL_Rect rect;
-	rect.x = gfx->tipX;
-	rect.y = gfx->tipY;
-	rect.w = gfx->tipW;
-	rect.h = gfx->tipH;
-	JPB_PrintSurface(gfx->menuBg,&rect,&rect);
-	SFont_WriteAligned(gfx->tipfont, gfx->tipX, gfx->tipY, gfx->tipW,0, gfx->tAlign, tip);
-}
 
 void drawMenu(data_t* gfx, int nops, char** ops)
 {

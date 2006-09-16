@@ -212,13 +212,30 @@ void freeGame(game_t* game)
     free(game->heros);
 }
 
-void updateScore(data_t* gfx, game_t* game)
+void updateScore(data_t* gfx, game_t* game, Uint32 currtime)
 {
     int i,j;
     int x,y;
     SDL_Rect rect;
-    char score[MAX_CHAR];
-    char prevscore[MAX_CHAR];
+    char score[32];
+    char prevscore[32];
+    char time[32];
+    char prevtime[32];
+    static int lastsec = 0;
+    
+    if ((currtime/=1000) != lastsec) {
+		sprintf(time,"%d", currtime);
+        sprintf(prevtime,"%d", lastsec);
+        lastsec = currtime;
+        x = gfx->timeX;
+        y = gfx->timeY;
+        
+        drawBg(gfx->gameBg, x-1, y-1, 
+               SFont_TextWidth(gfx->timefont, prevtime)+2, 
+               SFont_TextHeight(gfx->timefont)+2);
+            
+        SFont_Write(gfx->timefont, x,y, time);
+    }
     
     for (i=0; i < game->numHeros; i++) {
         if (game->heros[i].floor != game->heros[i].prevFloor) {
@@ -272,7 +289,7 @@ void updateScore(data_t* gfx, game_t* game)
 int playGame(data_t* gfx, int numHeros)
 {
     L_timer timer;
-	time_t start,end;
+	time_t start, end;
     game_t game;
 	int done = FALSE;
 	int r;
@@ -302,7 +319,7 @@ int playGame(data_t* gfx, int numHeros)
         updateTimer(&timer);
         if (updateGame(&game,gfx, timer.ms))
 			done = ENDMATCH;
-        updateScore(gfx, &game);
+        updateScore(gfx, &game, timer.totalms);
         if (gblOps.recReplay) updateReplay(&game, timer.ms);
         FlipScreen(); /* Apply changes to the screen */
     }
@@ -489,6 +506,7 @@ void updateTimer(L_timer* time)
         time->ms = currms - time->mscount;
         time->mscount = currms;
     }
+    time->totalms += time->ms;
 }
 
 void continueTimer(L_timer* time)
@@ -503,7 +521,7 @@ void initTimer(L_timer* time, int rate)
     time->rate = rate;
     time->rateticks = (1000.0 / (float) time->rate);
     time->mscount = time->lastticks = SDL_GetTicks();
-    time->ms = 0;
+    time->totalms = time->ms = 0;
 }
 
 int updateGame(game_t* game, data_t* gfx, float ms)

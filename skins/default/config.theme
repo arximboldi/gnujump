@@ -90,6 +90,9 @@ live_align = 0
 # The scoreboard font
 score_font = "scorefont.png"
 
+# The time font
+timer_font = "timefont.png"
+
 # The in-game text font
 game_font = "textfont.png"
 
@@ -102,6 +105,10 @@ g_alpha = 168
 # Where the match grid starts
 game_x = 24
 game_y = 70
+
+# Timer
+timer_x = 552
+timer_y = 428
 
 # Postition of the score boards (remember: 4!)
 score_x = 557
