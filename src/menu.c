@@ -641,7 +641,7 @@ void saveReplayMenu(data_t* gfx, replay_t* rep)
 	initMenuT(&menu);
 	addMenuTOption(&menu, gfx->msg[msg_repplay], gfx->tip[tip_repplay], MB_RETURN, NULL, 0);
 	addMenuTOption(&menu, gfx->msg[msg_repname], gfx->tip[tip_repname], MB_INPUT, &(fname), 0);
-	addMenuTOption(&menu, gfx->msg[msg_repname], gfx->tip[tip_repname], MB_INPUT, &(comment), 0);
+	addMenuTOption(&menu, gfx->msg[msg_repcomment], gfx->tip[tip_repcomment], MB_INPUT, &(comment), 0);
 	addMenuTOption(&menu, gfx->msg[msg_repsave], gfx->tip[tip_repsave], MB_RETURN, NULL, 0);
     addMenuTOption(&menu, gfx->msg[msg_cancel],  gfx->tip[tip_cancel],  MB_RETURN, NULL, 0);
     
