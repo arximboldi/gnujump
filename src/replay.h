@@ -54,7 +54,7 @@ enum {
 		floor_l (Uint8)
 		floor_r (Uint8)
 	 * Number of players (Uint8)
-	 * Player data. For every player:
+	 * Player data. For every player alive:
 		x (Uint16)
 		y (Uint16)
 		dir (Uint8)
@@ -103,7 +103,7 @@ void updateReplay(game_t* game, float ms);
 
 void freeReplay(replay_t* rep);
 
-void endReplay(replay_t* rep);
+void endReplay(game_t* game);
 
 void getPlayerReplay(hero_t* hero, replay_t* rep);
 

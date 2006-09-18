@@ -53,11 +53,11 @@ tip_align = 1
 menu_x = 14
 menu_y = 172
 menu_width = 512
-menu_max_options = 14
+menu_max_options = 13
 
-menu_dwarrow_x = 14
+menu_dwarrow_x = 19
 menu_dwarrow_y = 148
-menu_uparrow_x = 38
+menu_uparrow_x = 43
 menu_uparrow_y = 148
 
 # Gap between items and space between left/right border and the text
@@ -107,8 +107,8 @@ game_x = 14
 game_y = 149
 
 # Timer
-timer_x = 475
-timer_y = 538
+timer_x = 490
+timer_y = 540
 
 # Postition of the score boards (remember: 4!)
 score_x = 27

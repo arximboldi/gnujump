@@ -325,7 +325,7 @@ int playGame(data_t* gfx, int numHeros)
     }
 	if (done == ENDMATCH) {
 		end = time(NULL);
-		if (gblOps.recReplay) endReplay(&(game.replay));
+		if (gblOps.recReplay) endReplay(&game);
 		r = endMatch(gfx, &game, difftime(end,start));
 	} else {
 		r = FALSE;
@@ -557,6 +557,7 @@ int updateGame(game_t* game, data_t* gfx, float ms)
     for (i=0; i<game->numHeros; i++) {
         if (game->heros[i].dead == FALSE) {
             if (updateHero(game, gfx, i, ms) == DEAD) {
+				playHeroSound(gfx, S_DIE, &(game->replay));
             	if (game->heros[i].lives < 1) {
             		game->heros[i].dead = TRUE;
 					game->deadHeros++;
@@ -577,14 +578,20 @@ int updateGame(game_t* game, data_t* gfx, float ms)
 
 void reliveHero(game_t* game, int num)
 {
+	int i,y;
     hero_t* hero = &game->heros[num];
-        
-    hero->y = MINSKY;
-    hero->x = (GRIDWIDTH * BLOCKSIZE - getFrameRot(&hero->sprite[H_STAND], 0)->w) / 2;
+     
+    for (i = (game->mapIndex + MINSKYGRID +1)%GRIDHEIGHT, y = MINSKYGRID-1; 
+		game->floor_r[i] < 0;
+		i = (i+1)%GRIDHEIGHT, y++);
+		
+	hero->y = y*BLOCKSIZE;
+    hero->x = (game->floor_l[i] + (game->floor_r[i] - game->floor_l[i])/2)* BLOCKSIZE;
     hero->id = H_STAND;
     hero->vx = 0;
     hero->vy = -2;
     hero->prevLives = hero->lives;
+	
 }
 
 void playHeroSound(data_t* gfx, int sound, replay_t* rep)
@@ -617,7 +624,6 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
         
         game->T_count = 0;
     } else if( hero->y >= GRIDHEIGHT*BLOCKSIZE ) {
-		playHeroSound(gfx, S_DIE, &(game->replay));
         return DEAD;
     }
     

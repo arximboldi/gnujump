@@ -47,6 +47,7 @@
 
 /* The minimum space on top*/
 #define MINSKY 80
+#define MINSKYGRID 6
 
 /* Space (in grid squares) between one floor and another */
 #define FLOORGAP 5
@@ -76,6 +77,7 @@ typedef struct {
 	int nframes;
 	int fps;
 	
+	int deadHero[MAX_PLAYERS];
 	int scrolls;
 	int sounds;
 	float timer;
@@ -149,6 +151,8 @@ int playGame(data_t* gfx, int numHeros);
 int pauseGame(data_t* gfx, game_t* game, char* text);
 
 int endMatch(data_t* gfx, game_t* game, int time);
+
+void playHeroSound(data_t* gfx, int sound, replay_t* rep);
 
 void continueTimer(L_timer* time);
 

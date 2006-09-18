@@ -312,10 +312,10 @@ int playMenuT(data_t* gfx, menu_t* menu)
 				offset = select;
 			}
         }
- 		if (offset < maxoffset) setFader(&afaders[A_DOWN], afaders[A_DOWN].value, SDL_ALPHA_OPAQUE, ABLINKTIME, FALSE);
-		else setFader(&afaders[A_DOWN], afaders[A_DOWN].value, SDL_ALPHA_TRANSPARENT, ABLINKTIME, FALSE);
-		if (offset > 0) setFader(&afaders[A_UP], afaders[A_UP].value, SDL_ALPHA_OPAQUE, ABLINKTIME, FALSE);
-		else setFader(&afaders[A_UP], afaders[A_UP].value, SDL_ALPHA_TRANSPARENT, ABLINKTIME, FALSE);
+ 		if (offset < maxoffset) setFader(&afaders[A_DOWN], afaders[A_DOWN].value, SDL_ALPHA_OPAQUE, ABLINKTIME*gblOps.useGL+1, FALSE);
+		else setFader(&afaders[A_DOWN], afaders[A_DOWN].value, SDL_ALPHA_TRANSPARENT, ABLINKTIME*gblOps.useGL+1, FALSE);
+		if (offset > 0) setFader(&afaders[A_UP], afaders[A_UP].value, SDL_ALPHA_OPAQUE, ABLINKTIME*gblOps.useGL+1, FALSE);
+		else setFader(&afaders[A_UP], afaders[A_UP].value, SDL_ALPHA_TRANSPARENT, ABLINKTIME*gblOps.useGL+1, FALSE);
 
 		for (i=offset; i < offset+maxops; i++) {
 			updateFader(&mfaders[i],timer.ms);

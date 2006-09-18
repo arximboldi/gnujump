@@ -69,9 +69,10 @@ Uint8 repGetUInt8(replay_t* rep)
 	return *(Uint8*)(rep->buf - sizeof(Uint8));
 }
 
-void endReplay(replay_t* rep)
+void endReplay(game_t* game)
 {
-	rep->bodysize = rep->buf - rep->bst;
+	updateReplay(game, 0);
+	game->replay.bodysize = game->replay.buf - game->replay.bst;
 }
 
 void initReplay(game_t* game)
@@ -80,6 +81,7 @@ void initReplay(game_t* game)
 	
 	game->replay.timer = 0;
 	game->replay.scrolls = 0;
+	game->replay.sounds = 0;
 	game->replay.bufsize = REP_BUFFER_SIZE;
 	game->replay.bst = malloc(game->replay.bufsize);
 	game->replay.buf = game->replay.bst;
@@ -87,6 +89,9 @@ void initReplay(game_t* game)
 	game->replay.fps = gblOps.repFps;
 	game->replay.mspf = 1000.0/gblOps.repFps;
 	
+	for (i = 0; i < game->numHeros; i++)
+		game->replay.deadHero[i] = 0;
+	 
 	for (i = 0; i < GRIDHEIGHT; i++) {
 		repPushUInt8(&(game->replay), game->floor_l[i]);
 		repPushUInt8(&(game->replay), game->floor_r[i]);
@@ -137,14 +142,18 @@ void repPushHeros(game_t* game)
 {
 	int i;
 	for (i = 0; i < game->numHeros; i++) {
-		repPushUInt16(&(game->replay), game->heros[i].x);
-		repPushUInt16(&(game->replay), game->heros[i].y);
-		repPushUInt8(&(game->replay), game->heros[i].dir);
-		repPushUInt16(&(game->replay), game->heros[i].angle);
-		repPushUInt8(&(game->replay), game->heros[i].id);
-		repPushUInt8(&(game->replay), game->heros[i].dead);
-		repPushUInt8(&(game->replay), game->heros[i].lives);
-		repPushUInt16(&(game->replay), game->heros[i].floor);
+		if (! game->replay.deadHero[i]) {
+			repPushUInt16(&(game->replay), game->heros[i].x);
+			repPushUInt16(&(game->replay), game->heros[i].y);
+			repPushUInt8(&(game->replay), game->heros[i].dir);
+			repPushUInt16(&(game->replay), game->heros[i].angle);
+			repPushUInt8(&(game->replay), game->heros[i].id);
+			repPushUInt8(&(game->replay), game->heros[i].dead);
+			repPushUInt8(&(game->replay), game->heros[i].lives);
+			repPushUInt16(&(game->replay), game->heros[i].floor);
+			
+			game->replay.deadHero[i] = game->heros[i].dead;
+		}
 	}
 }
 
@@ -167,8 +176,10 @@ void getPlayerReplay(hero_t* hero, replay_t* rep)
 	}
 	hero->id = newid;
 	hero->dead = repGetUInt8(rep);
+	hero->prevLives = hero->lives;
 	hero->lives = repGetUInt8(rep);
 	if (hero->lives > 4) hero->lives = -1;
+	hero->prevFloor = hero->floor;
 	hero->floor = repGetUInt16(rep);
 }
 
