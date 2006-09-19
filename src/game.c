@@ -187,8 +187,7 @@ void initGame(game_t* game, data_t* gfx, int numHeros)
     	
         initHeroKeys(&game->heros[i],i);
         game->heros[i].x = GRIDWIDTH*BLOCKSIZE/2 - BLOCKSIZE + isOdd(i)*(i+1)*20;
-        game->heros[i].y = (GRIDHEIGHT - 4)*BLOCKSIZE 
-        	-getFrameRot(&game->heros[i].sprite[H_STAND],0)->h;
+        game->heros[i].y = (GRIDHEIGHT - 4)*BLOCKSIZE - HEROSIZE;
         game->heros[i].vx = game->heros[i].vy = 0;
         game->heros[i].dir = 0;
         game->heros[i].jump = 0;
@@ -764,10 +763,10 @@ int isStand( game_t* game, int ix, int iy)
 {
     int y;
 
-    if (iy + 2*BLOCKSIZE > (GRIDHEIGHT-1)*BLOCKSIZE)
+    if (iy + HEROSIZE > (GRIDHEIGHT-1)*BLOCKSIZE)
         return FALSE;
 
-    y = ( ( iy + 2*BLOCKSIZE - game->scrollCount) / BLOCKSIZE );
+    y = ( ( iy + HEROSIZE - game->scrollCount) / BLOCKSIZE );
     if( y >= GRIDHEIGHT )
         return FALSE;
 
@@ -777,7 +776,6 @@ int isStand( game_t* game, int ix, int iy)
     else
         return FALSE;
 }
-
 
 void rotateHero(hero_t* hero, float ms)
 {
@@ -798,8 +796,12 @@ void rotateHero(hero_t* hero, float ms)
 void drawHero(data_t* gfx,hero_t* hero)
 {
     SDL_Rect dest;
-    dest.x = hero->x+ gfx->gameX +BLOCKSIZE -(getFrameRot(&hero->sprite[hero->id],0)->w -32)/2 ;
-    dest.y = hero->y+ gfx->gameY +BLOCKSIZE -(getFrameRot(&hero->sprite[hero->id],0)->h -32)/2;
+    
+    /* In rotating surface, X and Y refer to the centre of the image */
+    dest.x = hero->x+ gfx->gameX -(getFrameRot(&hero->sprite[hero->id],0)->w - HEROSIZE)/2
+		+ getFrameRot(&hero->sprite[hero->id],0)->w/2;
+    dest.y = hero->y+ gfx->gameY -(getFrameRot(&hero->sprite[hero->id],0)->h - HEROSIZE)
+		+ getFrameRot(&hero->sprite[hero->id],0)->h/2;
     printSpriteRot(&hero->sprite[hero->id],NULL,&dest,hero->dir,hero->angle);
 }
 
@@ -836,7 +838,7 @@ void recoverScr( data_t* gfx, game_t* game, int x, int y, int w, int h )
             dest.y = y*BLOCKSIZE + gfx->gameY + game->scrollCount;
             drawBg(gfx->gameBg,dest.x,dest.y,BLOCKSIZE, BLOCKSIZE);
             
-            if (y > GRIDHEIGHT-2 || x < 1 || x > GRIDWIDTH-1)
+            if (y > GRIDHEIGHT-1 || x < 1 || x > GRIDWIDTH-1)
 				continue;
 			
             if (game->floor_l[(y+game->mapIndex)%GRIDHEIGHT] == x) {

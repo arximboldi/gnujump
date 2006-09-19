@@ -44,6 +44,7 @@
 
 /* Size of a square in the grid*/
 #define BLOCKSIZE 16
+#define HEROSIZE 32
 
 /* The minimum space on top*/
 #define MINSKY 80
