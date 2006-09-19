@@ -76,6 +76,7 @@ void pressAnyKey ()
 	SDL_Event event;
 	
 	do {
+		SDL_WaitEvent(NULL);
 		SDL_PollEvent(&event);
 	} while (event.type != SDL_KEYDOWN && event.type != SDL_MOUSEBUTTONDOWN);
 	

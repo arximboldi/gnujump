@@ -469,6 +469,7 @@ int yesNoQuestion(data_t* gfx, game_t* game, char* text)
 				}
 			}
 		}
+		SDL_WaitEvent(NULL);
 	}
 	
 	recoverScr( gfx, game, x-BLOCKSIZE-gfx->gameX, y-BLOCKSIZE/2-gfx->gameY,

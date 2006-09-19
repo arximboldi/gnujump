@@ -229,7 +229,8 @@ int playMenuT(data_t* gfx, menu_t* menu)
 				}
 				if ((menu->opt[select].flags & MB_KEYDEF) == MB_KEYDEF) {
 					for (;;) {
-						if( SDL_PollEvent( &event ) && event.type == SDL_KEYDOWN){
+						SDL_WaitEvent(NULL);
+						if( SDL_PollEvent( &event ) && event.type == SDL_KEYDOWN) {
 							*((SDLKey*)menu->opt[select].data) = event.key.keysym.sym;
 							break;
 						}
@@ -445,33 +446,34 @@ char* inputMenu (data_t* gfx, char* tip, char* inittext, int maxWidth)
     
     prevUnic = SDL_EnableUNICODE(TRUE);
     while (ch != SDLK_RETURN) {
-        if (event.type == SDL_KEYDOWN) {
-            ch=event.key.keysym.unicode;
-            
-			rect.h = SFont_AlignedHeight(gfx->menufont, gfx->menuW-gfx->mMargin, 0, text);
-            JPB_PrintSurface(gfx->menuBg, &rect, &rect);
-            
-            if ( (ch>31) || (ch=='\b')) {
-                if ((ch=='\b')&&(strlen(text)>0)) {
-                    len = strlen(text);
-                    text[strlen(text)-2]='|';
-                    text[strlen(text)-1]='\0';
-                } else {
-                    len = strlen(text);
-                    text[len-1] = ch;
-                    text[len] = '|';
-                    text[len+1] = '\0';
-                }
-            }
-            if (strlen(text)>maxWidth) 
-                text[maxWidth]='\0';
-                
-            //JPB_drawSquare(gfx->hlcolor, gfx->hlalpha, rect.x, rect.y, rect.w,rect.h);
-            SFont_WriteAligned(gfx->menufont, rect.x + gfx->mMargin, rect.y, gfx->menuW - gfx->mMargin, 0, ACENTER, text);
-            FlipScreen();
+        while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_KEYDOWN) {
+				ch=event.key.keysym.unicode;
+				
+				rect.h = SFont_AlignedHeight(gfx->menufont, gfx->menuW-gfx->mMargin, 0, text);
+				JPB_PrintSurface(gfx->menuBg, &rect, &rect);
+				
+				if ( (ch>31) || (ch=='\b')) {
+					if ((ch=='\b')&&(strlen(text)>0)) {
+						len = strlen(text);
+						text[strlen(text)-2]='|';
+						text[strlen(text)-1]='\0';
+					} else {
+						len = strlen(text);
+						text[len-1] = ch;
+						text[len] = '|';
+						text[len+1] = '\0';
+					}
+				}
+				if (strlen(text)>maxWidth) 
+					text[maxWidth]='\0';
+					
+				//JPB_drawSquare(gfx->hlcolor, gfx->hlalpha, rect.x, rect.y, rect.w,rect.h);
+				SFont_WriteAligned(gfx->menufont, rect.x + gfx->mMargin, rect.y, gfx->menuW - gfx->mMargin, 0, ACENTER, text);
+				FlipScreen();
+			}
         }
-        SDL_WaitEvent(&event);
-        SDL_PollEvent(&event);
+        SDL_WaitEvent(NULL);
     }
     SDL_EnableUNICODE(prevUnic);
     text[strlen(text)-1]='\0';
