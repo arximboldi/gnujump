@@ -377,6 +377,7 @@ int pauseGame(data_t* gfx, game_t* game,  char* text)
 	FlipScreen();
 	
 	while(!done) {
+		SDL_WaitEvent(NULL);
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_KEYDOWN) {
 				if (event.key.keysym.sym == KEY_QUIT) {
