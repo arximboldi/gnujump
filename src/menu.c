@@ -75,8 +75,6 @@ void setMouseState(mouse_t* mouse, int id)
 	}
 }
 
-#define MIN(a,b) ((a) < (b)? (a):(b))
-
 void checkMouse(data_t* gfx, mouse_t* mouse, int* sel, int nops, int off)
 {
 	int rx = 0, ry = 0;

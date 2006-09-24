@@ -47,6 +47,8 @@ enum {
 	-- HEADER (not stored in the memory buffer) --
 	 * Replay file format (Uint32)
 	 * Comment (Char until '\0')
+	 * Score (Uint32)
+	 * Msec (Uint32)
 	 * Replay FPS (Uint32)
 	 * Number of frames (Uint32)
 	-- BODY --
@@ -103,7 +105,7 @@ void updateReplay(game_t* game, float ms);
 
 void freeReplay(replay_t* rep);
 
-void endReplay(game_t* game);
+void endReplay(game_t* game, int totalms);
 
 void getPlayerReplay(hero_t* hero, replay_t* rep);
 

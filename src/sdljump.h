@@ -69,7 +69,7 @@
 #define THEME_VERS "02" 
 #define SOUND_VERS "01" 
 #define LANG_VERS  "01"
-#define REP_VERS 2
+#define REP_VERS 3
 
 #ifndef HAVE_CONFIG_H
   #define VERSION "1.0.0"
@@ -190,6 +190,7 @@ enum {
 /* Default player name */
 #define PNAME "Player"
 
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 //==============================================================================
 // LOCAL TYPES

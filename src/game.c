@@ -50,25 +50,29 @@ int drawBg(JPB_surface* surf, int x, int y, int w, int h)
 int drawFloor(data_t* gfx, int x, int y, int bw)
 {
     SDL_Rect rect;
+    SDL_Rect src;
     int j;
 
     rect.x = x*BLOCKSIZE + gfx->gameX;
     rect.y = y + gfx->gameY;
-    
-    JPB_PrintSurface(gfx->floorL, NULL, &rect);
+    src.x = src.y = 0;
+	src.w = GRIDWIDTH*BLOCKSIZE;
+	
+	src.h = ((gfx->gameY + (GRIDHEIGHT)*BLOCKSIZE) - rect.y);
+    JPB_PrintSurface(gfx->floorL, &src, &rect);
       
     for (j = 1; j < bw-1; j++) {
         rect.x = j*BLOCKSIZE + x*BLOCKSIZE + gfx->gameX;
-        JPB_PrintSurface(gfx->floorC, NULL, &rect);
+        JPB_PrintSurface(gfx->floorC, &src, &rect);
     }
     
-    rect.x = j*BLOCKSIZE + x*BLOCKSIZE + gfx->gameX;
-    JPB_PrintSurface(gfx->floorR, NULL, &rect);
+    rect.x = j*BLOCKSIZE + x*BLOCKSIZE + gfx->gameX + BLOCKSIZE - gfx->floorR->w;
+    JPB_PrintSurface(gfx->floorR, &src, &rect);
     
     return TRUE;
 }
 
-void makeFloor(game_t* game, data_t* gfx, int y)
+void makeFloor(game_t* game, int y)
 {
     int f,x1,x2,fvec;
     static int fpos = GRIDWIDTH/2;
@@ -78,7 +82,6 @@ void makeFloor(game_t* game, data_t* gfx, int y)
     if( f % 250 == 0 ) { /* If Floor % 50 = 0, you can relax */
         game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ] = 1;
         game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] = GRIDWIDTH -2;
-        drawFloor(gfx, 1, y*BLOCKSIZE+game->scrollCount, GRIDWIDTH-2);
         return;
     }
     if( f % 5 == 0 ) {  /* Each five blocks, we create a floor */
@@ -91,66 +94,37 @@ void makeFloor(game_t* game, data_t* gfx, int y)
 
         game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ] = x1;
         game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] = x2;
-        drawFloor(gfx, x1, y*BLOCKSIZE+game->scrollCount, x2-x1+1);
     } else {
         game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ] = GRIDWIDTH;
         game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] = -1;
     }
 }
 
-void hardScrollUp(game_t* game, data_t* gfx)
+void hardScrollUp(game_t* game)
 {
-    int x,width,y;
-
-    for( y = game->floorTop % 5 ; y < GRIDHEIGHT ; y += 5 ){
-        x = game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ];
-        width = game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] -x+1;
-
-        drawBg(gfx->gameBg, x*BLOCKSIZE + gfx->gameX,
-                            y*BLOCKSIZE + gfx->gameY , 
-                            width*BLOCKSIZE, BLOCKSIZE);
-
-        if( y < GRIDHEIGHT-1 )
-            drawFloor(gfx, x,(y+1)*BLOCKSIZE,width);
-    }
-	
-	scrollGrid(game, gfx);
+	scrollGrid(game);
     scrollHeros(game, BLOCKSIZE);
 }
 
-void softScrollUp(game_t* game, data_t* gfx, float scroll)
+void softScrollUp(game_t* game, float scroll)
 {
-    int y,x,width;
-    
     game->scrollCount += scroll;
-
-    for( y = game->floorTop % 5 ; y < GRIDHEIGHT ; y += 5 ){
-        x = game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ];
-        width = game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] -x+1;
-
-        drawBg(gfx->gameBg, x*BLOCKSIZE + gfx->gameX,
-                            y*BLOCKSIZE+game->scrollCount-scroll-1 + gfx->gameY , 
-                            width*BLOCKSIZE, BLOCKSIZE+1);
-
-        if( y*BLOCKSIZE+game->scrollCount < (GRIDHEIGHT-1)*BLOCKSIZE)
-            drawFloor(gfx,x, y*BLOCKSIZE+game->scrollCount, width);
-    }
-      
-    if (game->scrollCount >= BLOCKSIZE) {
+     
+    while (game->scrollCount >= BLOCKSIZE) {
         game->scrollCount -= BLOCKSIZE;
-		scrollGrid(game, gfx);
+		scrollGrid(game);
     }
       
     scrollHeros(game, scroll);
 }
 
-void scrollGrid(game_t* game, data_t* gfx)
+void scrollGrid(game_t* game)
 {
     game->floorTop++;
     if( --game->mapIndex < 0 )
         game->mapIndex = GRIDHEIGHT - 1;
 
-    makeFloor(game,gfx,0);
+    makeFloor(game, 0);
 	
     if (gblOps.recReplay) game->replay.scrolls++;
 }
@@ -172,7 +146,7 @@ void initGame(game_t* game, data_t* gfx, int numHeros)
     game->mapIndex = 0;
 	game->scrollCount = 0;
     for (i=0; i<GRIDHEIGHT; i++) {
-        makeFloor(game,gfx,i);
+        makeFloor(game,i);
     }
     game->numHeros = numHeros;
     game->heros = malloc(sizeof(hero_t)*numHeros);
@@ -209,6 +183,47 @@ void freeGame(game_t* game)
 	if (gblOps.recReplay)
 		freeReplay(&(game->replay));
     free(game->heros);
+}
+
+void drawScore(data_t* gfx, game_t* game, Uint32 currtime)
+{
+    int i,j;
+    int x,y;
+    SDL_Rect rect;
+    char score[32];
+    char time[32];
+    
+    x = gfx->timeX;
+    y = gfx->timeY;
+	sprintf(time,"%d", currtime);
+    SFont_Write(gfx->timefont, x,y, time);
+    
+    for (i=0; i < game->numHeros; i++) {
+        sprintf(score,"%d",game->heros[i].floor);
+		
+		x = gfx->scoreX[i];
+		y = gfx->scoreY[i];
+		
+		SFont_Write(gfx->scorefont, x,y, score);
+
+		rect.x = x = gfx->livesX[i];
+		rect.y = y = gfx->livesY[i];
+		rect.w = gfx->livePic->w;
+		rect.h = gfx->livePic->h;
+		
+		for (j=0; j <= game->heros[i].lives;j++) {
+			JPB_PrintSurface(gfx->livePic, NULL, &rect);
+			if (gfx->liveAlign) {
+				y += gfx->livePic->h;
+				rect.y = y;
+			} else {
+				x += gfx->livePic->w;
+				rect.x = x;
+			}
+		}
+
+		game->heros[i].prevLives = game->heros[i].lives;
+    }
 }
 
 void updateScore(data_t* gfx, game_t* game, Uint32 currtime)
@@ -324,7 +339,7 @@ int playGame(data_t* gfx, int numHeros)
     }
 	if (done == ENDMATCH) {
 		end = time(NULL);
-		if (gblOps.recReplay) endReplay(&game);
+		if (gblOps.recReplay) endReplay(&game, timer.totalms);
 		r = endMatch(gfx, &game, difftime(end,start));
 	} else {
 		r = FALSE;
@@ -396,8 +411,6 @@ int pauseGame(data_t* gfx, game_t* game,  char* text)
 		}
 	}
 	
-	recoverScr(gfx, game, x -gfx->gameX, y -gfx->gameY, w, h);
-	
 	if (ret) {
 		return yesNoQuestion(gfx, game, gfx->txt[txt_askquit]);
 	}
@@ -420,15 +433,20 @@ int endMatch(data_t* gfx, game_t* game, int time)
 			newrec = TRUE;
 		}
 	}
-	if (gblOps.recReplay && yesNoQuestion(gfx, game, gfx->txt[txt_askreplay])) {
-		saveReplayMenu(gfx, &(game->replay));
-		drawBg(gfx->gameBg,0,0,gblOps.w,gblOps.h);
+	if (gblOps.recReplay) {
+		if ( yesNoQuestion(gfx, game, gfx->txt[txt_askreplay])) {
+			saveReplayMenu(gfx, &(game->replay));
+			drawBg( gfx->gameBg, 0,0, gblOps.w, gblOps.h);
+			drawScore(gfx, game, time);
+		}
+		drawGame(gfx, game);
 	}
 	if (newrec) {
 		Mix_PlayChannel(-1, gfx->grecord, 0);
 		if (yesNoQuestion(gfx, game, gfx->txt[txt_newhsc])) {
 			return TRUE;
 		}
+		drawGame(gfx, game);
 		drawRecords(gfx,gblOps.records);
 		pressAnyKey();
 		return FALSE;
@@ -471,9 +489,6 @@ int yesNoQuestion(data_t* gfx, game_t* game, char* text)
 		}
 		SDL_WaitEvent(NULL);
 	}
-	
-	recoverScr( gfx, game, x-BLOCKSIZE-gfx->gameX, y-BLOCKSIZE/2-gfx->gameY,
-				w+2*BLOCKSIZE, h);
 	
 	return ret;
 }
@@ -532,10 +547,6 @@ int updateGame(game_t* game, data_t* gfx, float ms)
 	
     float fact = ms/DELAY;
     
-    for (i=0; i<game->numHeros; i++) {
-        undrawHero(i, gfx, game);   
-    }
-    
     if( game->T_speed < 5000 )
         game->T_speed += fact;
     else if( game->T_speed < 10000 )
@@ -549,10 +560,10 @@ int updateGame(game_t* game, data_t* gfx, float ms)
     if (gblOps.scrollMode == HARDSCROLL) {
         if( game->T_count > 20000 ){
             game->T_count -= 20000;
-            hardScrollUp(game,gfx);
+            hardScrollUp(game);
         }
     } else {
-        softScrollUp(game,gfx,1 / (20000 / game->T_speed / BLOCKSIZE) * fact);
+        softScrollUp(game, 1 / (20000 / game->T_speed / BLOCKSIZE) * fact);
     }
     
     for (i=0; i<game->numHeros; i++) {
@@ -573,7 +584,9 @@ int updateGame(game_t* game, data_t* gfx, float ms)
             done= FALSE;	
         }
     }
-
+	
+	drawGame(gfx,game);
+	
     return done;
 }
 
@@ -616,11 +629,9 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
     /* If we are too fast we should keep on rolling */
     if( hero->y < MINSKY ){
         if (gblOps.scrollMode == HARDSCROLL) {
-            hardScrollUp(game,gfx);
-            //hero->y += 16;
+            hardScrollUp(game);
         } else {
-            softScrollUp(game,gfx,MINSKY - hero->y);
-            //hero->y += MINSKY - hero->y;
+            softScrollUp(game, MINSKY - hero->y);
         }
         
         game->T_count = 0;
@@ -707,7 +718,6 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
     
     animateSpriteRot(&hero->sprite[hero->id],ms);
     
-    drawHero(gfx,hero);
     if (floor != 0) {
         hero->prevFloor = hero->floor;
         hero->floor = floor;
@@ -792,66 +802,34 @@ void rotateHero(hero_t* hero, float ms)
     }
 }
 
-
 void drawHero(data_t* gfx,hero_t* hero)
 {
     SDL_Rect dest;
-    
+
     /* In rotating surface, X and Y refer to the centre of the image */
     dest.x = hero->x+ gfx->gameX -(getFrameRot(&hero->sprite[hero->id],0)->w - HEROSIZE)/2
 		+ getFrameRot(&hero->sprite[hero->id],0)->w/2;
     dest.y = hero->y+ gfx->gameY -(getFrameRot(&hero->sprite[hero->id],0)->h - HEROSIZE)
 		+ getFrameRot(&hero->sprite[hero->id],0)->h/2;
+
     printSpriteRot(&hero->sprite[hero->id],NULL,&dest,hero->dir,hero->angle);
 }
 
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-
-void undrawHero(int heronum, data_t* gfx, game_t* game)
+void drawGame(data_t* gfx, game_t* game)
 {
-	int w = getFrameRot(&game->heros[heronum].sprite[game->heros[heronum].id],0)->w;
-	int h = getFrameRot(&game->heros[heronum].sprite[game->heros[heronum].id],0)->h;
-	int diag;
+	int i, y, x, width;
 	
-    diag = 2*MAX(w,h);
-    recoverScr( gfx, game,
-       	game->heros[heronum].x - (diag)/2 + BLOCKSIZE,
-        game->heros[heronum].y - (diag)/2 + BLOCKSIZE, 
-        diag, diag);
-}
+	drawBg( gfx->gameBg, gfx->gameX, gfx->gameY, BLOCKSIZE*GRIDWIDTH, BLOCKSIZE*GRIDHEIGHT);
 
-
-void recoverScr( data_t* gfx, game_t* game, int x, int y, int w, int h )
-{
-    SDL_Rect dest;
-    int x0 = x;
-    int y2,x2;
-    
-    y2 = (y+h-1) / BLOCKSIZE;
-    y = y/BLOCKSIZE -2;
-    
-    for( ; y <= y2 ; y++ ){
-        x2 = (x0+w-1) /BLOCKSIZE;
-        x = x0/BLOCKSIZE -1;
-        for (; x <= x2; x++) {
-            dest.x = x*BLOCKSIZE + gfx->gameX;
-            dest.y = y*BLOCKSIZE + gfx->gameY + game->scrollCount;
-            drawBg(gfx->gameBg,dest.x,dest.y,BLOCKSIZE, BLOCKSIZE);
-            
-            if (y > GRIDHEIGHT-1 || x < 1 || x > GRIDWIDTH-1)
-				continue;
-			
-            if (game->floor_l[(y+game->mapIndex)%GRIDHEIGHT] == x) {
-                JPB_PrintSurface(gfx->floorL,NULL,&dest);
-            } else if (x == game->floor_r[(y+game->mapIndex)%GRIDHEIGHT]) {
-                JPB_PrintSurface(gfx->floorR,NULL,&dest);
-            } else if (game->floor_l[(y+game->mapIndex)%GRIDHEIGHT] < x &&
-                x < game->floor_r[(y+game->mapIndex)%GRIDHEIGHT])
-            {
-                JPB_PrintSurface(gfx->floorC,NULL,&dest);
-            }
-        }
+    for( y = game->floorTop % 5 ; y < GRIDHEIGHT ; y += 5 ) {
+        x = game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ];
+        width = game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] -x+1;
+        if( y*BLOCKSIZE + game->scrollCount < (GRIDHEIGHT-1)*BLOCKSIZE)
+            drawFloor(gfx,x, y*BLOCKSIZE + game->scrollCount, width);
     }
+	
+	for (i = 0; i < game->numHeros; i++)
+		if (game->heros[i].y < BLOCKSIZE*GRIDHEIGHT-HEROSIZE) drawHero(gfx, &(game->heros[i]));
 }
 
 int isFloor(game_t* game, int x, int y)

@@ -77,6 +77,8 @@ typedef struct {
 	int bodysize;
 	int nframes;
 	int fps;
+	int totalms;
+	int record;
 	
 	int deadHero[MAX_PLAYERS];
 	int scrolls;
@@ -131,17 +133,17 @@ typedef struct game
     replay_t replay;
 } game_t;
 
-void softScrollUp(game_t* game, data_t* gfx, float scroll);
+void softScrollUp(game_t* game, float scroll);
 
 int drawBg(JPB_surface* surf, int x, int y, int w, int h);
 
 int drawFloor(data_t* gfx, int x, int y, int bw);
 
-void makeFloor(game_t* game, data_t* gfx, int y);
+void makeFloor(game_t* game, int y);
 
-void hardScrollUp(game_t* game, data_t* gfx);
+void hardScrollUp(game_t* game);
 
-void scrollGrid(game_t* game, data_t* gfx);
+void scrollGrid(game_t* game);
 
 void initGame(game_t* game, data_t* gfx, int numHeros);
 
@@ -163,13 +165,13 @@ int updateInput();
 
 void freeGame();
 
+void drawGame(data_t* gfx, game_t* game);
+
 void markHeroKeys(SDL_Event* event, hero_t* hero) ;
 
 void unmarkHeroKeys(SDL_Event* event, hero_t* hero);
 
 void initHeroKeys(hero_t* hero, int num);
-
-void recoverScr( data_t* gfx, game_t* game, int x, int y, int width, int height );
 
 int isFloor(game_t* game, int x, int y);
 
@@ -186,8 +188,6 @@ int updateHeroPosition ( game_t* game, int num , float fact);
 int updateGame(game_t* game, data_t* gfx, float ms);
 
 void drawHero(data_t* gfx,hero_t* hero);
-
-void undrawHero(int heronum, data_t* gfx, game_t* game);
 
 void initTimer(L_timer* time, int rate);
 
