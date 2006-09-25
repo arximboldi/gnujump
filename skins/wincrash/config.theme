@@ -103,33 +103,33 @@ g_blue = 195
 g_alpha = 128
 
 # Where the match grid starts
-game_x = 128
-game_y = 49
+game_x = -2
+game_y = 31
 
 # Timer
 timer_x = 596
 timer_y = 461
 
 # Postition of the score boards (remember: 4!)
-score_x = 74
-score_y = 239
-lives_x = 70
-lives_y = 260
+score_x = 575
+score_y = 69
+lives_x = 571
+lives_y = 90
 
-score_x = 74
-score_y = 289
-lives_x = 70
-lives_y = 310
+score_x = 575
+score_y = 119
+lives_x = 571
+lives_y = 140
 
-score_x = 74
-score_y = 339
-lives_x = 70
-lives_y = 360
+score_x = 575
+score_y = 169
+lives_x = 571
+lives_y = 190
 
-score_x = 74
-score_y = 389
-lives_x = 70
-lives_y = 410
+score_x = 575
+score_y = 219
+lives_x = 571
+lives_y = 240
 
 # The floor bricks
 floor_left   = "floorL.png"
