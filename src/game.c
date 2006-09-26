@@ -56,16 +56,19 @@ int drawFloor(data_t* gfx, int x, int y, int bw)
     rect.x = x*BLOCKSIZE + gfx->gameX;
     rect.y = y + gfx->gameY;
     src.x = src.y = 0;
-	src.w = GRIDWIDTH*BLOCKSIZE;
 	
-	src.h = ((gfx->gameY + (GRIDHEIGHT)*BLOCKSIZE) - rect.y);
+	src.w = gfx->floorL->w;
+	src.h = MIN(gfx->floorL->h,(gfx->gameY + (GRIDHEIGHT)*BLOCKSIZE) - rect.y);
     JPB_PrintSurface(gfx->floorL, &src, &rect);
       
     for (j = 1; j < bw-1; j++) {
+    	src.w = gfx->floorC->w;
+		src.h = MIN(gfx->floorC->h,(gfx->gameY + (GRIDHEIGHT)*BLOCKSIZE) - rect.y);
         rect.x = j*BLOCKSIZE + x*BLOCKSIZE + gfx->gameX;
         JPB_PrintSurface(gfx->floorC, &src, &rect);
     }
-    
+	src.w = gfx->floorR->w;
+	src.h = MIN(gfx->floorR->h,(gfx->gameY + (GRIDHEIGHT)*BLOCKSIZE) - rect.y);
     rect.x = j*BLOCKSIZE + x*BLOCKSIZE + gfx->gameX + BLOCKSIZE - gfx->floorR->w;
     JPB_PrintSurface(gfx->floorR, &src, &rect);
     

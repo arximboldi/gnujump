@@ -32,6 +32,7 @@
 #include "game.h"
 #include "menu.h"
 #include "records.h"
+#include "replay.h"
 
 SDL_Surface * screen = NULL;
 L_gblOptions gblOps;
@@ -40,7 +41,7 @@ void displayHelp();
 
 void displayInfo();
 
-int parseArgs(int argc, char *argv[]);
+int parseArgs(int argc, char *argv[], char** replay);
 
 int main(int argc, char *argv[])
 {
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
 	char* cfgFile;
 	char* hscFile;
     char* homeDir;
+    char* replay = NULL;
     
     /* Get the config file name */
 #ifndef WIN32 
@@ -73,7 +75,7 @@ int main(int argc, char *argv[])
 	}
     
     /* Parse args */
-    if (parseArgs(argc, argv)) {
+    if (parseArgs(argc, argv, &replay)) {
         return 1;
     }
     
@@ -85,7 +87,10 @@ int main(int argc, char *argv[])
 		return 1;
 	
 	//gblOps.fps = 20;
-    mainMenu(&gfxdata);
+	if (replay != NULL)
+		loadReplay(&gfxdata, replay);
+    else
+		mainMenu(&gfxdata);
     
     writeConfigFile(cfgFile);
 	writeRecords(hscFile, gblOps.records);
@@ -112,7 +117,7 @@ void displayHelp()
     printf(
     "\n SDLjump, an xjump clone. By Juan Pedro Bolivar Puente.\n"
     " This software can be redistributed and modified under the terms of the GPL.\n\n"
-    " usage: sdljump [THEME_DIR] [OPTIONS] \n"
+    " usage: sdljump [REPLAY_FILE] [OPTIONS] \n"
     " availible options:\n"
     " -w <int>  --width <int>   Forces the screen width to <int> units.\n"
     " -h <int>  --height <int>  Forces the screen height to <int> units.\n"
@@ -123,7 +128,7 @@ void displayHelp()
     " -a        --antialias     Force antialiasing for rotating sprites. \n"
     " -n        --no-aa         Disables antialiasing for rotating sprites. \n"
     " -?        --help          Displays this help screen.\n"
-    " \n Example: sdljump myTheme -o -f\n"
+    " \n Example: sdljump myRep.rep -o -f\n"
     );  
 }
 
@@ -151,10 +156,9 @@ void displayInfo()
     "along with SDLjump; if not, write to the Free Software\n"
     "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
     );
-    printf("\n Data Folder: %s\n", gblOps.dataDir);
 }
 
-int parseArgs(int argc, char *argv[])
+int parseArgs(int argc, char *argv[], char** replay)
 {
     int i;
     for (i=1; i<argc; i++) {
@@ -229,10 +233,10 @@ int parseArgs(int argc, char *argv[])
                     return 1;
                 }
             }
-        } else { /* data folder */
-            free(gblOps.dataDir);
-            gblOps.dataDir = malloc((strlen(argv[i])+1)*sizeof(char));
-            strcpy(gblOps.dataDir, argv[i]);
+        } else { /* Replay */
+			if (*replay != NULL) free(*replay);
+            *replay = malloc((strlen(argv[i])+1)*sizeof(char));
+            strcpy(*replay, argv[i]);
         }
     }
     

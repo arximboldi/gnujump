@@ -398,7 +398,7 @@ void drawMenuTOption(data_t* gfx,  int opt, int offset, opt_t* option, int alpha
 		SFont_WriteMaxWidth (gfx->menufont, rect.x + gfx->mMargin, rect.y, rect.w-gfx->mMargin, gfx->mAlign, "...", option->caption);	
 	else {
 		SFont_WriteMaxWidth (gfx->menufont, rect.x + gfx->mMargin, rect.y, rect.w-gfx->mMargin, ALEFT, "...", option->caption);
-		capwidth = SFont_TextWidth(gfx->menufont, option->caption);
+		capwidth = SFont_TextWidth(gfx->menufont, option->caption) + gfx->mMargin;
 		if ((option->flags & MB_INPUT) == MB_INPUT)
 			SFont_WriteMaxWidth (gfx->menufont, rect.x + capwidth, rect.y, rect.w -gfx->mMargin-capwidth, ARIGHT,"...", *((char**)(option->data)));
 		else if ((option->flags & MB_KEYDEF) == MB_KEYDEF)
@@ -956,7 +956,7 @@ void gfxOptionsMenu(data_t* gfx)
     			   gfx->opt[opt_on]);
     		   
     addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
-       
+
     while(!done) {
 		switch (playMenuT(gfx, &menu)) {
 			case 0:
