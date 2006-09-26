@@ -48,13 +48,21 @@ AM_PROG_LIBTOOL
 
 AC_OUTPUT(Makefile 
 		src/Makefile
+		lang/Makefile
+		sound/Makefile
 		skins/Makefile
 		skins/default/Makefile
+		skins/default/cursor/Makefile
 		skins/xjump/Makefile
 		skins/auri/Makefile
 		skins/auri/heroanim1/Makefile
 		skins/auri/heroanim2/Makefile
 		skins/auri/heroanim3/Makefile
 		skins/auri/heroanim4/Makefile
+		skins/wincrash/Makefile
+		skins/wincrash/heroanim1/Makefile
+		skins/wincrash/heroanim2/Makefile
+		skins/wincrash/heroanim3/Makefile
+		skins/wincrash/heroanim4/Makefile
 )
 

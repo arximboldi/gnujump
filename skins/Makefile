@@ -173,7 +173,7 @@ target_alias =
 target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
-SUBDIRS = auri default xjump
+SUBDIRS = auri default xjump wincrash
 all: all-recursive
 
 .SUFFIXES:

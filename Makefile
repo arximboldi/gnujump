@@ -197,7 +197,7 @@ target_alias =
 target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
-SUBDIRS = src skins
+SUBDIRS = src skins lang sound
 man_MANS = sdljump.6
 EXTRA_DIST = $(man_MANS)
 all: config.h

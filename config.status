@@ -288,7 +288,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile src/Makefile skins/Makefile skins/default/Makefile skins/xjump/Makefile skins/auri/Makefile skins/auri/heroanim1/Makefile skins/auri/heroanim2/Makefile skins/auri/heroanim3/Makefile skins/auri/heroanim4/Makefile"
+config_files=" Makefile src/Makefile lang/Makefile sound/Makefile skins/Makefile skins/default/Makefile skins/default/cursor/Makefile skins/xjump/Makefile skins/auri/Makefile skins/auri/heroanim1/Makefile skins/auri/heroanim2/Makefile skins/auri/heroanim3/Makefile skins/auri/heroanim4/Makefile skins/wincrash/Makefile skins/wincrash/heroanim1/Makefile skins/wincrash/heroanim2/Makefile skins/wincrash/heroanim3/Makefile skins/wincrash/heroanim4/Makefile"
 config_headers=" config.h"
 config_commands=" depfiles"
 
@@ -425,14 +425,22 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "lang/Makefile") CONFIG_FILES="$CONFIG_FILES lang/Makefile" ;;
+    "sound/Makefile") CONFIG_FILES="$CONFIG_FILES sound/Makefile" ;;
     "skins/Makefile") CONFIG_FILES="$CONFIG_FILES skins/Makefile" ;;
     "skins/default/Makefile") CONFIG_FILES="$CONFIG_FILES skins/default/Makefile" ;;
+    "skins/default/cursor/Makefile") CONFIG_FILES="$CONFIG_FILES skins/default/cursor/Makefile" ;;
     "skins/xjump/Makefile") CONFIG_FILES="$CONFIG_FILES skins/xjump/Makefile" ;;
     "skins/auri/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/Makefile" ;;
     "skins/auri/heroanim1/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/heroanim1/Makefile" ;;
     "skins/auri/heroanim2/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/heroanim2/Makefile" ;;
     "skins/auri/heroanim3/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/heroanim3/Makefile" ;;
     "skins/auri/heroanim4/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/heroanim4/Makefile" ;;
+    "skins/wincrash/Makefile") CONFIG_FILES="$CONFIG_FILES skins/wincrash/Makefile" ;;
+    "skins/wincrash/heroanim1/Makefile") CONFIG_FILES="$CONFIG_FILES skins/wincrash/heroanim1/Makefile" ;;
+    "skins/wincrash/heroanim2/Makefile") CONFIG_FILES="$CONFIG_FILES skins/wincrash/heroanim2/Makefile" ;;
+    "skins/wincrash/heroanim3/Makefile") CONFIG_FILES="$CONFIG_FILES skins/wincrash/heroanim3/Makefile" ;;
+    "skins/wincrash/heroanim4/Makefile") CONFIG_FILES="$CONFIG_FILES skins/wincrash/heroanim4/Makefile" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

@@ -66,17 +66,17 @@ void initGblOps(void)
 
 	/* Setting up the Default skin as skin and English as the default lang. */
 #ifdef WIN32
-	gblOps.dataDir  = malloc(sizeof(char)* (strlen("skins/")+strlen(DEFOLDER)+1));
-    sprintf(gblOps.dataDir, "skins/%s",DEFOLDER);
+	gblOps.dataDir  = malloc(sizeof(char)* (strlen("skins/")+strlen(DEFTHEME)+1));
+    sprintf(gblOps.dataDir, "skins/%s",DEFTHEME);
     gblOps.langFile = malloc(sizeof(char)* (strlen(DEFLANG)+1));
-    sprintf(gblOps.langFile, "%s", DEFLANG);
+    sprintf(gblOps.langFile, "%s", DEFTHEME);
 	gblOps.repDir = malloc(sizeof(char)* (strlen(".")+1));
     sprintf(gblOps.repDir, ".");
 #else
 	gblOps.repDir = malloc(sizeof(char)* (strlen(cfgDir)+1));
     sprintf(gblOps.repDir, "%s", cfgDir);
   #ifndef DEVEL
-    gblOps.dataDir  = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen("/skins/") + strlen(DEFOLDER)+2));
+    gblOps.dataDir  = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen("/skins/") + strlen(DEFTHEME)+2));
     gblOps.langFile = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen(DEFLANG)+3));
     sprintf(gblOps.dataDir, "%s/%s/skins/%s",DATA_PREFIX,PACKAGE,DEFTHEME);
     sprintf(gblOps.langFile, "%s/%s/%s", DATA_PREFIX,PACKAGE,DEFLANG);

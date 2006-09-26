@@ -2,7 +2,7 @@
 # have all needed files, that a GNU package needs
 #AUTOMAKE_OPTIONS = foreign 1.4
 
-SUBDIRS = src skins
+SUBDIRS = src skins lang sound
 
 man_MANS = sdljump.6
 

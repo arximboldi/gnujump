@@ -36,7 +36,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = skins/auri/heroanim3
+subdir = skins/wincrash/heroanim3
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -58,7 +58,7 @@ am__installdirs = "$(DESTDIR)$(pkgdatadir)"
 pkgdataDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-pkgdatadir = $(datadir)/@PACKAGE@/skins/auri/heroanim3
+pkgdatadir = $(datadir)/@PACKAGE@/skins/wincrash/heroanim3
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
@@ -174,7 +174,7 @@ target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
-pkgdata_DATA = $(wildcard *.png *.anim)
+pkgdata_DATA = $(wildcard *.png *.anim *.xpm)
 EXTRA_DIST = $(pkgdata_DATA)
 all: all-am
 
@@ -188,9 +188,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  skins/auri/heroanim3/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  skins/wincrash/heroanim3/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  skins/auri/heroanim3/Makefile
+	  $(AUTOMAKE) --gnu  skins/wincrash/heroanim3/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
