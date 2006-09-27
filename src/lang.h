@@ -39,6 +39,7 @@ enum {
 	txt_floor, 
 	txt_mode,
 	txt_time,
+	txt_date,
 	txt_hscnote,
 	txt_newhsc,
 	txt_gameover,

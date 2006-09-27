@@ -389,6 +389,8 @@ void EngineInit()
 		fprintf(stderr, "ERROR: Mix_OpenAudio: %s\n", Mix_GetError());
 		//exit(2);
 	}
+	
+	resetVolumes();
 }
 
 void setWindow()
@@ -830,6 +832,7 @@ int loadLanguage(data_t* data, char* fname)
 	data->txt[txt_floor] = getValue_charp(fh, "txt_floor");
 	data->txt[txt_mode] = getValue_charp(fh, "txt_mode");
 	data->txt[txt_time] = getValue_charp(fh, "txt_time");
+	data->txt[txt_date] = getValue_charp(fh, "txt_date");
 	data->txt[txt_hscnote] = getValue_charp(fh, "txt_hscnote");
 	data->txt[txt_newhsc] = getValue_charp(fh, "txt_newhsc");
 	data->txt[txt_gameover] = getValue_charp(fh, "txt_gameover");

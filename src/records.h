@@ -38,7 +38,7 @@ int writeRecords(char* fname, records_t* rec);
 
 int addRecord(records_t* rtab, records_t* rec, int pos);
 
-int checkRecord (records_t* rtab, int floor);
+int checkRecord (records_t* rtab, int floor, int time);
 
 void makeRecord(records_t* rec, char* name, int floor, int time);
 

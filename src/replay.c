@@ -344,6 +344,9 @@ void fputUint32(Uint32 data, FILE* fh)
 int saveReplay(replay_t* rep, char* fname, char* comment)
 {
 	char* fullname = NULL;
+	char  date[64];
+	time_t timt;
+	struct tm* tims;
 	FILE* fh = NULL;
 	int i;
 	
@@ -356,9 +359,15 @@ int saveReplay(replay_t* rep, char* fname, char* comment)
 		return FALSE;
 	}
 	
+	timt = time(0);
+	tims = localtime(&timt);
+	strftime(date, 64, "%H:%M %d/%m/%y", tims);
+	
 	/* Header */
 	fputUint32(REP_VERS, fh);
 	fputs(comment, fh);
+	fputs(" // ", fh);
+	fputs(date, fh);
 	fputc('\0',fh);
 	fputUint32(rep->record, fh);
 	fputUint32(rep->totalms, fh);

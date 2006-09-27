@@ -47,6 +47,7 @@ int loadRecords(char* fname, records_t* rtab)
 		rtab[i].floor = getValue_int(fh,"floor");
 		rtab[i].mode = getValue_charp(fh,"mode");
 		rtab[i].time = getValue_int(fh,"time");
+		getValue_str(fh,"date",rtab[i].date, NULL);
 	}
 	
 	fclose(fh);
@@ -71,6 +72,7 @@ int writeRecords(char* fname, records_t* rtab)
 		putValue_int(fh, "floor", rtab[i].floor);
 		putValue_str(fh, "mode", rtab[i].mode);
 		putValue_int(fh, "time", rtab[i].time);
+		putValue_str(fh, "date", rtab[i].date);
 		putLine(fh);
 	}
 	
@@ -94,19 +96,27 @@ int addRecord(records_t* rtab, records_t* rec, int pos)
 	return FALSE;
 }
 
-int checkRecord (records_t* rtab, int floor)
+int checkRecord (records_t* rtab, int floor, int time)
 {
 	int i;
 	for (i=0; i<MAX_RECORDS; i++) {
-		if (rtab[i].floor <= floor) {
+		if (rtab[i].floor < floor) {
 			return i+1;
+		}
+		if (rtab[i].floor == floor) {
+			if (time <= rtab[i].time)
+				return i+1;
+			else return i+2;
 		}
 	}
     return FALSE;	
 }
 
-void makeRecord(records_t* rec, char* name, int floor, int time)
+void makeRecord(records_t* rec, char* name, int floor, int len)
 {
+	struct tm* tims;
+	time_t timt;
+	
 	rec->pname = NULL;
 	rec->pname = malloc(sizeof(char)*(strlen(name)+1));
 	strcpy(rec->pname, name);
@@ -114,7 +124,7 @@ void makeRecord(records_t* rec, char* name, int floor, int time)
 	
 	rec->mode = NULL;
 	rec->mode = malloc(sizeof(char)*4);
-	if (gblOps.fps == 40) {
+	if (gblOps.fps == FPS40) {
 		rec->mode[0] = 'x';
 	} else
 		rec->mode[0] = 's';
@@ -143,7 +153,11 @@ void makeRecord(records_t* rec, char* name, int floor, int time)
 	}
 	rec->mode[3] = '\0';
 	
-	rec->time = time;
+	rec->time = len;
+	
+	timt = time(0);
+	tims = localtime(&timt);
+	strftime(rec->date, 64, "%H:%M %d/%m/%y", tims);
 }
 
 void defaultRecords(records_t* rtab)

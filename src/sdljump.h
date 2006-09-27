@@ -67,7 +67,7 @@
 /* Config, theme and language files format version */
 #define PROT_VERS "03"
 #define THEME_VERS "02" 
-#define SOUND_VERS "01" 
+#define SOUND_VERS "01"
 #define LANG_VERS  "01"
 #define REP_VERS 3
 
@@ -205,6 +205,7 @@ typedef struct
 	int floor;
 	char* mode;
 	int time;
+	char date[64];
 } records_t;
 
 /*

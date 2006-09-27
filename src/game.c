@@ -306,7 +306,6 @@ void updateScore(data_t* gfx, game_t* game, Uint32 currtime)
 int playGame(data_t* gfx, int numHeros)
 {
     L_timer timer;
-	time_t start, end;
     game_t game;
 	int done = FALSE;
 	int r;
@@ -318,7 +317,6 @@ int playGame(data_t* gfx, int numHeros)
 	initTimer(&timer, getFps());
     FlipScreen();
 	
-	start = time(NULL);
 	updateTimer(&timer);
     while(!done) {
 		if ((r = updateInput(&game))) {
@@ -341,9 +339,8 @@ int playGame(data_t* gfx, int numHeros)
         FlipScreen(); /* Apply changes to the screen */
     }
 	if (done == ENDMATCH) {
-		end = time(NULL);
 		if (gblOps.recReplay) endReplay(&game, timer.totalms);
-		r = endMatch(gfx, &game, difftime(end,start));
+		r = endMatch(gfx, &game, timer.totalms/1000);
 	} else {
 		r = FALSE;
 	}
@@ -430,7 +427,7 @@ int endMatch(data_t* gfx, game_t* game, int time)
 	if (game->numHeros > 1) fact = gblOps.mpLives; else fact = 1;
 	
 	for (i = 0; i < game->numHeros; i++) {
-		if ((r = checkRecord(gblOps.records, game->heros[i].floor/fact))) {
+		if ((r = checkRecord(gblOps.records, game->heros[i].floor/fact, time))) {
 			makeRecord(&rec, gblOps.pname[i], game->heros[i].floor/fact, time);
 			addRecord(gblOps.records, &rec, r); 
 			newrec = TRUE;
@@ -484,7 +481,7 @@ int yesNoQuestion(data_t* gfx, game_t* game, char* text)
 					event.key.keysym.sym == SDLK_n){
 					ret = FALSE;
 					done = TRUE;
-				} else if ( event.key.keysym.sym == SDLK_y ) {
+				} else if ( event.key.keysym.sym == SDLK_y || event.key.keysym.sym == SDLK_RETURN) {
 					ret = TRUE;
 					done = TRUE;
 				}
@@ -923,7 +920,7 @@ void unmarkHeroKeys(SDL_Event* event, hero_t* hero)
 
 void drawRecords(data_t* gfx, records_t* rtab)
 {
-	int x, x1, x2, x3, x4, x5, y, w, h, i;
+	int x, x1, x2, x3, x4, x5, x6, y, w, h, i;
 	char buf[128];
 	
 	x = gfx->gameX + 2*BLOCKSIZE;
@@ -935,21 +932,24 @@ void drawRecords(data_t* gfx, records_t* rtab)
 	JPB_PrintSurface(gfx->gameBg, NULL, NULL);
 	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
 	/*
-	 x1:#  x2:Name                                x3:Floor x4:Mode x5:Time
+	 x1:#  x2:Name                       x3:Floor x4:Mode x5:Time x6: Date
 	 ---------------------------------------------------------------------
 	*/
 	y += BLOCKSIZE;
 	
 	x1 = x + BLOCKSIZE;
 	x2 = x1 + SFont_TextWidth(gfx->textfont, "#   ");
-	sprintf(buf, "%s %s %s", gfx->txt[txt_floor], gfx->txt[txt_mode], gfx->txt[txt_time]);
+	sprintf(buf, "%s %s %s %s", gfx->txt[txt_floor], gfx->txt[txt_mode], gfx->txt[txt_time], rtab[0].date);
 	x3 = x1 + w - 2*BLOCKSIZE - SFont_TextWidth(gfx->textfont, buf);
+	sprintf(buf, "%s %s %s %s", gfx->txt[txt_floor], gfx->txt[txt_mode], gfx->txt[txt_time], gfx->txt[txt_date]);
 	SFont_Write(gfx->textfont, x3, y, buf);
 	
 	sprintf(buf,"%s ", gfx->txt[txt_floor]);
 	x4 = x3 + SFont_TextWidth(gfx->textfont, buf);
 	sprintf(buf,"%s ", gfx->txt[txt_mode]);
 	x5 = x4 + SFont_TextWidth(gfx->textfont, buf);
+	sprintf(buf,"%s ", gfx->txt[txt_time]);
+	x6 = x5 + SFont_TextWidth(gfx->textfont, buf);
 	
 	sprintf(buf,"#  %s ", gfx->txt[txt_name]);
 	SFont_Write(gfx->textfont, x1, y, buf);
@@ -972,6 +972,9 @@ void drawRecords(data_t* gfx, records_t* rtab)
 		
 		sprintf(buf,"%d", rtab[i].time);
 		SFont_Write(gfx->textfont, x5, y, buf);
+		
+		sprintf(buf,"%s", rtab[i].date);
+		SFont_Write(gfx->textfont, x6, y, buf);
 	}
 	y += gfx->textfont->Surface->h*2;
 	SFont_WriteAligned(gfx->textfont, x1, y, w-2*BLOCKSIZE,

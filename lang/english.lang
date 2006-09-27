@@ -16,6 +16,7 @@ txt_name = "Name"
 txt_floor = "Floor"
 txt_mode = "Mode"
 txt_time = "Time"
+txt_date = "Date"
 
 txt_hscnote = "Press any key to continue. Read the README or the 'man' page to learn the meaning of the 'mode' column."
 txt_newhsc = "Congratulations! You have made a new high score. Do you want to play again? (Y/n)"
