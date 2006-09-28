@@ -693,7 +693,8 @@ void mainMenu(data_t* gfx)
 				optionsMenu(gfx);
 				break;
 			case 2:
-				drawRecords(gfx,gblOps.records);
+				JPB_PrintSurface(gfx->gameBg, NULL, NULL);
+				drawRecords(gfx,gblOps.records, -1);
 				pressAnyKey();
 				break;
 			case 3:
@@ -997,10 +998,10 @@ void viewReplayMenu(data_t* gfx)
 	int r;
 	int done = FALSE;
 	
-	for (i=0; i < gblOps.nlfolders; i++) {
-		n = getFileList(gblOps.langDirs[i], &buf);
+	for (i=0; i < gblOps.nrfolders; i++) {
+		n = getFileList(gblOps.repDirs[i], &buf);
 		sumStringTabs(&dirs, nf, buf, n);
-		nf = sumStringTabs_Cat(&fullpaths, nf, buf, n, gblOps.langDirs[i]);
+		nf = sumStringTabs_Cat(&fullpaths, nf, buf, n, gblOps.repDirs[i]);
 		free(buf);
 		buf = NULL;
 	}

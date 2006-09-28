@@ -344,7 +344,7 @@ void fputUint32(Uint32 data, FILE* fh)
 int saveReplay(replay_t* rep, char* fname, char* comment)
 {
 	char* fullname = NULL;
-	char  date[64];
+	char  buf[64];
 	time_t timt;
 	struct tm* tims;
 	FILE* fh = NULL;
@@ -361,14 +361,25 @@ int saveReplay(replay_t* rep, char* fname, char* comment)
 	
 	timt = time(0);
 	tims = localtime(&timt);
-	strftime(date, 64, "%H:%M %d/%m/%y", tims);
 	
 	/* Header */
 	fputUint32(REP_VERS, fh);
+	
+	/* Comment */
 	fputs(comment, fh);
-	fputs(" // ", fh);
-	fputs(date, fh);
+	sprintf(buf, "Floor: %d", rep->record);
+	fputs(" | ", fh);
+	fputs(buf, fh);
+	sprintf(buf, "Time: %d", rep->totalms/1000);
+	fputs(" | ", fh);
+	fputs(buf, fh);
+	strftime(buf, 64, "%H:%M %d/%m/%y", tims);
+	fputs(" | ", fh);
+	fputs(buf, fh);
+	
 	fputc('\0',fh);
+	
+	/* The rest of the header */
 	fputUint32(rep->record, fh);
 	fputUint32(rep->totalms, fh);
 	fputUint32(rep->fps, fh);
@@ -447,13 +458,13 @@ char* getReplayComment(char* file)
 	int i;
 	
 	if ((fh = fopen(file,"rb")) == NULL) {
-		fprintf(stderr, "ERROR: Could not open replay %s\n", file);
+		fprintf(stderr, "WARNING: Could not open replay %s\n", file);
 		return NULL;
 	}
 	
 	version = fgetUint32(fh);
 	if (version != REP_VERS) {
-		fprintf(stderr, "ERROR: Replay %s is of a different version.\n", file);
+		fprintf(stderr, "WARNING: Replay %s is of a different version.\n", file);
 		return NULL;
 	}
 	

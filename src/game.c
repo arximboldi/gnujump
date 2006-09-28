@@ -421,7 +421,7 @@ int pauseGame(data_t* gfx, game_t* game,  char* text)
 int endMatch(data_t* gfx, game_t* game, int time)
 {
 	int i;
-	int r, fact, newrec = FALSE;
+	int r, bstrec = 0, fact, newrec = FALSE;
 	records_t rec;
 	
 	if (game->numHeros > 1) fact = gblOps.mpLives; else fact = 1;
@@ -430,6 +430,9 @@ int endMatch(data_t* gfx, game_t* game, int time)
 		if ((r = checkRecord(gblOps.records, game->heros[i].floor/fact, time))) {
 			makeRecord(&rec, gblOps.pname[i], game->heros[i].floor/fact, time);
 			addRecord(gblOps.records, &rec, r); 
+			bstrec = MIN(r,bstrec);
+			if (bstrec == 0) bstrec = r;
+			
 			newrec = TRUE;
 		}
 	}
@@ -447,7 +450,7 @@ int endMatch(data_t* gfx, game_t* game, int time)
 			return TRUE;
 		}
 		drawGame(gfx, game);
-		drawRecords(gfx,gblOps.records);
+		drawRecords(gfx,gblOps.records, bstrec-1);
 		pressAnyKey();
 		return FALSE;
 	} else {
@@ -918,7 +921,7 @@ void unmarkHeroKeys(SDL_Event* event, hero_t* hero)
     }
 }
 
-void drawRecords(data_t* gfx, records_t* rtab)
+void drawRecords(data_t* gfx, records_t* rtab, int hl)
 {
 	int x, x1, x2, x3, x4, x5, x6, y, w, h, i;
 	char buf[128];
@@ -929,7 +932,6 @@ void drawRecords(data_t* gfx, records_t* rtab)
 	    + SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,0,gfx->txt[txt_hscnote]);
 	y = gfx->gameY + (GRIDHEIGHT*BLOCKSIZE - h)/2;
 	
-	JPB_PrintSurface(gfx->gameBg, NULL, NULL);
 	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
 	/*
 	 x1:#  x2:Name                       x3:Floor x4:Mode x5:Time x6: Date
@@ -956,6 +958,11 @@ void drawRecords(data_t* gfx, records_t* rtab)
 	
 	for (i = 0; i < MAX_RECORDS; i++) {
 		y += gfx->textfont->Surface->h-1;
+		
+		if (hl == i) {
+			sprintf(buf,">");
+			SFont_Write(gfx->textfont, x1-SFont_TextWidth(gfx->textfont, buf), y, buf);
+		}
 		
 		sprintf(buf,"%d", i+1);
 		SFont_Write(gfx->textfont, x1, y, buf);

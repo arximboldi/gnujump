@@ -101,6 +101,8 @@ void initGblOps(void)
 	strcpy(gblOps.themeDirs[0],"skins");
 	gblOps.langDirs[0] = malloc(sizeof(char) * (strlen("lang")+1));
 	strcpy(gblOps.langDirs[0],"lang");
+	gblOps.repDirs[0] = malloc(sizeof(char) * (strlen(".")+1));
+	strcpy(gblOps.repDirs[0],".");
 #else
 	gblOps.ntfolders = 2;
     gblOps.nlfolders = 2;
@@ -378,19 +380,17 @@ char* getLangComment(char* fname)
 void EngineInit()
 {	
     //Everything starts!!
-    if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) <0 ) {
+    if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 ) {
         fprintf(stderr, "ERROR: SDL_Init did not work because: %s\n", SDL_GetError());
     	exit(2);
     }
     
 	atexit(SDL_Quit); //this avoids exiting without ending 
         
-    if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
+    if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
 		fprintf(stderr, "ERROR: Mix_OpenAudio: %s\n", Mix_GetError());
-		//exit(2);
-	}
-	
-	resetVolumes();
+	else	
+		resetVolumes();
 }
 
 void setWindow()

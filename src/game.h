@@ -197,6 +197,6 @@ void rotateHero(hero_t* hero, float ms);
 
 void updateScore(data_t* gfx, game_t* game, Uint32 currtime);
 
-void drawRecords(data_t* gfx, records_t* rtab);
+void drawRecords(data_t* gfx, records_t* rtab, int hl);
 
 #endif //_GAME_H_

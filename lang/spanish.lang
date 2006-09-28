@@ -18,7 +18,7 @@ txt_mode = "Modo"
 txt_time = "Tiempo"
 txt_date = "Fecha"
 
-txt_hscnote = "Presione cualquier tecla para continuar. Lea el README o la página 'man' para entender el significado de la columna 'modo'."
+txt_hscnote = "Presione cualquier tecla para continuar. Lea el README o la pagina 'man' para entender el significado de la columna 'modo'."
 txt_newhsc = "Enhorabuena! Has hecho un nuevo record! Quieres jugar otra vez? (Y/n)"
 txt_gameover = "Todos los jugadores han perecido. Quieres jugar otra vez? (Y/n)."
 txt_askquit = "Estas seguro de que quieres acabar esta partida? (Y/n)"

@@ -97,10 +97,10 @@ timer_font = "win.png"
 game_font = "win.png"
 
 # Un-game text square color 
-g_red = 195
-g_green = 195
-g_blue = 195
-g_alpha = 128
+g_red = 192
+g_green = 192
+g_blue = 192
+g_alpha = 255
 
 # Where the match grid starts
 game_x = -2
