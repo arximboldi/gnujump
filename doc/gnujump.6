@@ -1,0 +1,99 @@
+.TH GNUJUMP 6
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.SH NAME
+GNUjump \- a xjump clone
+.SH SYNOPSIS
+.B sdljump
+[ REPLAY ] [ OPTIONS ]
+.br
+.B sdljump
+[ --help ]
+.SH "DESCRIPTION"
+.B GNUjump
+GNUjump is part of the GNU project.
+
+GNUjump is a clone of the simple yet addictive game Xjump, adding new features
+like multiplaying, unlimited FPS, smooth floor falling, themable graphics etc...
+
+The goal in this game is to jump to the next floor so you don't fall down. As
+you go upper in the Falling Tower the floors will fall faster. Try to survive
+longer than anyone.
+
+To make the multiplayer games last longer, you can choose to have more than one
+live, but the final result will be divided by the number of lives consumed.
+
+.SH OPTIONS
+If you give a replay file as an argument, the program will play it and quit.
+.TP
+.BI \-w\  screenwidth ,\ \-\-width\  screenwidth
+Forces the screen width to screenwidth units.
+.TP
+.BI \-h\  screenheigth ,\ \-\-heigth\  screenheigth
+Forces the screen height to screenheigth units.
+.TP
+.BI \-b\  bitsperpixel ,\ \-\-bpp\  bitsperpixel
+Sets the screen bitdepth to bitsperpixel. 
+.TP
+.BR \-f\ ,\ \-\-fullscreen
+Force fullscreen mode.
+.TP
+.BR \-s\ ,\ \-\-software
+Force software rendering.
+.TP
+.BR \-o\ ,\ \-\-opengl
+Force OpenGL rendering.
+.TP
+.BR \-a\ ,\ \-\-antialias
+Force antialiasing for rotating sprites. 
+.TP
+.BR \-n\ ,\ \-\-no\-aa
+Disables antialiasing for rotating sprites. 
+.TP
+.BR \-?\ ,\ \-\-help
+Displays the help screen.
+
+.SH "HIGHSCORES"
+
+The \fImode\fR tab in the Highscores might seem strange at first, but it is
+quite simple: it represents the Game Mode options set in that match. Each letter
+represents an option:
+
+1st Letter: The FPS limiter
+.RS
+s: GNUjump default - An arbitrary FPS limit.
+.RS
+.RE
+x: Xjump - 40 fps, the xjump default
+.RE
+
+2nd Letter: The player rotation
+.RS
+s: GNUjump default - full rotation.
+.RS
+.RE
+x: Xjump rotation mode
+.RS
+.RE
+n: No rotation
+.RE
+
+3rd Letter: The falling floors scroll mode.
+.RS
+s: GNUjump default - Soft
+.RS
+.RE
+x: Xjump - Hard
+
+.SH "COPYRIGHT"
+ Copyright (C) 2005
+ Juan Pedro Bol�ar Puente <magnicida@gmail.com>
+.PP
+This is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2, or (at your option) any later
+version without ANY WARRANTIES.
+.SH "AUTHOR"
+.B GNUjump
+was written by Juan Pedro Bol�ar Puente <magnicida@gmail.com>
+

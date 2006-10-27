@@ -1,0 +1,79 @@
+
+GNUjump by Juan Pedro Bolivar Puente
+====================================
+GNUjump is part of the GNU project.
+
+This program tries to clone the great XJump game, while adding some nice
+features to it.
+
+You can distribute, copy and alter it in the terms of the GPL license. Read 
+COPYING for mor details.
+
+Installation
+============
+Extract the sources:
+
+tar xjvf gnujump-VERSION.tar.bz2
+
+And then run:
+
+./configure
+make
+make install
+
+For more compilation options: ./configure --help
+
+For a further explanation read INSTALL.
+
+Options
+=======
+To view the whole range of options availible run: ./gnujump --help
+
+Default Controls
+================
+These are the default controls:
+
+Plaryer 1:
+
+up	- up key
+left	- left key
+right	- right key
+
+Plaryer 2:
+
+up	- w key
+left	- a key
+right	- d key
+
+Plaryer 3:
+
+up	- i key
+left	- j key
+right	- l key
+
+Plaryer 4:
+
+up	- kp8 key
+left	- kp4 key
+right	- kp6 key
+
+The MODE tab in the High Scores screen
+======================================
+The "mode" tab in the Highscores might seem strange at first, but it is
+quite simple: it represents the Game Mode options set in that match. Each letter
+represents an option:
+
+1st Letter: The FPS limiter
+	's': GNUjump default - An arbitrary FPS limit.
+	'x': Xjump - 40 fps, the xjump default
+2nd Letter: The player rotation
+	's': GNUjump default - full rotation.
+	'x': Xjump rotation mode
+	'n': No rotation
+3rd Letter: The falling floors scroll mode.
+	's': GNUjump default - Soft
+	'x': Xjump - Hard
+
+	
+	
+
