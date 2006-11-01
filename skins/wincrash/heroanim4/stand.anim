@@ -1,0 +1,13 @@
+
+## This is the hero sprite of SDLjump
+## Make sure that the specified number of frames is correct
+
+frames = 4
+  pic = "heroanim4/4.xpm"
+  	time = 300
+  pic = "heroanim4/5.xpm"
+  	time = 100
+  pic = "heroanim4/6.xpm"
+  	time = 100
+  pic = "heroanim4/5.xpm"
+  	time = 100
