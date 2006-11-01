@@ -1,0 +1,168 @@
+## SDLjump lanugage file
+## =====================
+## Important:
+## - You can't alter the order in which these values are present.
+## - The string length can't be larger than 512 characters
+## - String variables must go between ""
+
+format = "01"
+
+comment = "Polski plik jezykowy"
+
+## TEXT
+
+txt_name = "Nazwa"
+txt_floor = "Pietro"
+txt_mode = "Tryb"
+txt_time = "Czas"
+txt_date = "Data"
+
+txt_hscnote = "Nacisnij jakis klawisz aby kontynuowac. Przeczytaj plik README lub strone 'man' aby dowiedziec sie co oznacza kolumna 'Tryb'."
+txt_newhsc = "Gratulacje! Dostales sie na liste najlepszych. Masz ochote zagrac raz jeszcze? (Y/n)"
+txt_gameover = "Zginales. Masz ochote sprobowac jeszcze raz? (Y/n)."
+txt_askquit = "Aby napewno chcesz zakonczyc te rozgrywke? (Y/n)"
+txt_askreplay = "Zapisac plik z nagraniem z tej rozgrywki? (Y/n)"
+txt_pause = "Pauza"
+
+txt_askquitrep = "Jestes pewny, ze chcesz zakonczyc ogladanie tego nagrania? (Y/n)"
+txt_askrepagain = "Moze masz ochote obejrzec to jeszcze raz? (Y/n)"
+
+## MENU
+
+msg_newgame = "Nowa Gra"
+msg_options = "Opcje"
+msg_highscores = "Lista Najlepszych"
+msg_replays = "Nagrania"
+msg_quit = "Wyjscie"
+
+msg_back = "Wstecz"
+
+msg_startgame = "Rozpocznij rozgrywke"
+msg_players = "Graczy:"
+msg_mplives = "zycia(tryb MP):"
+msg_recreplay = "Nagrywac:"
+msg_configplayers = "Dostosuj graczy"
+
+msg_player = "Gracz"
+msg_name = "Nazwa:"
+msg_leftkey = "W lewo:"
+msg_rightkey = "W prawo:"
+msg_jumpkey = "Skakanie:"
+
+msg_addthemefolder = "Dodaj"
+msg_deletefolder = "Usun"
+msg_editfolder = "Zmien"
+
+msg_themes = "Wybierz styl"
+msg_lang = "Wybierz jezyk"
+msg_gameoptions = "Opcje rozgrywki"
+msg_graphicoptions = "Opcje grafiki"
+msg_soundoptions = "Opcje dzwieku"
+msg_folders = "Katalogi"
+
+msg_themefolders = "Katalogi styli"
+msg_langfolders = "Katalogi jezykowe"
+msg_repfolders = "Katalogi nagraniowe"
+msg_repsavefolder = "Katalogi zapisu nagrania:"
+
+msg_fpslimit = "Limit FPS:"
+msg_jumpingrot = "Obrot:"
+msg_scrollmode = "Przewijanie:"
+
+msg_opengl = "OpenGL:"
+msg_bpp = "Glebia:"
+msg_fullscreen = "Pelny ekran:"
+msg_antialiasing = "Antialiasing:"
+
+msg_sndvolume = "Glosnosc dzwieku:"
+msg_musvolume = "Glosnosc muzyki:"
+
+msg_repname = "Nazwa pliku:"
+msg_repcomment = "Komentarz:"
+msg_repplay = "Odtwarzaj"
+msg_repsave = "Zapisz"
+
+msg_cancel = "Anuluj"
+
+
+## TIPS
+
+tip_newgame = "Rozpocznij nowa rozgrywke."
+tip_options = "Dostosuj opcje."
+tip_highscores = "Spojrz na rekordy graczy."
+tip_replays = "Zobacz nagrane rozgrywki."
+tip_quit = "Naprawde chcesz opusic ta wspaniala gre?"
+
+tip_back = "Zabierz mnie stad!"
+
+tip_startgame = "Rozpocznij rozgrywke."
+tip_players = "Wybierz ilosc graczy."
+tip_mplives = "Ustaw ilosc zyc gdy bedzie wlaczona gra w trybie wielu graczy."
+tip_recreplay = "Aktywuj ta opcje gdy zechcesz nagrywac kazda rozgrywke."
+tip_configplayers = "Ustaw klawisze, nazwy dla graczy..."
+
+tip_player = "Wybierz gracza, ktorego chcesz zmienic."
+tip_name = "Ustaw jakies oryginalne imie dla tego nygasa."
+tip_leftkey = "Nacisnij klawisz, ktorym bedziesz poruszal sie w lewo."
+tip_rightkey = "Nacisnij klawisz, ktorym bedziesz poruszal sie w prawo."
+tip_jumpkey = "Nacisnij klawisz, ktorym bedziesz skakal."
+
+tip_addthemefolder = "Dodaj katalog do listy."
+tip_themefolder = "Zobacz wiecej opcji tego folderu."
+tip_deletefolder = "Usun katalog z listy."
+tip_editfolder = "Zmien sciezke dostepu."
+tip_writefolder = "Zapisz pelna sciezke."
+
+tip_themes = "Zmien styl"
+tip_lang = "Zmien jezyk"
+tip_gameoptions = "Ustaw opcje dotyczace rozgrywek"
+tip_graphicoptions = "Zmien wyswietlanie"
+tip_soundoptions = "Edytuj opcje dotyczace dzwieku"
+tip_folders = "Zmien sciezki do folderow nagrywania, jezykowych..."
+
+tip_themefolders = "Zarzadzaj katalogami gdzie program bedzie szukal plikow ze stylami."
+tip_langfolders = "Zarzadzaj katalogami gdzie program bedzie szukal plikow jezykowych."
+tip_repfolders = "Zarzadzaj katalogami gdzie program bedzie szukal plikow z nagraniami."
+tip_repsavefolder = "Zmien katalog gdzie beda trzymane twoje nagrania."
+
+tip_fpslimit = "Oryginalny Xjump dzialal z 40 fps. Wiekszy FPS moze urozmaicic gre ale zmniejsz go jezeli nie chcesz uzywac 100% procesora"
+tip_jumpingrot = "Zmien jak gracze sie obracaja podczas gry."
+tip_scrollmode = "Jak wieza ma opadac"
+
+tip_opengl = "Uzywaj OpenGL jezeli masz karte 3D. W wiekszosci przypadkow polepsza to jakosc obrazu. Niektore efekty cieniowania sa mozliwe tylko w tym trybie."
+tip_bpp = "Ile kolorow chcesz widziec na ekranie. Z reguly auto jest najlepsza opcja, ale w na pelnym ekranie mniejsze wartosci moga polepszyc wydajnosc."
+tip_fullscreen = "Wybierz to czy chcesz grac w okienku czy wolisz jednak widziec opadajacego nygasa na pelnym ekranie!"
+tip_antialiasing = "Ta opcja moze polepszyc wyglad obracajacego sie nygasa gdy pelna rotacja jest wlaczona."
+
+tip_sndvolume = "Wybierz jak glosno chcesz slyszec jeki. 0 - wylaczone. 9 - max."
+tip_musvolume = "Wybierz jak glosno chcesz slyszec muzyczke. 0 - wylaczone. 9 - max."
+
+tip_repname = "Nazwij to nagranie."
+tip_repcomment = "Skomentuj to nagranie."
+tip_repplay = "Obejrzyc przed zapisaniem."
+tip_repsave = "Zapisz na dysku."
+
+tip_cancel = "Nie rob tego."
+
+## OPTIONS
+
+opt_40fps = "Xjump"
+opt_100fps = "100 fps"
+opt_300fps = "300 fps"
+opt_nolimit = "Bez limitu"
+
+opt_norot = "zaden"
+opt_orginalrot = "Xjump"
+opt_fullrot = "Pelny"
+
+opt_softscroll = "Miekko"
+opt_hardscroll = "Xjump"
+
+opt_8bpp = "8 bpp"
+opt_16bpp = "16 bpp"
+opt_24bpp = "24 bpp"
+opt_32bpp = "32 bpp"
+opt_autobpp = "Auto"
+
+opt_on = "Wlaczone"
+opt_off = "Wylaczone"

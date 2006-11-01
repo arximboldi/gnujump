@@ -1,0 +1,169 @@
+
+## GNUjump lanugage file
+## =====================
+## Important:
+## - You can't alter the order in which these values are present.
+## - The string length can't be larger than 512 characters
+## - String variables must go between ""
+
+format = "01"
+
+comment = "Englist language file"
+
+## TEXT
+
+txt_name = "Name"
+txt_floor = "Floor"
+txt_mode = "Mode"
+txt_time = "Time"
+txt_date = "Date"
+
+txt_hscnote = "Press any key to continue. Read the README or the 'man' page to learn the meaning of the 'mode' column."
+txt_newhsc = "Congratulations! You have made a new high score. Do you want to play again? (Y/n)"
+txt_gameover = "You all are dead. Do you want to play again? (Y/n)."
+txt_askquit = "Are you sure you want to end this match? (Y/n)"
+txt_askreplay = "Do you want to save the replay of this match? (Y/n)"
+txt_pause = "PAUSED"
+
+txt_askquitrep = "Are you sure you want to stop watching this replay? (Y/n)"
+txt_askrepagain = "Do you want to watch this replay again? (Y/n)"
+
+## MENU
+
+msg_newgame = "New Game"
+msg_options = "Options"
+msg_highscores = "High Scores"
+msg_replays = "Replays"
+msg_quit = "Quit"
+
+msg_back = "Back"
+
+msg_startgame = "Start Game"
+msg_players = "Players:"
+msg_mplives = "MP Lives:"
+msg_recreplay = "Replay:"
+msg_configplayers = "Configure Players"
+
+msg_player = "Player"
+msg_name = "Name:"
+msg_leftkey = "Left key:"
+msg_rightkey = "Right key:"
+msg_jumpkey = "Left key:"
+
+msg_addthemefolder = "Add"
+msg_deletefolder = "Delete"
+msg_editfolder = "Modify"
+
+msg_themes = "Choose Theme"
+msg_lang = "Choose Language"
+msg_gameoptions = "Game Options"
+msg_graphicoptions = "Graphic Options"
+msg_soundoptions = "Sound Options"
+msg_folders = "Folders"
+
+msg_themefolders = "Theme folders"
+msg_langfolders = "Language folders"
+msg_repfolders = "Replay folders"
+msg_repsavefolder = "Replay save folder:"
+
+msg_fpslimit = "FPS limit:"
+msg_jumpingrot = "Rotation:"
+msg_scrollmode = "Scrolling:"
+
+msg_opengl = "OpenGL:"
+msg_bpp = "Color depth:"
+msg_fullscreen = "Fullscreen:"
+msg_antialiasing = "Antialiasing:"
+
+msg_sndvolume = "Sound Volume:"
+msg_musvolume = "Music Volume:"
+
+msg_repname = "Filename:"
+msg_repcomment = "Comment:"
+msg_repplay = "Play"
+msg_repsave = "Save"
+
+msg_cancel = "Cancel"
+
+
+## TIPS
+
+tip_newgame = "Play a new game."
+tip_options = "Configure some settings."
+tip_highscores = "Have a look at the local Hall of Fame."
+tip_replays = "View recorded matchs."
+tip_quit = "Are you sure you want to leave this great game?"
+
+tip_back = "Get me outta here!"
+
+tip_startgame = "Start playing this match."
+tip_players = "Set the number of players in this game."
+tip_mplives = "Set the number of lives you would have if the game were multiplayer."
+tip_recreplay = "Activate this option if you want to record a replay of this match."
+tip_configplayers = "Set player related settings such as name, keys..."
+
+tip_player = "Choose the player whose settings you want to set."
+tip_name = "Choose a fancy name for this guy."
+tip_leftkey = "Press enter and then press the key you want to use to move left."
+tip_rightkey = "Press enter and then press the key you want to use to move right."
+tip_jumpkey = "Press enter and then press the key you want to use to jump."
+
+tip_addthemefolder = "Add a folder to the list."
+tip_themefolder = "View more options about this folder."
+tip_deletefolder = "Delete the folder from the list"
+tip_editfolder = "Change this folders path"
+tip_writefolder = "Write a full or relative path."
+
+tip_themes = "Change the game look."
+tip_lang = "Change the game language."
+tip_gameoptions = "Modify options related to the game play."
+tip_graphicoptions = "Modify options related to the game visuals."
+tip_soundoptions = "Modify options related to sound effects and music."
+tip_folders = "Change the folders where themes, language and replays are."
+
+tip_themefolders = "Manage the folders where the program will look for themes."
+tip_langfolders = "Manage the folders where the program will look for language files."
+tip_repfolders = "Manage the folders where the program will look for replay files."
+tip_repsavefolder = "Change the folder where the program will save your replays."
+
+tip_fpslimit = "The original Xjump worked at 40 fps. Higher FPS imply more fluid gameplay, but limiting it is good if you don't want to use all your CPU"
+tip_jumpingrot = "Change how the player rotates when jumping."
+tip_scrollmode = "How do you want the tower to fall."
+
+tip_opengl = "Use OpenGL if you've got a 3d card. In most cases it will improve the performance. Some fading effects are only availible in this mode."
+tip_bpp = "How many colors do you want to see in the screen. Usually auto is the best option, but when playing in fullscreen lower values might improve performance."
+tip_fullscreen = "Choose wether you want to play in a window or feel the overwhelming sensation of falling in all your screen!"
+tip_antialiasing = "Antialiasing will improve the look of the character when full rotation is set."
+
+tip_sndvolume = "Set how low you want to hear sounds. 0 means off. 9 is the max value."
+tip_musvolume = "Set how low you want to hear music. 0 means off. 9 is the max value."
+
+tip_repname = "Give a name to this replay file."
+tip_repcomment = "Give a description or comment to this replay."
+tip_repplay = "View the replay before saving it."
+tip_repsave = "Save the replay in your hard drive."
+
+tip_cancel = "Do not do it."
+
+## OPTIONS
+
+opt_40fps = "Xjump"
+opt_100fps = "100 fps"
+opt_300fps = "300 fps"
+opt_nolimit = "No limit"
+
+opt_norot = "None"
+opt_orginalrot = "Xjump"
+opt_fullrot = "Full"
+
+opt_softscroll = "Soft"
+opt_hardscroll = "Xjump"
+
+opt_8bpp = "8 bpp"
+opt_16bpp = "16 bpp"
+opt_24bpp = "24 bpp"
+opt_32bpp = "32 bpp"
+opt_autobpp = "Auto"
+
+opt_on = "On"
+opt_off = "Off"

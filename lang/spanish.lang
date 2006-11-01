@@ -1,0 +1,169 @@
+
+## GNUjump lanugage file
+## =====================
+## Important:
+## - You can't alter the order in which these values are present.
+## - The string length can't be larger than 512 characters
+## - String variables must go between ""
+
+format = "01"
+
+comment = "Archivo de idioma en Castellano. NOTA: no hay tildes ni ennes."
+
+## TEXT
+
+txt_name = "Nombre"
+txt_floor = "Piso"
+txt_mode = "Modo"
+txt_time = "Tiempo"
+txt_date = "Fecha"
+
+txt_hscnote = "Presione cualquier tecla para continuar. Lea el README o la pagina 'man' para entender el significado de la columna 'modo'."
+txt_newhsc = "Enhorabuena! Has hecho un nuevo record! Quieres jugar otra vez? (Y/n)"
+txt_gameover = "Todos los jugadores han perecido. Quieres jugar otra vez? (Y/n)."
+txt_askquit = "Estas seguro de que quieres acabar esta partida? (Y/n)"
+txt_askreplay = "Quiere guardar una grabacion de esta partida? (Y/n)"
+txt_pause = "PAUSED"
+
+txt_askquitrep = "Esta seguro de que quiere dejar de ver esta grabacion? (Y/n)"
+txt_askrepagain = "Quiere ver la grabacion de nuevo? (Y/n)"
+
+## MENU
+
+msg_newgame = "Juego nuevo"
+msg_options = "Opciones"
+msg_highscores = "Mejores marcas"
+msg_replays = "Grabaciones"
+msg_quit = "Salir"
+
+msg_back = "Volver"
+
+msg_startgame = "Empezar partida"
+msg_players = "Jugadores:"
+msg_mplives = "Vidas MJ:"
+msg_recreplay = "Grabacion:"
+msg_configplayers = "Configurar jugadores"
+
+msg_player = "Jugador"
+msg_name = "Nombre:"
+msg_leftkey = "Tecla izquierda:"
+msg_rightkey = "Tecla derecha:"
+msg_jumpkey = "Tecla saltar:"
+
+msg_addthemefolder = "Agregar"
+msg_deletefolder = "Borrar"
+msg_editfolder = "Modificar"
+
+msg_themes = "Elegir Tema"
+msg_lang = "Elegir Idioma"
+msg_gameoptions = "Opciones de Juego"
+msg_graphicoptions = "Opciones Graficas"
+msg_soundoptions = "Opciones de Sonido"
+msg_folders = "Carpetas"
+
+msg_themefolders = "Carpetas de temas"
+msg_langfolders = "Carpetas de idiomas"
+msg_repfolders = "Carpetas de grabaciones"
+msg_repsavefolder = "Nuevas grabaciones:"
+
+msg_fpslimit = "Limite de FPS:"
+msg_jumpingrot = "Rotacion:"
+msg_scrollmode = "Deslizamiento:"
+
+msg_opengl = "OpenGL:"
+msg_bpp = "Colores:"
+msg_fullscreen = "Pant. Completa:"
+msg_antialiasing = "Suavizado:"
+
+msg_sndvolume = "Vol. del Sonido:"
+msg_musvolume = "Vol. de la musica:"
+
+msg_repname = "Nombre del archivo:"
+msg_repcomment = "Comentario:"
+msg_repplay = "Reproducir"
+msg_repsave = "Guardar"
+
+msg_cancel = "Cancelar"
+
+
+## TIPS
+
+tip_newgame = "Juega una nueva partida."
+tip_options = "Configura algunas opciones"
+tip_highscores = "Hecha un vistazo en la Sala de la Fama local."
+tip_replays = "Visualiza grabaciones de otras partidas."
+tip_quit = "Seguro que quiere avandonar este peaso de juego?"
+
+tip_back = "Sacadme de aqui!"
+
+tip_startgame = "Comenzar a jugar esta partida."
+tip_players = "Selecciona el numero de jugadores para esta partida."
+tip_mplives = "Elige cuantas vidas tendras si la partida es multijugador."
+tip_recreplay = "Activa esta opcion si quieres que se grabe la partida mientras juega."
+tip_configplayers = "Configura opciones relacionadas con los jugadores: nombre, teclas..."
+
+tip_player = "Elige al jugador cuyas opciones quieres cambiar."
+tip_name = "Elige un nombre bonito para este tipo."
+tip_leftkey = "Presiona 'intro' y luego presiona la tecla que quieres usar para moverte a la izquierda."
+tip_rightkey = "Presiona 'intro' y luego presiona la tecla que quieres usar para moverte a la derecha."
+tip_jumpkey = "Presiona 'intro' y luego presiona la tecla que quieres usar para saltar."
+
+tip_addthemefolder = "Agrega un directorio a la lista."
+tip_themefolder = "Muestra mas opciones sobre este directorio."
+tip_deletefolder = "Elimina esta carpeta de la lista."
+tip_editfolder = "Cambia la ruta de esta carpeta."
+tip_writefolder = "Escribe una ruta completa o relativa para la carpeta."
+
+tip_themes = "Cambia la apariencia del juego."
+tip_lang = "Cambia el idioma del juego."
+tip_gameoptions = "Modifica opciones relacionadas con el juego."
+tip_graphicoptions = "Modifica opciones relacionada con los graficos."
+tip_soundoptions = "Modifica opciones relacionadas con los efectos de sonido y la musica."
+tip_folders = "Cambia los directorios donde se encuentran los temas, idiomas y grabaciones."
+
+tip_themefolders = "Administra los directorios donde el programa buscara archivos de temas."
+tip_langfolders = "Administra los directorios donde el programa buscara archivos de idiomas."
+tip_repfolders = "Administra los directorios donde el programa buscara grabaciones"
+tip_repsavefolder = "Elige el directorio donde el programa guardara grabaciones futuras."
+
+tip_fpslimit = "El Xjump originar funcionaba a 40 FPS. Mayores FPS otorgan mayor fluidez, pero aun asi es recomendable limitarlo para guardar CPU."
+tip_jumpingrot = "Cambia el modo en el que el jugador rota durante el juego."
+tip_scrollmode = "Cambia el modo en que cae la torre."
+
+tip_opengl = "Usa OpenGL si tienes una tarjeta 3D. En la mayoria de los casos mejorará el rendimiento y permite ver algún efecto más."
+tip_bpp = "Cantidad de colores que se muestran en la pantalla. Normalmente lo mejor es auto, aunque en pantalla completa puede que valores bajos otorguen mejor rendimiento."
+tip_fullscreen = "Elige si quieres jugar en una ventana o sentir la sobrecogedora sensacion de caer en pantalla completa!"
+tip_antialiasing = "El suavizado puede mejorar como se muestra su personaje cuando gira."
+
+tip_sndvolume = "Elige el volumen de los sonidos. 0 significa desactivado. 9 es el valor maximo."
+tip_musvolume = "Elige el volumen de la musica. 0 significa desactivado. 9 es el valor maximo."
+
+tip_repname = "Dale un nombre al archivo de la grabacion."
+tip_repcomment = "Dale un comentario o descripcion a esta grabacion."
+tip_repplay = "Reproduce la grabacion antes de guardarla."
+tip_repsave = "Guarda la grabacion en el disco duro."
+
+tip_cancel = "No lo hagas."
+
+## OPTIONS
+
+opt_40fps = "Xjump"
+opt_100fps = "100 fps"
+opt_300fps = "300 fps"
+opt_nolimit = "Ilimitado"
+
+opt_norot = "No."
+opt_orginalrot = "Xjump"
+opt_fullrot = "Completa."
+
+opt_softscroll = "Suave."
+opt_hardscroll = "Xjump"
+
+opt_8bpp = "8 bpp"
+opt_16bpp = "16 bpp"
+opt_24bpp = "24 bpp"
+opt_32bpp = "32 bpp"
+opt_autobpp = "Auto"
+
+opt_on = "On"
+opt_off = "Off"
