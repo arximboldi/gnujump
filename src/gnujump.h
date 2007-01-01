@@ -59,7 +59,7 @@
 
 /* Config, theme and language files format version */
 #define PROT_VERS "03"
-#define THEME_VERS "02" 
+#define THEME_VERS "03" 
 #define SOUND_VERS "01"
 #define LANG_VERS  "01"
 #define REP_VERS 3
@@ -127,6 +127,15 @@ enum {
 	BPPAUTO
 };
 
+enum {
+	NOTRAIL,
+	THINTRAIL,
+	NORMALTRAIL,
+	STRONGTRAIL
+};
+
+#define MAXBLUR 9
+
 /* Player states*/
 enum {
 	H_STAND, H_WALK, H_JUMP, HEROANIMS
@@ -146,14 +155,15 @@ enum {
 
 /* Be careful, these values are not arbitrary */
 #define RIGHT 1
-#define LEFT 0
+#define LEFT  0
 
 /* Delay and rate in original mode*/
-#define DELAY 25
+#define DELAY   25
 #define FPSRATE 40
 
 /* Default framerate for the replays */
 #define RECFPS 40
+#define RECMS  25
 
 /* Keys ids */
 enum {
@@ -220,6 +230,8 @@ typedef struct
     int fps;
     int rotMode;
     int scrollMode;
+    int trailMode;
+    int blur;
     int mpLives;
     int nplayers;    
     int recReplay;
@@ -293,7 +305,10 @@ typedef struct
     
     /* Players */
     L_spriteDataRot* heroSprite[MAX_PLAYERS][HEROANIMS];
-    
+	Uint8 tcolorr[MAX_PLAYERS];
+	Uint8 tcolorg[MAX_PLAYERS];
+	Uint8 tcolorb[MAX_PLAYERS];
+	
     /* In game screen*/
     JPB_surface* gameBg;
     JPB_surface* livePic;
@@ -320,6 +335,12 @@ typedef struct
 	char* msg[MSG_COUNT];
 	char* tip[TIP_COUNT];
 	char* txt[TXT_COUNT];
+	
+	/* Credits */
+#define CODEAUTH "Juan Pedro Bolivar Puente"
+	char* gfxauth;
+	char* sndauth;
+	char* langauth;
 } data_t;
 
 

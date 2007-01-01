@@ -59,6 +59,11 @@ typedef struct GL2D_LargeSurfaceGL {
 } GL2D_LargeSurfaceGL;
 
 /*
+ * Draws a line.
+ */
+void GL2D_DrawLine (Uint8 r, Uint8 g, Uint8 b, Uint8 a, int x0, int y0, int x1, int y1);
+
+/*
  * Frees a large surface.
  */
 void GL2D_FreeLargeSurfaceGL(GL2D_LargeSurfaceGL * src);

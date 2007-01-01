@@ -10,9 +10,11 @@
 #   General
 # ==============================================================================
 
-format = "02"
+format = "03"
 
 comment = "This is the default theme of SDLjump"
+
+author = "Juan Pedro Bolivar Puente"
 
 window_width = 640
 window_height = 480
@@ -153,3 +155,19 @@ hero_stand_anim  = "hero3.anim"
 hero_run_anim  = "hero3.anim"
 hero_jump_anim  = "hero3.anim"
 
+# Colors of the player trails
+trail_red = 255
+trail_green = 0
+trail_blue = 0
+
+trail_red = 0
+trail_green = 255
+trail_blue = 0
+
+trail_red = 0
+trail_green = 0
+trail_blue = 255
+
+trail_red = 255
+trail_green = 255
+trail_blue = 255

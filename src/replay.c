@@ -23,6 +23,7 @@
 #include "replay.h"
 #include "game.h"
 #include "tools.h"
+#include "effects.h"
 
 extern L_gblOptions gblOps;
 
@@ -70,8 +71,12 @@ void endReplay(game_t* game, int totalms)
 	game->replay.bodysize = game->replay.buf - game->replay.bst;
 	game->replay.totalms = totalms;
 	game->replay.record = 0;
-	for (i = 0; i < game->numHeros; i++)
-		if (game->heros[i].floor > game->replay.record) game->replay.record = game->heros[i].floor;
+	
+	for (i = 0; i < game->numHeros; i++) {
+		if (game->heros[i].floor > game->replay.record)
+			game->replay.record = game->heros[i].floor;
+	}
+	
 	if (game->numHeros > 1) game->heros[i].floor /= gblOps.mpLives;
 }
 
@@ -165,6 +170,7 @@ void freeReplay(replay_t* rep)
 void getPlayerReplay(hero_t* hero, replay_t* rep)
 {
 	int newid;
+	
 	hero->x = repGetUInt16(rep);
 	hero->y = repGetUInt16(rep);
 	hero->dir = repGetUInt8(rep);
@@ -181,6 +187,11 @@ void getPlayerReplay(hero_t* hero, replay_t* rep)
 	if (hero->lives > 4) hero->lives = -1;
 	hero->prevFloor = hero->floor;
 	hero->floor = repGetUInt16(rep);
+	
+	if (gblOps.trailMode != NOTRAIL)
+		updateTrails(hero, RECMS);
+	if (gblOps.useGL && gblOps.blur)
+		updateBlurs(hero, RECMS);
 }
 
 void initGameReplay(game_t* game, data_t* gfx, replay_t* rep)
@@ -203,6 +214,8 @@ void initGameReplay(game_t* game, data_t* gfx, replay_t* rep)
     	for (j=0; j<HEROANIMS; j++) {
     		initializeSpriteCtlRot(&game->heros[i].sprite[j], gfx->heroSprite[i][j]);
     	}
+    	game->heros[i].trail = NULL;
+    	game->heros[i].blur = NULL;
     	getPlayerReplay(&(game->heros[i]), rep);
         game->heros[i].prevLives = -1;
     }
@@ -212,15 +225,26 @@ void scrollReplay(game_t* game, data_t* gfx, replay_t* rep)
 {
 	int scrolls;
 	int i, j;
+	int ds;
 	
+	ds = game->scrollCount;
 	game->scrollCount = repGetUInt8(rep);
+	ds = game->scrollCount - ds;
+	
 	scrolls = repGetUInt8(rep);
+	if (scrolls > 0) ds += BLOCKSIZE*(scrolls);
+	
 	game->mapIndex -= scrolls;
 	game->floorTop += scrolls;
 	if (game->mapIndex < 0) game->mapIndex += GRIDHEIGHT;
 	for (i = game->mapIndex, j = 0; j < scrolls; j++, i = (i+1)%GRIDHEIGHT) {
 		game->floor_l[i] = repGetUInt8(rep);
 		game->floor_r[i] = repGetUInt8(rep);
+	}
+	
+	for (i = 0; i < game->numHeros; i++) {
+		scrollTrails(&(game->heros[i]), ds);
+		scrollBlurs(&(game->heros[i]), ds);
 	}
 }
 
@@ -245,7 +269,6 @@ void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms)
 		}
     }
     drawGame(gfx, game);
-
 }
 
 int updateInputReplay()
@@ -323,6 +346,9 @@ int playReplay(data_t* gfx, replay_t* rep)
 
 void freeGameReplay(game_t* game)
 {
+	int i;
+	for (i = 0; i < game->numHeros; i++)
+		free(game->heros[i].trail);
     free(game->heros);
 }
 
@@ -435,7 +461,8 @@ int loadReplay(data_t* gfx, char *file)
 	
 	fclose(fh);
 	
-	printf("Replay loaded: Size: %d FPS: %d Frames: %d Record: %d Time: %d\n", size, rep.fps, rep.nframes, rep.record, rep.totalms/1000);
+	printf("Replay loaded: Size: %d FPS: %d Frames: %d Record: %d Time: %d\n",
+			size, rep.fps, rep.nframes, rep.record, rep.totalms/1000);
 	while(playReplay(gfx, &rep));
 	
 	freeReplay(&rep);

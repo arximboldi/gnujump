@@ -26,7 +26,6 @@
 #define DEAD -1
 
 #define PAUSED 2
-
 #define ENDMATCH 2
 
 #define MSGTIME 300
@@ -80,8 +79,42 @@ typedef struct {
 	float mspf;
 } replay_t;
 
+typedef struct trail_s
+{
+	float x0, y0;
+	float x1, y1;
+	int alpha;
+	struct trail_s* next;
+} trail_t;
+
+typedef struct blur_s
+{
+	JPB_surfaceRot* pic;
+	float x, y;
+	int angle;
+	int alpha;
+	struct blur_s* next;
+} blur_t;
+
+typedef struct particle_s
+{
+	JPB_surfaceRot* pic;
+	float x, y;
+	float vx, vy;
+	float ax, ay;
+	int rot;
+	int rv;
+	int alpha;
+	int av;
+	
+	struct particle_s* next;
+} particle_t;
+
 typedef struct hero
 {
+	trail_t* trail;
+	blur_t* blur;
+	
     L_spriteCtlRot sprite[HEROANIMS];
     L_key up;
     L_key left;
@@ -126,9 +159,15 @@ typedef struct game
     replay_t replay;
 } game_t;
 
+void drawCredits(data_t* gfx);
+
 void softScrollUp(game_t* game, float scroll);
 
 int drawBg(JPB_surface* surf, int x, int y, int w, int h);
+
+void drawAnimatedSquare(data_t* gfx, Uint32 color, Uint8 alpha, int x, int y, int w, int h, int time);
+
+void drawScore(data_t* gfx, game_t* game, Uint32 currtime);
 
 int drawFloor(data_t* gfx, int x, int y, int bw);
 

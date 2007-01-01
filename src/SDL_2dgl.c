@@ -48,6 +48,18 @@ static int power_of_two(int input)
   return value;
 }
 
+void GL2D_DrawLine (Uint8 r, Uint8 g, Uint8 b, Uint8 a, int x0, int y0, int x1, int y1)
+{
+    glEnable(GL_BLEND);
+    glBegin(GL_LINES);
+    glColor4f( (float)r/255,(float)g/255,(float)b/255, (float)a/255 );
+    glVertex2f(x0, y0);
+    glColor4f( (float)r/255,(float)g/255,(float)b/255, (float)a/255 );
+    glVertex2f(x1, y1);
+    glEnd();
+    glDisable(GL_BLEND);
+}
+
 void GL2D_DrawRect (Uint8 r, Uint8 g, Uint8 b, Uint8 a,int x, int y, int w, int h)
 {
     glEnable(GL_BLEND);

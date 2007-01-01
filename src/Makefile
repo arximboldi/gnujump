@@ -14,6 +14,7 @@
 
 
 
+
 srcdir = .
 top_srcdir = ..
 
@@ -39,7 +40,8 @@ host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
 bin_PROGRAMS = gnujump$(EXEEXT)
 subdir = src
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -54,7 +56,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_gnujump_OBJECTS = game.$(OBJEXT) main.$(OBJEXT) menu.$(OBJEXT) \
 	records.$(OBJEXT) SDL_2dgl.$(OBJEXT) SDL_rotozoom.$(OBJEXT) \
 	setup.$(OBJEXT) SFont.$(OBJEXT) sprite.$(OBJEXT) \
-	surface.$(OBJEXT) tools.$(OBJEXT) replay.$(OBJEXT)
+	surface.$(OBJEXT) tools.$(OBJEXT) replay.$(OBJEXT) \
+	effects.$(OBJEXT)
 gnujump_OBJECTS = $(am_gnujump_OBJECTS)
 gnujump_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -70,6 +73,7 @@ LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(gnujump_SOURCES)
 DIST_SOURCES = $(gnujump_SOURCES)
+HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -195,11 +199,12 @@ INCLUDES = $(all_includes)
 # the library search path.
 gnujump_LDFLAGS = $(all_libraries) 
 gnujump_SOURCES = game.c game.h main.c menu.c menu.h records.c records.h \
-		SDL_2dgl.c SDL_2dgl.h gnujump.h SDL_rotozoom.c SDL_rotozoom.h setup.c setup.h \
-		SFont.c SFont.h sprite.c sprite.h surface.c surface.h tools.c tools.h replay.c \
-		replay.h lang.h
+			SDL_2dgl.c SDL_2dgl.h gnujump.h SDL_rotozoom.c SDL_rotozoom.h setup.c setup.h \
+			SFont.c SFont.h sprite.c sprite.h surface.c surface.h tools.c tools.h replay.c \
+			replay.h lang.h effects.c
 
 datadirdir = $(prefix)/share/$(package)
+noinst_HEADERS = effects.h
 all: all-am
 
 .SUFFIXES:
@@ -274,6 +279,7 @@ distclean-compile:
 include ./$(DEPDIR)/SDL_2dgl.Po
 include ./$(DEPDIR)/SDL_rotozoom.Po
 include ./$(DEPDIR)/SFont.Po
+include ./$(DEPDIR)/effects.Po
 include ./$(DEPDIR)/game.Po
 include ./$(DEPDIR)/main.Po
 include ./$(DEPDIR)/menu.Po
@@ -392,7 +398,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(HEADERS)
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \

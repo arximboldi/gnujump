@@ -34,6 +34,7 @@ extern L_gblOptions gblOps;
 void initMouse(data_t* gfx, mouse_t* mouse)
 {
 	int i;
+	
 	for (i = 0; i < M_STATES; i++) {
 		initializeSpriteCtl(&(mouse->sprite[i]), gfx->mouse[i]);
 	}
@@ -317,6 +318,7 @@ int playMenuT(data_t* gfx, menu_t* menu)
 		drawMenuTArrows(gfx, afaders[A_UP].value, afaders[A_DOWN].value);
 		animateSprite(&(mouse.sprite[mouse.id]), timer.ms);
 		printMouse(gfx, &mouse);
+
 		FlipScreen();
     }
 	
@@ -670,11 +672,12 @@ void mainMenu(data_t* gfx)
     Mix_PlayMusic(gfx->musmenu, -1);
 
     while (!done) {
-        opt = playMenu(gfx,-5,
+        opt = playMenu(gfx,-6,
             gfx->msg[msg_newgame], gfx->tip[tip_newgame],
             gfx->msg[msg_options], gfx->tip[tip_options],
 			gfx->msg[msg_highscores], gfx->tip[tip_highscores],
 			gfx->msg[msg_replays], gfx->tip[tip_replays],
+            gfx->msg[msg_credits], gfx->tip[tip_credits],
             gfx->msg[msg_quit], gfx->tip[tip_quit]
 			);
       
@@ -694,6 +697,11 @@ void mainMenu(data_t* gfx)
 				viewReplayMenu(gfx);
 				break;
 			case 4:
+				JPB_PrintSurface(gfx->gameBg, NULL, NULL);
+				drawCredits(gfx);
+				pressAnyKey();
+				break;
+			case 5:
 			case NONE:
 				done = TRUE;
 				break;
@@ -910,6 +918,16 @@ void gameOptionsMenu(data_t* gfx)
     			   &gblOps.scrollMode, 2, 
     			   gfx->opt[opt_hardscroll],
     			   gfx->opt[opt_softscroll]);
+
+	addMenuTOption(&menu, gfx->msg[msg_trail], gfx->tip[tip_trail], MB_CHOOSE,
+    			   &gblOps.trailMode, 4, 
+    			   gfx->opt[opt_notrail],
+    			   gfx->opt[opt_thintrail],
+    			   gfx->opt[opt_normaltrail],
+    			   gfx->opt[opt_strongtrail]);
+
+	addMenuTOption(&menu, gfx->msg[msg_blur], gfx->tip[tip_blur], MB_CHOOSE,
+    			   &gblOps.blur, 10, "0","1","2","3","4","5","6","7","8","9");
 
     addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
     			   

@@ -10,6 +10,8 @@ format = "01"
 
 comment = "Englist language file"
 
+author = "Juan Pedro Bolivar Puente"
+
 ## TEXT
 
 txt_name = "Name"
@@ -28,12 +30,18 @@ txt_pause = "PAUSED"
 txt_askquitrep = "Are you sure you want to stop watching this replay? (Y/n)"
 txt_askrepagain = "Do you want to watch this replay again? (Y/n)"
 
+txt_codeauthor = "CODE"
+txt_gfxauthor  = "THESE GRAPHICS"
+txt_sndauthor  = "THESE SOUNDS"
+txt_langauthor = "THIS TRANSLATION"
+
 ## MENU
 
 msg_newgame = "New Game"
 msg_options = "Options"
 msg_highscores = "High Scores"
 msg_replays = "Replays"
+msg_credits = "Credits"
 msg_quit = "Quit"
 
 msg_back = "Back"
@@ -69,6 +77,8 @@ msg_repsavefolder = "Replay save folder:"
 msg_fpslimit = "FPS limit:"
 msg_jumpingrot = "Rotation:"
 msg_scrollmode = "Scrolling:"
+msg_trail = "Trail:"
+msg_blur = "Blur:"
 
 msg_opengl = "OpenGL:"
 msg_bpp = "Color depth:"
@@ -92,6 +102,7 @@ tip_newgame = "Play a new game."
 tip_options = "Configure some settings."
 tip_highscores = "Have a look at the local Hall of Fame."
 tip_replays = "View recorded matchs."
+tip_credits = "Show the authors list."
 tip_quit = "Are you sure you want to leave this great game?"
 
 tip_back = "Get me outta here!"
@@ -129,6 +140,8 @@ tip_repsavefolder = "Change the folder where the program will save your replays.
 tip_fpslimit = "The original Xjump worked at 40 fps. Higher FPS imply more fluid gameplay, but limiting it is good if you don't want to use all your CPU"
 tip_jumpingrot = "Change how the player rotates when jumping."
 tip_scrollmode = "How do you want the tower to fall."
+tip_trail = "Set this if you want the player to leave a trail behind him."
+tip_blur = "Nice blur effect. Set a level from 0 to 9. Only availible in OpenGL mode"
 
 tip_opengl = "Use OpenGL if you've got a 3d card. In most cases it will improve the performance. Some fading effects are only availible in this mode."
 tip_bpp = "How many colors do you want to see in the screen. Usually auto is the best option, but when playing in fullscreen lower values might improve performance."
@@ -158,6 +171,11 @@ opt_fullrot = "Full"
 
 opt_softscroll = "Soft"
 opt_hardscroll = "Xjump"
+
+opt_notrail = "None"
+opt_thintrail = "Thin"
+opt_normaltrail = "Normal"
+opt_strongtrail = "Strong"
 
 opt_8bpp = "8 bpp"
 opt_16bpp = "16 bpp"

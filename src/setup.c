@@ -43,6 +43,8 @@ void initGblOps(void)
     gblOps.fps = FPS100;
     gblOps.rotMode = ROTFULL;
     gblOps.scrollMode = SOFTSCROLL;
+    gblOps.trailMode = NORMALTRAIL;
+    gblOps.blur = 4;
     gblOps.mpLives = 3;
     gblOps.nplayers = 0;
     gblOps.recReplay = 0;
@@ -186,6 +188,8 @@ int loadConfigFile(char* fname)
     gblOps.fps = getValue_int(tfile,"fps_limit");
     gblOps.rotMode = getValue_int(tfile,"rotation_mode");
     gblOps.scrollMode = getValue_int(tfile,"scroll_mode");
+    gblOps.trailMode = getValue_int(tfile,"trail");
+    gblOps.blur = getValue_int(tfile,"blur");
     gblOps.mpLives = getValue_int(tfile,"multiplayer_lives");
     gblOps.nplayers = getValue_int(tfile,"number_players");
     gblOps.recReplay = getValue_int(tfile,"record_replay");
@@ -256,6 +260,8 @@ int writeConfigFile(char* fname)
     putValue_int(tfile,"fps_limit",gblOps.fps);
     putValue_int(tfile,"rotation_mode",gblOps.rotMode);
     putValue_int(tfile,"scroll_mode",gblOps.scrollMode);
+    putValue_int(tfile,"trail",gblOps.trailMode);
+    putValue_int(tfile,"blur",gblOps.blur);
     putValue_int(tfile,"multiplayer_lives", gblOps.mpLives);
     putValue_int(tfile,"number_players", gblOps.nplayers);
     putValue_int(tfile,"record_replay", gblOps.recReplay);
@@ -527,6 +533,8 @@ int loadSounds(data_t* data, char* fname)
         return 0;
     }
     
+	data->sndauth = getValue_charp(fh,"author");
+	
     getValue_str(fh,"mus_game",str,fname);
     data->musgame = Mix_LoadMUS(str);
     
@@ -566,6 +574,7 @@ void freeSounds(data_t* data)
 	Mix_FreeChunk(data->mback);
 	Mix_FreeMusic(data->musgame);
 	Mix_FreeMusic(data->musmenu);
+	free(data->sndauth);
 	data->soundloaded = 0;
 }
 
@@ -601,6 +610,7 @@ int loadGraphics(data_t* data, char* fname)
     }
 		
 	skipValueStr(fh); /* Comment */
+	data->gfxauth = getValue_charp(fh,"author");
 	
     gblOps.w = getValue_int(fh,"window_width");
     gblOps.h = getValue_int(fh,"window_height");
@@ -731,13 +741,18 @@ int loadGraphics(data_t* data, char* fname)
         data->heroSprite[i][H_JUMP] = loadSpriteDataRot(str, 2, fname);
     }
     
+    for (i=0; i<MAX_PLAYERS; i++) {
+		data->tcolorr[i] = getValue_int(fh,"trail_red");
+		data->tcolorg[i] = getValue_int(fh,"trail_green");
+		data->tcolorb[i] = getValue_int(fh,"trail_blue");
+    }
+    
     fclose(fh);
 	
 	free(file);
 	
     return TRUE;
 }
-
 
 void freeGraphics(data_t* data)
 {
@@ -760,6 +775,7 @@ void freeGraphics(data_t* data)
     	for (j=0; j<HEROANIMS; j++)
         	freeSpriteDataRot(data->heroSprite[i][j]);
     }
+    free(data->gfxauth);
 }
 
 void freeLanguage(data_t* data)
@@ -777,6 +793,7 @@ void freeLanguage(data_t* data)
 	for (i = 0; i<OPT_COUNT; i++) {
 		free(data->opt[i]);
 	}
+	free(data->langauth);
 }
 
 int loadLanguage(data_t* data, char* fname)
@@ -818,6 +835,8 @@ int loadLanguage(data_t* data, char* fname)
     
     skipValueStr(fh); /* Comment */
     
+ 	data->langauth = getValue_charp(fh,"author");    
+    
 	/*
 	 * In-game messages
 	 */
@@ -834,6 +853,10 @@ int loadLanguage(data_t* data, char* fname)
 	data->txt[txt_pause] = getValue_charp(fh, "txt_pause");
 	data->txt[txt_askquitrep] = getValue_charp(fh, "txt_askquitrep");
 	data->txt[txt_askrepagain] = getValue_charp(fh, "txt_askrepagain");
+	data->txt[txt_codeauthor] = getValue_charp(fh, "txt_codeauthor");
+	data->txt[txt_gfxauthor] = getValue_charp(fh, "txt_gfxauthor");
+	data->txt[txt_sndauthor] = getValue_charp(fh, "txt_sndauthor");
+	data->txt[txt_langauthor] = getValue_charp(fh, "txt_langauthor");
 	
 	/*
 	 * Menu messages
@@ -842,6 +865,7 @@ int loadLanguage(data_t* data, char* fname)
 	data->msg[msg_options] = getValue_charp(fh, "msg_options");
 	data->msg[msg_highscores] = getValue_charp(fh, "msg_highscores");
 	data->msg[msg_replays] = getValue_charp(fh, "msg_replays");
+	data->msg[msg_credits] = getValue_charp(fh, "msg_credits");
 	data->msg[msg_quit] = getValue_charp(fh, "msg_quit");
 	
 	data->msg[msg_back] = getValue_charp(fh, "msg_back");
@@ -877,6 +901,8 @@ int loadLanguage(data_t* data, char* fname)
 	data->msg[msg_fpslimit] = getValue_charp(fh, "msg_fpslimit");
 	data->msg[msg_jumpingrot] = getValue_charp(fh, "msg_jumpingrot");
 	data->msg[msg_scrollmode] = getValue_charp(fh, "msg_scrollmode");
+	data->msg[msg_trail] = getValue_charp(fh, "msg_trail");
+	data->msg[msg_blur] = getValue_charp(fh, "msg_blur");
 	
 	data->msg[msg_opengl] = getValue_charp(fh, "msg_opengl");
 	data->msg[msg_bpp] = getValue_charp(fh, "msg_bpp");
@@ -899,6 +925,7 @@ int loadLanguage(data_t* data, char* fname)
 	data->tip[tip_options] = getValue_charp(fh, "tip_options");
 	data->tip[tip_highscores] = getValue_charp(fh, "tip_highscores");
 	data->tip[tip_replays] = getValue_charp(fh, "tip_replays");
+	data->tip[tip_credits] = getValue_charp(fh, "tip_credits");
 	data->tip[tip_quit] = getValue_charp(fh, "tip_quit");
 	
 	data->tip[tip_back] = getValue_charp(fh, "tip_back");
@@ -936,6 +963,8 @@ int loadLanguage(data_t* data, char* fname)
 	data->tip[tip_fpslimit] = getValue_charp(fh, "tip_fpslimit");
 	data->tip[tip_jumpingrot] = getValue_charp(fh, "tip_jumpingrot");
 	data->tip[tip_scrollmode] = getValue_charp(fh, "tip_scrollmode");
+	data->tip[tip_trail] = getValue_charp(fh, "tip_trail");
+	data->tip[tip_blur] = getValue_charp(fh, "tip_blur");
 	
 	data->tip[tip_opengl] = getValue_charp(fh, "tip_opengl");
 	data->tip[tip_bpp] = getValue_charp(fh, "tip_bpp");
@@ -963,6 +992,11 @@ int loadLanguage(data_t* data, char* fname)
 	
 	data->opt[opt_softscroll] = getValue_charp(fh, "opt_softscroll");
 	data->opt[opt_hardscroll] = getValue_charp(fh, "opt_hardscroll");
+	
+	data->opt[opt_notrail] = getValue_charp(fh, "opt_notrail");
+	data->opt[opt_thintrail] = getValue_charp(fh, "opt_thintrail");
+	data->opt[opt_normaltrail] = getValue_charp(fh, "opt_normaltrail");
+	data->opt[opt_strongtrail] = getValue_charp(fh, "opt_strongtrail");
 	
 	data->opt[opt_8bpp] = getValue_charp(fh, "opt_8bpp");
 	data->opt[opt_16bpp] = getValue_charp(fh, "opt_16bpp");

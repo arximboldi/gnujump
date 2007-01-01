@@ -27,6 +27,76 @@
 extern SDL_Surface * screen;
 extern L_gblOptions gblOps;
 
+#define applyAlpha(alpha, bc, c) ((alpha)*(bc) + (1-(alpha))*(c))
+
+void JPB_drawLine(Uint8 r, Uint8 g, Uint8 b, Uint8 a, int x0, int y0, int x1, int y1)
+{
+	if (gblOps.useGL) {
+		GL2D_DrawLine(r, g, b, a, x0, y0, x1, y1);
+	} else {
+		drawLine(screen, r, g, b, a, x0, y0, x1, y1);
+	}
+}
+
+/* Interesting article on line drawing:
+   http://www.cs.unc.edu/~mcmillan/comp136/Lecture6/Lines.html */
+void drawLine(SDL_Surface* dest, Uint8 dr, Uint8 dg, Uint8 db, Uint8 alpha, int x0, int y0, int x1, int y1)
+{
+	int dy = y1 - y0;
+	int dx = x1 - x0;
+	int stepx, stepy;
+	int fraction;
+	Uint8 r, g, b;
+	Uint32 pixel;
+	float a = (float)alpha/255;
+	
+	if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
+	if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
+	dy <<= 1;
+	dx <<= 1;
+
+	/* We dont draw the first pixel, because it would overlap with another
+	   trail segment */
+	if (dx > dy) {
+		fraction = dy - (dx >> 1);
+		while (x0 != x1) {
+			if (fraction >= 0) {
+				y0 += stepy;
+				fraction -= dx;
+			}
+			x0 += stepx;
+			fraction += dy;
+			
+			/* TODO: We should create a function for this */
+			pixel = getpixel(dest,x0,y0);
+			SDL_GetRGB(pixel, dest->format, &r, &g, &b);
+			r = applyAlpha(a,dr,r);
+			g = applyAlpha(a,dg,g);
+			b = applyAlpha(a,db,b);
+			pixel = SDL_MapRGB(dest->format,r,g,b);
+            putpixel(dest,x0,y0,pixel);
+		}
+	} else {
+		fraction = dx - (dy >> 1);
+		while (y0 != y1) {
+			if (fraction >= 0) {
+				x0 += stepx;
+				fraction -= dy;
+			}
+			y0 += stepy;
+			fraction += dx;
+			
+			pixel = getpixel(dest,x0,y0);
+			SDL_GetRGB(pixel, dest->format, &r, &g, &b);
+			r = applyAlpha(a,dr,r);
+			g = applyAlpha(a,dg,g);
+			b = applyAlpha(a,db,b);
+			pixel = SDL_MapRGB(dest->format,r,g,b);
+            putpixel(dest,x0,y0,pixel);
+		}
+	}
+}
+
 void JPB_drawSquare(Uint32 color, Uint8 alpha, int x, int y, int w, int h)
 {
     Uint8 r,g,b;	
@@ -70,7 +140,7 @@ JPB_surfaceRot * JPB_CreateSurfaceRot(SDL_Surface * src, Uint8 gl)
 		surface->surfGL = GL2D_CreateSurfaceGL(src,gblOps.texFilter);	
 		surface->w = surface->surfGL->w;
 		surface->h = surface->surfGL->h;
-	}		
+	}
 	else {
 		if ((src->flags & SDL_SRCALPHA) == SDL_SRCALPHA)
 			surface->surf = SDL_DisplayFormatAlpha(src);
@@ -207,7 +277,7 @@ void JPB_PrintSurface(JPB_surface * src, SDL_Rect * src_r, SDL_Rect * dest_r)
 
 }
 
-#define applyAlpha(alpha, bc, c) ((alpha)*(bc) + (1-(alpha))*(c))
+
 
 /* Probably not very fast, but enough for my needs*/
 void drawSquareAlpha(SDL_Surface* dest, Uint32 color,Uint8 alpha, 
@@ -324,7 +394,9 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y)
     int bpp = surface->format->BytesPerPixel;
     /* Here p is the address to the pixel we want to retrieve */
     Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
+	
+	if (x >= surface->w || y >= surface->h || x < 0 || y < 0) return 0;
+	
     switch(bpp) {
     case 1:
         return *p;
@@ -352,7 +424,9 @@ void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
     int bpp = surface->format->BytesPerPixel;
     /* Here p is the address to the pixel we want to set */
     Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
+	
+	if (x >= surface->w || y >= surface->h || x < 0 || y < 0) return;
+	
     switch(bpp) {
     case 1:
         *p = pixel;

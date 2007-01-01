@@ -41,7 +41,10 @@ enum {
 	txt_pause,
 	txt_askquitrep,
 	txt_askrepagain,
-
+	txt_codeauthor,
+	txt_gfxauthor,
+	txt_sndauthor,
+	txt_langauthor,
 	TXT_COUNT
 };
 
@@ -50,6 +53,7 @@ enum {
 	msg_options,
 	msg_highscores,
 	msg_replays,
+	msg_credits,
 	msg_quit,
 	
 	msg_back,
@@ -85,6 +89,8 @@ enum {
 	msg_fpslimit,
 	msg_jumpingrot,
 	msg_scrollmode,
+	msg_trail,
+	msg_blur,
 	
 	msg_opengl,
 	msg_bpp,
@@ -108,6 +114,7 @@ enum {
 	tip_options,
 	tip_highscores,
 	tip_replays,
+	tip_credits,
 	tip_quit,
 	
 	tip_back,
@@ -145,6 +152,8 @@ enum {
 	tip_fpslimit,
 	tip_jumpingrot,
 	tip_scrollmode,
+	tip_trail,
+	tip_blur,
 	
 	tip_opengl,
 	tip_bpp,
@@ -174,6 +183,11 @@ enum {
 	
 	opt_softscroll,
 	opt_hardscroll,
+	
+	opt_notrail,
+	opt_thintrail,
+	opt_normaltrail,
+	opt_strongtrail,
 	
 	opt_8bpp,
 	opt_16bpp,

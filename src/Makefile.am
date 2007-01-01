@@ -7,8 +7,9 @@ INCLUDES= $(all_includes)
 gnujump_LDFLAGS = $(all_libraries) 
 
 gnujump_SOURCES = game.c game.h main.c menu.c menu.h records.c records.h \
-		SDL_2dgl.c SDL_2dgl.h gnujump.h SDL_rotozoom.c SDL_rotozoom.h setup.c setup.h \
-		SFont.c SFont.h sprite.c sprite.h surface.c surface.h tools.c tools.h replay.c \
-		replay.h lang.h
+			SDL_2dgl.c SDL_2dgl.h gnujump.h SDL_rotozoom.c SDL_rotozoom.h setup.c setup.h \
+			SFont.c SFont.h sprite.c sprite.h surface.c surface.h tools.c tools.h replay.c \
+			replay.h lang.h effects.c
 
 datadirdir = $(prefix)/share/$(package)
+noinst_HEADERS = effects.h

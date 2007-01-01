@@ -55,6 +55,11 @@ typedef struct rot_surface
 
 void JPB_drawSquare(Uint32 color, Uint8 alpha, int x, int y, int w, int h);
 
+void drawLine(SDL_Surface* dest, Uint8 dr, Uint8 dg, Uint8 db, Uint8 alpha, int x0, int y0, int x1, int y1);
+
+void JPB_drawLine(Uint8 r, Uint8 g, Uint8 b, Uint8 a, int x0, int y0, int x1, int y1);
+
+
 /********************
  *	ROTABLE SURFACE *
  ********************/
