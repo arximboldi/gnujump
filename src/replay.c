@@ -389,7 +389,7 @@ int playReplay(data_t* gfx, replay_t* rep)
 			lastskipf = skipf;
 		}
 		
-		printf("skipping %d frames\n", skipf);
+		//printf("skipping %d frames\n", skipf);
 		mymscount += (skipf+1)*(1000.0/(float)REPFPS[REP_1X]);
 		for(j = 0; j < skipf && i < rep->nframes; i++, j++) {
 			updateGameReplay(&game, gfx, rep, 0, 1);
