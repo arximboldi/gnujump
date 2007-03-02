@@ -557,8 +557,8 @@ int checkMenuKeys(mouse_t* mouse)
 
 
 /*
- * This has been converte to a wrapper to the new menu system so I don't have to
- * debug and add features to two pieces of almost identical code. 
+ * This has been converted to a wrapper to the new menu system so I don't have to
+ * debug and add features to two pieces of almost identical code.
  */
 
 /*
@@ -567,7 +567,7 @@ int checkMenuKeys(mouse_t* mouse)
  *  want an explanatory text appearing on top of the menu, turn this value to
  *  negative.
  *      Examples: playMenu (3, "option1", "option2", "option3");
- *                playMenu (-2, "text", "option1", "option2");
+ *                playMenu (-2, "option1", "explanation1", "option2", "explanation2");
  */
 
 int playMenu(data_t* gfx, int nops, ...)
@@ -634,11 +634,11 @@ void saveReplayMenu(data_t* gfx, replay_t* rep)
 	sprintf(comment, "no comment");
 	
 	initMenuT(&menu);
-	addMenuTOption(&menu, gfx->msg[msg_repplay], gfx->tip[tip_repplay], MB_RETURN, NULL, 0);
-	addMenuTOption(&menu, gfx->msg[msg_repname], gfx->tip[tip_repname], MB_INPUT, &(fname), 0);
-	addMenuTOption(&menu, gfx->msg[msg_repcomment], gfx->tip[tip_repcomment], MB_INPUT, &(comment), 0);
-	addMenuTOption(&menu, gfx->msg[msg_repsave], gfx->tip[tip_repsave], MB_RETURN, NULL, 0);
-    addMenuTOption(&menu, gfx->msg[msg_cancel],  gfx->tip[tip_cancel],  MB_RETURN, NULL, 0);
+	addMenuTOption(&menu, _("Play"), _("Watch this replay."), MB_RETURN, NULL, 0);
+	addMenuTOption(&menu, _("Filename"), _("Give a nice filename to your replay."), MB_INPUT, &(fname), 0);
+	addMenuTOption(&menu, _("Comment"), _("Attach some annotations or explanations to the replay"), MB_INPUT, &(comment), 0);
+	addMenuTOption(&menu, _("Save"), _("Store the replay to the disk with the given parameters."), MB_RETURN, NULL, 0);
+    addMenuTOption(&menu, _("Cancel"),  _("I do not want to store this replay."),  MB_RETURN, NULL, 0);
     
     while (!done) {
     	switch(playMenuT(gfx,&menu)) {
@@ -673,12 +673,12 @@ void mainMenu(data_t* gfx)
 
     while (!done) {
         opt = playMenu(gfx,-6,
-            gfx->msg[msg_newgame], gfx->tip[tip_newgame],
-            gfx->msg[msg_options], gfx->tip[tip_options],
-			gfx->msg[msg_highscores], gfx->tip[tip_highscores],
-			gfx->msg[msg_replays], gfx->tip[tip_replays],
-            gfx->msg[msg_credits], gfx->tip[tip_credits],
-            gfx->msg[msg_quit], gfx->tip[tip_quit]
+            _("New Game"), _("Play a new game."),
+            _("Options"), _("Configure some settings."),
+			_("Highscores"), _("Have a look at the local Hall of Fame."),
+			_("Replays"), _("Watch previously played games."),
+            _("Credits"), _("See who made this program."),
+            _("Quit"), _("See you some other day :)")
 			);
       
         switch(opt) {
@@ -719,15 +719,15 @@ void newGameMenu(data_t* gfx)
     
     initMenuT(&menu);
     
-    addMenuTOption(&menu, gfx->msg[msg_startgame], gfx->tip[tip_startgame], 0, NULL, NONE);
-    addMenuTOption(&menu, gfx->msg[msg_players], gfx->tip[tip_players], MB_CHOOSE,
+    addMenuTOption(&menu, _("Start Game"), _("Start playing this match"), 0, NULL, NONE);
+    addMenuTOption(&menu, _("Players:"), _("Set the number of players for this match."), MB_CHOOSE,
     			   &gblOps.nplayers, 4, "1", "2", "3", "4");
-    addMenuTOption(&menu, gfx->msg[msg_mplives], gfx->tip[tip_mplives], MB_CHOOSE,
+    addMenuTOption(&menu, _("MP Lives:"), _("Set the number of tries each player will have in multiplayer games."), MB_CHOOSE,
     			   &gblOps.mpLives, 5, "1", "2", "3", "4", "5");
-    addMenuTOption(&menu, gfx->msg[msg_recreplay], gfx->tip[tip_recreplay], MB_CHOOSE,
-    			   &gblOps.recReplay, 2, gfx->opt[opt_off], gfx->opt[opt_on]);
-    addMenuTOption(&menu, gfx->msg[msg_configplayers], gfx->tip[tip_configplayers], 0, NULL, NONE);
-    addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
+    addMenuTOption(&menu, _("Replay:"), _("Activate this option if you want the match to be recorder while you play."), MB_CHOOSE,
+    			   &gblOps.recReplay, 2, _("Off"), _("On"));
+    addMenuTOption(&menu, _("Configure Players"), _("Select some options for each player, such as keys, name, etc."), 0, NULL, NONE);
+    addMenuTOption(&menu, _("Back"), _("Leave this menu"), 0, NULL, NONE);
 	
 	
 	while (!done) {
@@ -756,18 +756,18 @@ void configurePlayersMenu(data_t* gfx)
     
     while (!done) {
     	initMenuT(&menu);
-    	addMenuTOption(&menu, gfx->msg[msg_player], gfx->tip[tip_player], MB_RETURN|MB_CHOOSE,
+    	addMenuTOption(&menu, _("Player:"), _("Choose which player do you want to configure."), MB_RETURN|MB_CHOOSE,
     			   &player, 4, "1", "2", "3", "4");
-		addMenuTOption(&menu, gfx->msg[msg_name], gfx->tip[tip_name], MB_INPUT,
+		addMenuTOption(&menu, _("Name:"), _("Choose a name for this player."), MB_INPUT,
 				   &(gblOps.pname[player]), 0);
-		addMenuTOption(&menu, gfx->msg[msg_leftkey], gfx->tip[tip_leftkey], MB_KEYDEF,
+		addMenuTOption(&menu, _("Left Key:"), _("Press enter and then press the key you want to use."), MB_KEYDEF,
 				   &(gblOps.keys[player][LEFTK]), 0);
-		addMenuTOption(&menu, gfx->msg[msg_rightkey], gfx->tip[tip_rightkey], MB_KEYDEF,
+		addMenuTOption(&menu, _("Right Key:"), _("Press enter and then press the key you want to use."), MB_KEYDEF,
 				   &(gblOps.keys[player][RIGHTK]), 0);
-		addMenuTOption(&menu, gfx->msg[msg_jumpkey], gfx->tip[tip_jumpkey], MB_KEYDEF,
+		addMenuTOption(&menu, _("Jump Key:"), _("Press enter and then press the key you want to use."), MB_KEYDEF,
 				   &(gblOps.keys[player][JUMPK]), 0);
     	
-   		addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
+   		addMenuTOption(&menu, _("Back"), _("Leave this menu."), 0, NULL, NONE);
     	
     	opt = playMenuT(gfx,&menu);
     	if (opt == NONE || opt == 5)
@@ -784,13 +784,13 @@ void optionsMenu(data_t* gfx)
     menu_t menu;
     
 	initMenuT(&menu);
-	addMenuTOption(&menu, gfx->msg[msg_themes],         gfx->tip[tip_themes],         0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_lang],           gfx->tip[tip_lang],           0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_gameoptions],    gfx->tip[tip_gameoptions],    0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_graphicoptions], gfx->tip[tip_graphicoptions], 0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_soundoptions], gfx->tip[tip_soundoptions],     0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_folders],        gfx->tip[tip_folders],        0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_back],           gfx->tip[tip_back],           0, NULL, NONE);
+	addMenuTOption(&menu, _("Choose Theme"), _("Change the appearance and sounds of the game."), 0, NULL, NONE);
+	/* addMenuTOption(&menu, _("Choose Language"), _("Select a language."), 0, NULL, NONE); */
+	addMenuTOption(&menu, _("Game Options"), _("Change the gameplay."), 0, NULL, NONE);
+	addMenuTOption(&menu, _("Graphic Options"), _("Modify how the game is displayed in the screen."), 0, NULL, NONE);
+	addMenuTOption(&menu, _("Sound Options"), _("Modify options related to sound effects and music."), 0, NULL, NONE);
+	addMenuTOption(&menu, _("Manage Folders"), _("Change the folders where themes and replays are."), 0, NULL, NONE);
+	addMenuTOption(&menu, _("Back"), _("Leave this menu."), 0, NULL, NONE);
     	
     while (!done) {
         opt = playMenuT(gfx, &menu);
@@ -799,22 +799,22 @@ void optionsMenu(data_t* gfx)
 			case 0:
 				chooseThemeMenu(gfx);
 				break;
-			case 1:
+			/*case 1:
 				if (chooseLangMenu(gfx)) done = TRUE;
-				break;
-            case 2:
+				break;*/
+            case 1:
                 gameOptionsMenu(gfx);
                 break;
-            case 3:
+            case 2:
                 gfxOptionsMenu(gfx);
                 break;
-            case 4:
+            case 3:
 				soundOptionsMenu(gfx);
 				break;
-            case 5:
+            case 4:
                 folderOptionsMenu(gfx);
                 break;
-            case 6:
+            case 5:
             case NONE:
                 done = TRUE;
                 break;
@@ -833,11 +833,11 @@ void soundOptionsMenu(data_t* gfx)
     menu_t menu;
     
 	initMenuT(&menu);
-	addMenuTOption(&menu, gfx->msg[msg_sndvolume], gfx->tip[tip_sndvolume],
+	addMenuTOption(&menu, _("Sound Volume:"), _("Set how low you want to hear the sounds. 0 means off. 9 is the max value."),
 		MB_CHOOSE|MB_VOLSET, &(gblOps.sndvolume), 10, "0","1","2","3","4","5","6","7","8","9");
-	addMenuTOption(&menu, gfx->msg[msg_musvolume], gfx->tip[tip_musvolume],
+	addMenuTOption(&menu, _("Music Volume:"), _("Set how low you want to hear the music. 0 means off. 9 is the max value."),
 		MB_CHOOSE|MB_VOLSET, &(gblOps.musvolume), 10, "0","1","2","3","4","5","6","7","8","9");
-	addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
+	addMenuTOption(&menu, _("Back"), _("Leave this menu."), 0, NULL, NONE);
     	
     while (!done) {
         opt = playMenuT(gfx, &menu);
@@ -862,11 +862,10 @@ void folderOptionsMenu(data_t* gfx)
     menu_t menu;
     
 	initMenuT(&menu);
-	addMenuTOption(&menu, gfx->msg[msg_repsavefolder],gfx->tip[tip_repsavefolder],MB_INPUT, &(gblOps.repDir), NONE);
-	addMenuTOption(&menu, gfx->msg[msg_repfolders],	  gfx->tip[tip_repfolders],   0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_themefolders], gfx->tip[tip_themefolders], 0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_langfolders],  gfx->tip[tip_langfolders],  0, NULL, NONE);
-	addMenuTOption(&menu, gfx->msg[msg_back],         gfx->tip[tip_back],         0, NULL, NONE);
+	addMenuTOption(&menu, _("Replay save folder:") , _("Choose where new recorded replays should be stored."),MB_INPUT, &(gblOps.repDir), NONE);
+	addMenuTOption(&menu, _("Replay Folders"), _("Manage the folders where GNUjump should look for replays."), 0, NULL, NONE);
+	addMenuTOption(&menu, _("Theme Folders"), _("Manage the folders where GNUjump should look for themes."), 0, NULL, NONE);
+	addMenuTOption(&menu, _("Back"), _("Leave this menu."), 0, NULL, NONE);
     	
     while (!done) {
         opt = playMenuT(gfx, &menu);
@@ -879,9 +878,6 @@ void folderOptionsMenu(data_t* gfx)
                 gblOps.ntfolders = manageDirsMenu(gfx, &gblOps.themeDirs, gblOps.ntfolders);
                 break;
             case 3:
-                gblOps.nlfolders = manageDirsMenu(gfx, &gblOps.langDirs, gblOps.nlfolders);
-                break;
-            case 4:
                 done = TRUE;
                 break;
             case NONE:
@@ -901,35 +897,35 @@ void gameOptionsMenu(data_t* gfx)
     
 	initMenuT(&menu);
 	
-    addMenuTOption(&menu, gfx->msg[msg_fpslimit], gfx->tip[tip_fpslimit], MB_CHOOSE,
+    addMenuTOption(&menu, _("FPS Limit:"), _("The original Xjump worked at 40 fps. Higher FPS imply more fluid gameplay, but limiting it is good if you don't want to use all your CPU."), MB_CHOOSE,
     			   &gblOps.fps, 4,
-    			   gfx->opt[opt_40fps],
-    			   gfx->opt[opt_100fps],
-    			   gfx->opt[opt_300fps],
-    			   gfx->opt[opt_nolimit]);
+    			   "Xjump",
+    			   "100 FPS",
+    			   "300 FPS",
+    			   _("No limit."));
     
-    addMenuTOption(&menu, gfx->msg[msg_jumpingrot], gfx->tip[tip_jumpingrot], MB_CHOOSE,
+    addMenuTOption(&menu, _("Rotation:"),_("Change how the player rotates when jumping."), MB_CHOOSE,
     			   &gblOps.rotMode, 3,
-    			   gfx->opt[opt_norot],
-    			   gfx->opt[opt_orginalrot],
-    			   gfx->opt[opt_fullrot]);
+    			   _("None"),
+    			   _("Xjump"),
+    			   _("Full"));
     			   
-	addMenuTOption(&menu, gfx->msg[msg_scrollmode], gfx->tip[tip_scrollmode], MB_CHOOSE,
+	addMenuTOption(&menu, _("Scrolling"), _("How do you want the tower to fall."), MB_CHOOSE,
     			   &gblOps.scrollMode, 2, 
-    			   gfx->opt[opt_hardscroll],
-    			   gfx->opt[opt_softscroll]);
+    			   _("Xjump"),
+    			   _("Soft"));
 
-	addMenuTOption(&menu, gfx->msg[msg_trail], gfx->tip[tip_trail], MB_CHOOSE,
+	addMenuTOption(&menu, _("Trail:"), _("Set this if you want the player to leave a trail behind him."), MB_CHOOSE,
     			   &gblOps.trailMode, 4, 
-    			   gfx->opt[opt_notrail],
-    			   gfx->opt[opt_thintrail],
-    			   gfx->opt[opt_normaltrail],
-    			   gfx->opt[opt_strongtrail]);
+    			   _("None"),
+    			   _("Thin"),
+    			   _("Normal"),
+    			   _("Strong"));
 
-	addMenuTOption(&menu, gfx->msg[msg_blur], gfx->tip[tip_blur], MB_CHOOSE,
+	addMenuTOption(&menu, _("Blur:"), _("Nice blur effect. Set a level from 0 to 9. Only availible in OpenGL mode."), MB_CHOOSE,
     			   &gblOps.blur, 10, "0","1","2","3","4","5","6","7","8","9");
 
-    addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
+    addMenuTOption(&menu, _("Back"), _("Leave this menu."), 0, NULL, NONE);
     			   
     playMenuT(gfx, &menu);
     
@@ -944,30 +940,30 @@ void gfxOptionsMenu(data_t* gfx)
     
     initMenuT(&menu);
     
-	addMenuTOption(&menu, gfx->msg[msg_fullscreen], gfx->tip[tip_fullscreen], MB_CHOOSE|MB_RETURN,
+	addMenuTOption(&menu, _("Fullscreen:"), _("Choose wether you want to play in a window or feel the overwhelming sensation of falling in all your screen!"), MB_CHOOSE|MB_RETURN,
     			   &gblOps.fullsc, 2, 
-    			   gfx->opt[opt_off],
-    			   gfx->opt[opt_on]);
+    			   _("Off"),
+    			   _("On"));
     			   
-    addMenuTOption(&menu, gfx->msg[msg_opengl], gfx->tip[tip_opengl], MB_CHOOSE|MB_RETURN,
+    addMenuTOption(&menu, _("OpenGL:"), _("Use OpenGL if you've got a 3d card. In most cases it will improve the performance. Some fading effects are only availible in this mode."), MB_CHOOSE|MB_RETURN,
     			   &ogl, 2,
-    			   gfx->opt[opt_off],
-    			   gfx->opt[opt_on]
+    			   _("Off"),
+    			   _("On")
     			   );
     
-    addMenuTOption(&menu, gfx->msg[msg_bpp], gfx->tip[tip_bpp], MB_CHOOSE|MB_RETURN,
+    addMenuTOption(&menu, _("Color depth:"), _("How many colors do you want to see in the screen. Usually auto is the best option, but when playing in fullscreen lower values might improve performance."), MB_CHOOSE|MB_RETURN,
     			   &gblOps.bpp, 4,
-    			   gfx->opt[opt_32bpp],
-    			   gfx->opt[opt_16bpp],
-    			   gfx->opt[opt_8bpp],
-    			   gfx->opt[opt_autobpp]);
+    			   "32 bpp",
+    			   "16 bpp",
+    			   "8 bpp",
+    			   _("Auto"));
     
-    addMenuTOption(&menu, gfx->msg[msg_antialiasing], gfx->tip[tip_antialiasing], MB_CHOOSE|MB_RETURN,
+    addMenuTOption(&menu, _("Antialiasing:"), _("Antialiasing will improve the look of the character when full rotation is set."), MB_CHOOSE|MB_RETURN,
     			   &gblOps.aa, 2,
-    			   gfx->opt[opt_off],
-    			   gfx->opt[opt_on]);
+    			   _("Off"),
+    			   _("On"));
     		   
-    addMenuTOption(&menu, gfx->msg[msg_back], gfx->tip[tip_back], 0, NULL, NONE);
+    addMenuTOption(&menu, _("Back"), _("Leave this menu."), 0, NULL, NONE);
 
     while(!done) {
 		switch (playMenuT(gfx, &menu)) {
@@ -1063,7 +1059,7 @@ void viewReplayMenu(data_t* gfx)
 
 int chooseLangMenu(data_t* gfx)
 {
-	char **options = NULL;
+/*	char **options = NULL;
 	char **tips = NULL;
 	char **dirs = NULL;
 	char **buf = NULL;
@@ -1126,7 +1122,7 @@ int chooseLangMenu(data_t* gfx)
 	free(dirs);
 	free(fullpaths);
 	
-	return ret;
+	return ret;*/ return 0;
 }
 
 void chooseThemeMenu(data_t* gfx)
@@ -1206,14 +1202,14 @@ int manageDirsMenu(data_t* gfx, char*** folders, int nfolders)
 		options = malloc(sizeof(char*)* (nfolders+2));
 		tips    = malloc(sizeof(char*)* (nfolders+2));
 		
-		options[0] 			= gfx->msg[msg_addfolder];
-		options[nfolders+1] = gfx->msg[msg_back];
-		tips[0] 			= gfx->tip[tip_addfolder];
-		tips[nfolders+1]    = gfx->tip[tip_back];
+		options[0] 			= _("Add");
+		options[nfolders+1] = _("Back");
+		tips[0] 			= _("Add a folder to the list.");
+		tips[nfolders+1]    = _("Leave this menu.");
 		
 		for (i=0; i< nfolders; i++) {
 			options[i+1] = (*folders)[i];
-			tips[i+1]    = gfx->tip[tip_folder];
+			tips[i+1]    = _("View more options about this folder.");
 		}
 	
 		opt = playMenuTab(gfx, -(nfolders+2), options, tips);
@@ -1223,19 +1219,19 @@ int manageDirsMenu(data_t* gfx, char*** folders, int nfolders)
 			*folders = realloc(*folders, sizeof(char*)* nfolders); 
 			
 			buf = getcwd(NULL,0);
-			(*folders)[nfolders-1] = inputMenu(gfx, gfx->tip[tip_writefolder], buf, gfx->menuW);
+			(*folders)[nfolders-1] = inputMenu(gfx, _("Write a full or relative path."), buf, gfx->menuW);
 			
 			free(buf); buf = NULL;
 		} else if (opt > 0 && opt < nfolders+1) {
 			/* Display the menu to edit an entry */
 			switch ( playMenu(gfx, -3,
-				     gfx->msg[msg_editfolder],   gfx->tip[tip_editfolder],
-				     gfx->msg[msg_deletefolder], gfx->tip[tip_deletefolder],
-				     gfx->msg[msg_back],         gfx->tip[tip_back]) 
+				     _("Modify"), _(""),
+				     _("Delete"), _(""),
+				     _("Back"), _("Leave this menu.")) 
 				   ){
 			case 0: /* edit */
 				buf = (*folders)[opt-1];
-				(*folders)[opt-1] = inputMenu(gfx,gfx->tip[tip_writefolder], buf, 256);
+				(*folders)[opt-1] = inputMenu(gfx,_("Write a full or relative path."), buf, 256);
 				free(buf);
 				break;
 			case 1: /* delete */

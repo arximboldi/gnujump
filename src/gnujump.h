@@ -26,6 +26,10 @@
 // HEADERS
 //==============================================================================
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 /* ---------------------------- STANDARD INCLUDES ----------------------------*/
 #include <math.h>
 #include <stdio.h>
@@ -42,20 +46,20 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "gettext.h"
+#define _(str) gettext(str)
+
 /* ----------------------------- LOCAL INCLUDES ------------------------------*/
 #include "surface.h"
 #include "sprite.h"
 #include "SFont.h"
 
-#include "lang.h"
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 //==============================================================================
 // DEFINITIONS
 //==============================================================================
+
+/* Me */
+#define AUTHOR "Juan Pedro Bolívar Puente"
 
 /* Config, theme and language files format version */
 #define PROT_VERS "03"
@@ -78,8 +82,6 @@
 #define DEFTHEME "default"
 #define CFGFILE "gnujump.cfg"
 #define HSCFILE "gnujump.hsc"
-#define DEFLANG "lang/english.lang"
-#define LANGEXT ".lang"
 #define REPEXT ".rep"
 #define CONFDIR ".gnujump"
 
@@ -233,7 +235,7 @@ typedef struct
     int trailMode;
     int blur;
     int mpLives;
-    int nplayers;    
+    int nplayers;
     int recReplay;
     int repFps;
     
@@ -244,13 +246,10 @@ typedef struct
     /* Data files */
     char *dataDir;
 	char **themeDirs;
-	char *langFile;
-	char **langDirs;
 	char *repDir;
 	char **repDirs;
 	int nrfolders;
 	int ntfolders;
-	int nlfolders;
 	
 	/* The records tab, organized from best to worst */
 	records_t records[MAX_RECORDS]; 
@@ -331,13 +330,7 @@ typedef struct
     JPB_surface* floorR;
     JPB_surface* floorC;
 	
-	char* opt[OPT_COUNT];
-	char* msg[MSG_COUNT];
-	char* tip[TIP_COUNT];
-	char* txt[TXT_COUNT];
-	
 	/* Credits */
-#define CODEAUTH "Juan Pedro Bolivar Puente"
 	char* gfxauth;
 	char* sndauth;
 	char* langauth;

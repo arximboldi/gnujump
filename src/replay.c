@@ -318,9 +318,9 @@ int playReplay(data_t* gfx, replay_t* rep)
     while(!done) {
 		if ((r = updateInputReplay(&game))) {
 			if (r == PAUSED ) {
-				done = pauseGame(gfx, &game, gfx->txt[txt_pause]);
+				done = pauseGame(gfx, &game, _("PAUSE"));
 			} else  {
-				done = yesNoQuestion(gfx, &game, gfx->txt[txt_askquitrep]);
+				done = yesNoQuestion(gfx, &game, _("Are you sure you want to stop playing this replay? (Y/n)"));
 			}
 			continueTimer(&timer);
 		}
@@ -334,7 +334,7 @@ int playReplay(data_t* gfx, replay_t* rep)
 		if (++i == rep->nframes) done = ENDMATCH;
     }
 	if (done == ENDMATCH) {
-		r = yesNoQuestion(gfx, &game, gfx->txt[txt_askrepagain]);
+		r = yesNoQuestion(gfx, &game, _("Do you want to watch this replay again? (Y/n)"));
 	} else {
 		r = FALSE;
 	}
@@ -373,7 +373,7 @@ int saveReplay(replay_t* rep, char* fname, char* comment)
 	sprintf(fullname, "%s/%s%s", gblOps.repDir, fname, REPEXT);
 	
 	if ((fh = fopen(fullname,"wb")) == NULL) {
-		fprintf(stderr, "ERROR: Could not save replay to %s\n", fullname);
+		fprintf(stderr, _("ERROR: Could not save replay to %s\n"), fullname);
 		free(fullname);
 		return FALSE;
 	}
@@ -432,21 +432,25 @@ int loadReplay(data_t* gfx, char *file)
 	int version;
 	int size;
 	replay_t rep;
+	char* comment;
+	int i;
 	
 	size = getFileSize(file);
 	
 	if ((fh = fopen(file,"rb")) == NULL) {
-		fprintf(stderr, "ERROR: Could not open replay %s\n", file);
+		fprintf(stderr, _("ERROR: Could not open replay %s\n"), file);
 		return FALSE;
 	}
 	
 	version = fgetUint32(fh);
 	if (version != REP_VERS) {
-		fprintf(stderr, "ERROR: Replay %s is of a different version.\n", file);
+		fprintf(stderr, _("ERROR: Replay %s is of a different version.\n"), file);
 		return FALSE;
 	}
 	
-	while(fgetc(fh) != '\0');
+	i = 0;
+	comment = malloc(sizeof(char)*MAX_CHAR);
+	while ((comment[i++] = fgetc(fh)) != '\0');
 	
 	rep.record = fgetUint32(fh);
 	rep.totalms = fgetUint32(fh);
@@ -461,11 +465,12 @@ int loadReplay(data_t* gfx, char *file)
 	
 	fclose(fh);
 	
-	printf("Replay loaded: Size: %d FPS: %d Frames: %d Record: %d Time: %d\n",
-			size, rep.fps, rep.nframes, rep.record, rep.totalms/1000);
+	printf(_("Replay loaded: Size: %d FPS: %d Frames: %d Record: %d Time: %d Comment: %s\n"),
+			size, rep.fps, rep.nframes, rep.record, rep.totalms/1000, comment);
 	while(playReplay(gfx, &rep));
 	
 	freeReplay(&rep);
+	free(comment);
 	
 	return TRUE;
 }
@@ -478,13 +483,13 @@ char* getReplayComment(char* file)
 	int i;
 	
 	if ((fh = fopen(file,"rb")) == NULL) {
-		fprintf(stderr, "WARNING: Could not open replay %s\n", file);
+		fprintf(stderr, _("WARNING: Could not open replay %s\n"), file);
 		return NULL;
 	}
 	
 	version = fgetUint32(fh);
 	if (version != REP_VERS) {
-		fprintf(stderr, "WARNING: Replay %s is of a different version.\n", file);
+		fprintf(stderr, _("WARNING: Replay %s is of a different version.\n"), file);
 		return NULL;
 	}
 	

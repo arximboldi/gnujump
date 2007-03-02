@@ -44,6 +44,11 @@ int main(int argc, char *argv[])
     char* homeDir;
     char* replay = NULL;
     
+    /* Init gettext */
+    setlocale(LC_ALL, "");
+	textdomain(PACKAGE);
+	bindtextdomain(PACKAGE, LOCALEDIR);
+    
     /* Get the config file name */
 #ifndef WIN32 
     homeDir = getenv("HOME");
@@ -60,8 +65,7 @@ int main(int argc, char *argv[])
     strcat(hscFile,HSCFILE);
     
 	if (!loadConfigFile(cfgFile)) {
-        /* Set default options */
-        initGblOps();
+        initGblOps(); /* Set default options */
     }
 	if (!loadRecords(hscFile, gblOps.records)) {
 		defaultRecords(gblOps.records);		
@@ -75,8 +79,7 @@ int main(int argc, char *argv[])
     EngineInit();
     
 	gfxdata.soundloaded = FALSE;
-	if (!loadGraphics(&gfxdata, gblOps.dataDir) 
-	 || !loadLanguage(&gfxdata, gblOps.langFile))
+	if (!loadGraphics(&gfxdata, gblOps.dataDir))
 		return 1;
 	
 	//gblOps.fps = 20;
@@ -90,7 +93,6 @@ int main(int argc, char *argv[])
 	
     /* Free some things */
     freeGraphics(&gfxdata);
-    freeLanguage(&gfxdata);
     freeSounds(&gfxdata);
     
     cleanGblOps();
@@ -100,28 +102,28 @@ int main(int argc, char *argv[])
     free(cfgFile);
     free(hscFile);
     
-    printf("\nHave a nice day!\n\n");
-        
+    printf(_("\nHave a nice day!\n\n"));
+
     return 0;
 }
 
 void displayHelp()
 {
     printf(
-    "\n SDLjump, an xjump clone. By Juan Pedro Bolivar Puente.\n"
-    " This software can be redistributed and modified under the terms of the GPL.\n\n"
-    " usage: sdljump [REPLAY_FILE] [OPTIONS] \n"
-    " availible options:\n"
-    " -w <int>  --width <int>   Forces the screen width to <int> units.\n"
-    " -h <int>  --height <int>  Forces the screen height to <int> units.\n"
-    " -b <int>  --bpp <int>     Sets the screen bitdepth to <int>. \n"
-    " -f        --fullscreen    Force fullscreen mode.\n"
-    " -s        --software      Force software rendering.\n"
-    " -o        --opengl        Force OpenGL rendering.\n"
-    " -a        --antialias     Force antialiasing for rotating sprites. \n"
-    " -n        --no-aa         Disables antialiasing for rotating sprites. \n"
-    " -?        --help          Displays this help screen.\n"
-    " \n Example: sdljump myRep.rep -o -f\n"
+    _("GNUjump, an xjump clone. By Juan Pedro Bolivar Puente.\n\
+This software can be redistributed and modified under the terms of the GPL.\n\n\
+Usage: sdljump [REPLAY_FILE] [OPTIONS] \n\
+Availible options:\n\
+-w <int>  --width <int>   Forces the screen width to <int> units.\n\
+-h <int>  --height <int>  Forces the screen height to <int> units.\n\
+-b <int>  --bpp <int>     Sets the screen bitdepth to <int>. \n\
+-f        --fullscreen    Force fullscreen mode.\n\
+-s        --software      Force software rendering.\n\
+-o        --opengl        Force OpenGL rendering.\n\
+-a        --antialias     Force antialiasing for rotating sprites. \n\
+-n        --no-aa         Disables antialiasing for rotating sprites. \n\
+-?        --help          Displays this help screen.\n\
+\nExample: sdljump myRep.rep -o -f\n")
     );  
 }
 
@@ -129,7 +131,7 @@ void displayInfo()
 {
     printf(
     "\n*********************************************************************"
-    "\n*                            SDLjump                                *"
+    "\n*                            GNUjump                                *"
     "\n*********************************************************************"
     "\nCopyright (C) 2005, Juan Pedro Bolivar Puente\n"
     );
@@ -137,7 +139,7 @@ void displayInfo()
     printf("\nVERSION: %s", VERSION);
     
     printf(
-    "\n\n SDLjump is free software; you can redistribute it and/or modify\n"
+    "\n\n GNUjump is free software; you can redistribute it and/or modify\n"
     "it under the terms of the GNU General Public License as published by\n"
     "the Free Software Foundation; either version 2 of the License, or\n"
     "(at your option) any later version.\n\n"
@@ -146,7 +148,7 @@ void displayInfo()
     "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
     "GNU General Public License for more details.\n\n"
     "You should have received a copy of the GNU General Public License\n"
-    "along with SDLjump; if not, write to the Free Software\n"
+    "along with GNUjump; if not, write to the Free Software\n"
     "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n"
     );
 }

@@ -91,7 +91,7 @@ int getDirList(char* folder, char*** tab)
 
     n = scandir(folder, &namelist, 0, alphasort);
     if (n < 0)
-        fprintf(stderr,"WARNING: Theme folder (%s) doesn't exist.\n",folder);
+        fprintf(stderr,_("WARNING: Folder (%s) doesn't exist.\n"),folder);
     else {
 		while(n--) {
 			sprintf(sbuf,"%s/%s",folder,namelist[n]->d_name);
@@ -123,7 +123,7 @@ int getFileList(char* folder, char*** tab)
 
     n = scandir(folder, &namelist, 0, alphasort);
     if (n < 0)
-        fprintf(stderr,"WARNING: Theme folder (%s) doesn't exist.\n",folder);
+        fprintf(stderr,_("WARNING: Folder (%s) doesn't exist.\n"),folder);
     else {
 		while(n--) {
 			sprintf(sbuf,"%s/%s",folder,namelist[n]->d_name);
@@ -296,7 +296,7 @@ int getValue_int(FILE* tfile, char * value)
         fscanf(tfile, "%i", &data);
         return data;
     } else {
-        printf("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n",value,tvalue);
+        printf(_("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n"),value,tvalue);
         return 0;
     }
 }
@@ -314,7 +314,7 @@ float getValue_float(FILE * tfile, char * value)
         fscanf(tfile, "%f", &data);
         return data;
     } else {
-        printf("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n",value,tvalue);
+        printf(_("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n"),value,tvalue);
         return 0;
     }   
 }
@@ -338,7 +338,7 @@ void getValue_str(FILE * tfile, char * value, char * data, char* path)
         }
         return;
     } else {
-        printf("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n",value,tvalue);
+        printf(_("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n"),value,tvalue);
         return;
     }   
 }
@@ -361,7 +361,7 @@ char* getValue_charp(FILE * tfile, char * value)
 		
         return ret;
     } else {
-        printf("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n",value,tvalue);
+        printf(_("ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n"),value,tvalue);
         return NULL;
     }   
 }

@@ -56,8 +56,4 @@ int loadSounds(data_t* data, char* fname);
 
 void freeSounds(data_t* data);
 
-int loadLanguage(data_t* data, char* fname);
-
-void freeLanguage(data_t* data);
-
 #endif

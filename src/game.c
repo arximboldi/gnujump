@@ -110,14 +110,14 @@ int playGame(data_t* gfx, int numHeros)
     while(!done) {
 		if ((r = updateInput(&game))) {
 			if (r == PAUSED ) {
-				done = pauseGame(gfx, &game, gfx->txt[txt_pause]);
+				done = pauseGame(gfx, &game, _("PAUSE"));
 			} else  {
-				done = yesNoQuestion(gfx, &game, gfx->txt[txt_askquit]);
+				done = yesNoQuestion(gfx, &game, _("Are you sure you want to end this match? (Y/n)"));
 			}
 			continueTimer(&timer);
 		}
 		if ((SDL_GetAppState() & SDL_APPINPUTFOCUS) != SDL_APPINPUTFOCUS) {
-			done = pauseGame(gfx, &game, gfx->txt[txt_pause]);
+			done = pauseGame(gfx, &game, _("PAUSE"));
 			continueTimer(&timer);
 		}
         updateTimer(&timer);
@@ -152,7 +152,6 @@ int updateGame(game_t* game, data_t* gfx, float ms)
         game->T_speed += fact/4;
     else if( game->T_speed < 15000 )
         game->T_speed += fact/8;
-    
     
     game->T_count += game->T_speed * fact;
     
@@ -226,7 +225,7 @@ int pauseGame(data_t* gfx, game_t* game,  char* text)
 	}
 	
 	if (ret) {
-		return yesNoQuestion(gfx, game, gfx->txt[txt_askquit]);
+		return yesNoQuestion(gfx, game, _("Do you really want to quit this match? (Y/n)"));
 	}
 	
 	return ret;
@@ -251,7 +250,7 @@ int endMatch(data_t* gfx, game_t* game, int time)
 		}
 	}
 	if (gblOps.recReplay) {
-		if ( yesNoQuestion(gfx, game, gfx->txt[txt_askreplay])) {
+		if ( yesNoQuestion(gfx, game, _("Do you want to view or save the replay of this match?"))) {
 			saveReplayMenu(gfx, &(game->replay));
 			drawBg( gfx->gameBg, 0,0, gblOps.w, gblOps.h);
 			drawScore(gfx, game, time);
@@ -260,7 +259,7 @@ int endMatch(data_t* gfx, game_t* game, int time)
 	}
 	if (newrec) {
 		Mix_PlayChannel(-1, gfx->grecord, 0);
-		if (yesNoQuestion(gfx, game, gfx->txt[txt_newhsc])) {
+		if (yesNoQuestion(gfx, game, _("Congratulations! You have made a new local highscore. Do you want to play again? (Y/n)"))) {
 			return TRUE;
 		}
 		drawGame(gfx, game);
@@ -268,7 +267,7 @@ int endMatch(data_t* gfx, game_t* game, int time)
 		pressAnyKey();
 		return FALSE;
 	} else {
-		return yesNoQuestion(gfx, game, gfx->txt[txt_gameover]);
+		return yesNoQuestion(gfx, game, _("Game Over. Do you want to play again? (Y/n)"));
 	}
 }
 
@@ -726,8 +725,8 @@ void drawGame(data_t* gfx, game_t* game)
 
     for( y = game->floorTop % 5 ; y < GRIDHEIGHT ; y += 5 ) {
         x = game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ];
-        width = game->floor_r[ ( y+game->mapIndex) % GRIDHEIGHT ] -x+1;
-        if( y*BLOCKSIZE + game->scrollCount < (GRIDHEIGHT-1)*BLOCKSIZE)
+        width = game->floor_r[ (y+game->mapIndex) % GRIDHEIGHT ] -x+1;
+        if((y*BLOCKSIZE + game->scrollCount) < (GRIDHEIGHT-1)*BLOCKSIZE)
             drawFloor(gfx,x, y*BLOCKSIZE + game->scrollCount, width);
     }
 	
@@ -967,7 +966,7 @@ void drawRecords(data_t* gfx, records_t* rtab, int hl)
 	x = gfx->gameX + 2*BLOCKSIZE;
 	w = GRIDWIDTH*BLOCKSIZE - 4*BLOCKSIZE;
 	h = BLOCKSIZE + 12*gfx->textfont->Surface->h 
-	    + SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,0,gfx->txt[txt_hscnote]);
+	    + SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,0,_("Press any key to continue. Read the README or the 'man' page to learn the meaning of the 'mode' column."));
 	y = gfx->gameY + (GRIDHEIGHT*BLOCKSIZE - h)/2;
 	
 	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
@@ -980,21 +979,21 @@ void drawRecords(data_t* gfx, records_t* rtab, int hl)
 	x1 = x + BLOCKSIZE;
 	
 	x2 = x1 + SFont_TextWidth(gfx->textfont, "#   ");
-	sprintf(buf, "%s %s %s %s", gfx->txt[txt_floor], gfx->txt[txt_mode], gfx->txt[txt_time], rtab[0].date);
+	sprintf(buf, "%s %s %s %s", _("Floor"), _("Mode"), _("Time"), rtab[0].date);
 	
 	x3 = x1 + w - 2*BLOCKSIZE - SFont_TextWidth(gfx->textfont, buf);
-	sprintf(buf, "%s %s %s %s", gfx->txt[txt_floor], gfx->txt[txt_mode], gfx->txt[txt_time], gfx->txt[txt_date]);
+	sprintf(buf, "%s %s %s %s", _("Floor"), _("Mode"), _("Time"), _("Date"));
 	SFont_Write(gfx->textfont, x3, y, buf);
-	sprintf(buf,"%s ", gfx->txt[txt_floor]);
+	sprintf(buf,"%s ", _("Floor"));
 	
 	x4 = x3 + SFont_TextWidth(gfx->textfont, buf);
-	sprintf(buf,"%s ", gfx->txt[txt_mode]);
+	sprintf(buf,"%s ", _("Mode"));
 	
 	x5 = x4 + SFont_TextWidth(gfx->textfont, buf);
-	sprintf(buf,"%s ", gfx->txt[txt_time]);
+	sprintf(buf,"%s ", _("Time"));
 	
 	x6 = x5 + SFont_TextWidth(gfx->textfont, buf);
-	sprintf(buf,"#  %s ", gfx->txt[txt_name]);
+	sprintf(buf,"#  %s ", _("Date"));
 	SFont_Write(gfx->textfont, x1, y, buf);
 	
 	for (i = 0; i < MAX_RECORDS; i++) {
@@ -1026,7 +1025,7 @@ void drawRecords(data_t* gfx, records_t* rtab, int hl)
 	}
 	y += gfx->textfont->Surface->h*2;
 	SFont_WriteAligned(gfx->textfont, x1, y, w-2*BLOCKSIZE,
-						0, ALEFT, gfx->txt[txt_hscnote]);
+		0, ALEFT, _("Press any key to continue. Read the README or the 'man' page to learn the meaning of the 'mode' column."));
 	
 	FlipScreen();
 }
@@ -1037,8 +1036,7 @@ void drawCredits(data_t* gfx)
 	
 	x = gfx->gameX + 2*BLOCKSIZE;
 	w = GRIDWIDTH*BLOCKSIZE - 4*BLOCKSIZE;
-	h = BLOCKSIZE + 12*gfx->textfont->Surface->h 
-	    + SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,0,gfx->txt[txt_hscnote]);
+	h = BLOCKSIZE + 12*gfx->textfont->Surface->h;
 	y = gfx->gameY + (GRIDHEIGHT*BLOCKSIZE - h)/2;
 	
 	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
@@ -1047,19 +1045,19 @@ void drawCredits(data_t* gfx)
 	x += BLOCKSIZE;
 	
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
-		0, ACENTER, gfx->txt[txt_codeauthor]);
+		0, ACENTER, _("SOURCE CODE AUTHOR"));
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
-		0, gfx->txt[txt_codeauthor]);
+		0, _("SOURCE CODE AUTHOR"));
 	
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
-		0, ACENTER, CODEAUTH);
+		0, ACENTER, AUTHOR);
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
-		0, CODEAUTH) + SFont_TextHeight(gfx->textfont);
+		0, AUTHOR) + SFont_TextHeight(gfx->textfont);
 	
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
-		0, ACENTER, gfx->txt[txt_gfxauthor]);
+		0, ACENTER, _("THIS GRAPHICS THEME AUTHOR"));
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
-		0, gfx->txt[txt_gfxauthor]);
+		0, _("THIS GRAPHICS THEME AUTHOR"));
 		
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
 		0, ACENTER, gfx->gfxauth);
@@ -1067,9 +1065,9 @@ void drawCredits(data_t* gfx)
 		0, gfx->gfxauth) + SFont_TextHeight(gfx->textfont);
 		
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
-		0, ACENTER, gfx->txt[txt_sndauthor]);
+		0, ACENTER, _("THIS SOUND THEME AUTHOR"));
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
-		0, gfx->txt[txt_sndauthor]);
+		0, _("THIS SOUND THEME AUTHOR"));
 	
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
 		0, ACENTER, gfx->sndauth);
@@ -1077,9 +1075,9 @@ void drawCredits(data_t* gfx)
 		0, gfx->sndauth) + SFont_TextHeight(gfx->textfont);
 	
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
-		0, ACENTER, gfx->txt[txt_langauthor]);
+		0, ACENTER, _("THIS TRANSLATION AUTHOR"));
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
-		0, gfx->txt[txt_langauthor]);
+		0, _("THIS TRANSLATION AUTHOR"));
 
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
 		0, ACENTER, gfx->langauth);

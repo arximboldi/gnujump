@@ -67,7 +67,6 @@ trail_t* makeTrail(float x0, float y0, float x1, float y1)
 	return trail;
 }
 
-/* Returns the last trail in the list */
 void updateTrails(hero_t* hero, float msec)
 {
 	trail_t* trail;

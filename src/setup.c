@@ -63,8 +63,6 @@ void initGblOps(void)
 #ifdef WIN32
 	gblOps.dataDir  = malloc(sizeof(char)* (strlen("skins/")+strlen(DEFTHEME)+1));
     sprintf(gblOps.dataDir, "skins/%s",DEFTHEME);
-    gblOps.langFile = malloc(sizeof(char)* (strlen(DEFLANG)+1));
-    sprintf(gblOps.langFile, "%s", DEFTHEME);
 	gblOps.repDir = malloc(sizeof(char)* (strlen(".")+1));
     sprintf(gblOps.repDir, ".");
 #else
@@ -72,58 +70,42 @@ void initGblOps(void)
     sprintf(gblOps.repDir, "%s", cfgDir);
   #ifndef DEVEL
     gblOps.dataDir  = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen("/skins/") + strlen(DEFTHEME)+2));
-    gblOps.langFile = malloc(sizeof(char)* (strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen(DEFLANG)+3));
     sprintf(gblOps.dataDir, "%s/%s/skins/%s",DATA_PREFIX,PACKAGE,DEFTHEME);
-    sprintf(gblOps.langFile, "%s/%s/%s", DATA_PREFIX,PACKAGE,DEFLANG);
   #else
 	gblOps.dataDir = malloc(sizeof(char) *(strlen("../skins/") + strlen(DEFTHEME)+1));
     sprintf(gblOps.dataDir, "../skins/%s",DEFTHEME);
-    gblOps.langFile = malloc(sizeof(char)*(strlen("../") + strlen(DEFLANG)+1));
-    sprintf(gblOps.langFile, "../%s", DEFLANG);
   #endif
 #endif
 	
     /* Setting up the list of skin and theme folders */
 #ifdef WIN32
 	gblOps.ntfolders = 1;
-    gblOps.nlfolders = 1;
 	gblOps.nrfolders = 1;
 	gblOps.themeDirs = malloc(sizeof(char*)*gblOps.ntfolders);
-	gblOps.langDirs = malloc(sizeof(char*)*gblOps.nlfolders);
 	gblOps.repDirs = malloc(sizeof(char*)*gblOps.nrfolders);
 	
 	gblOps.themeDirs[0] = malloc(sizeof(char) * (strlen("skins")+1));
 	strcpy(gblOps.themeDirs[0],"skins");
-	gblOps.langDirs[0] = malloc(sizeof(char) * (strlen("lang")+1));
-	strcpy(gblOps.langDirs[0],"lang");
 	gblOps.repDirs[0] = malloc(sizeof(char) * (strlen(".")+1));
 	strcpy(gblOps.repDirs[0],".");
 #else
 	gblOps.ntfolders = 2;
-    gblOps.nlfolders = 2;
     gblOps.nrfolders = 1;
 	gblOps.themeDirs = malloc(sizeof(char*)*gblOps.ntfolders);
-	gblOps.langDirs = malloc(sizeof(char*)*gblOps.nlfolders);
 	gblOps.repDirs = malloc(sizeof(char*)*gblOps.nrfolders);
 	
 	gblOps.themeDirs[0] = malloc(sizeof(char)*strlen(cfgDir)+1);
-  	gblOps.langDirs[0] = malloc(sizeof(char)*strlen(cfgDir)+1);
   	gblOps.repDirs[0] = malloc(sizeof(char)*strlen(cfgDir)+1);
   	strcpy(gblOps.themeDirs[0], cfgDir);
-  	strcpy(gblOps.langDirs[0], cfgDir);
   	strcpy(gblOps.repDirs[0], cfgDir);	
   	
   	free(cfgDir);
   #ifndef DEVEL
 	gblOps.themeDirs[1] = malloc(sizeof(char) *	(strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen("/skins")  +2));
 	sprintf(gblOps.themeDirs[1],"%s/%s/skins",DATA_PREFIX,PACKAGE);
-	gblOps.langDirs[1] = malloc(sizeof(char) *	(strlen(DATA_PREFIX) + strlen(PACKAGE) + strlen("/lang")  +2));
-	sprintf(gblOps.langDirs[1],"%s/%s/lang",DATA_PREFIX,PACKAGE);
   #else
     gblOps.themeDirs[1] = malloc(sizeof(char) * (strlen("../skins") +2));
 	sprintf(gblOps.themeDirs[1],"../skins");
-	gblOps.langDirs[1] = malloc(sizeof(char) * (strlen("../lang") +2));
-	sprintf(gblOps.langDirs[1],"../lang");
   #endif
 #endif
         
@@ -161,11 +143,11 @@ void cleanGblOps(void)
 	for (i=0; i<gblOps.ntfolders; i++) {
         free(gblOps.themeDirs[i]);
     }
-    for (i=0; i<gblOps.nlfolders; i++) {
-        free(gblOps.langDirs[i]);
+    for (i=0; i<gblOps.nrfolders; i++) {
+        free(gblOps.repDirs[i]);
     }
 	free(gblOps.themeDirs);
-	free(gblOps.langDirs);
+	free(gblOps.repDirs);
 }
 
 int loadConfigFile(char* fname)
@@ -175,13 +157,13 @@ int loadConfigFile(char* fname)
     char str[MAX_CHAR];
     
     if ((tfile = fopen(fname,"r"))==NULL) {
-        fprintf(stderr,"WARNING: Can't open config file (%s). I will create one later.\n",fname);
+        fprintf(stderr,_("WARNING: Can't open config file (%s). I will create one later.\n"),fname);
         return FALSE;
     }
     getValue_str(tfile,"protocol_version",str,FALSE);
     if (strcmp(str,PROT_VERS)!=0) {
         fclose(tfile);
-        fprintf(stderr,"WARNING: Config file (%s) is not compatible with this version of gnujump. I will rewrite it later.\n",fname);
+        fprintf(stderr,_("WARNING: Config file (%s) is not compatible with this version of gnujump. I will rewrite it later.\n"),fname);
         return FALSE;
     }
     
@@ -210,13 +192,6 @@ int loadConfigFile(char* fname)
 	gblOps.themeDirs = malloc(sizeof(char*)*gblOps.ntfolders);
 	for (i = 0; i< gblOps.ntfolders; i++) {
 		gblOps.themeDirs[i] = getValue_charp(tfile,"skin_dir");
-	}
-    
-    gblOps.langFile = getValue_charp(tfile,"default_lang");	
-	gblOps.nlfolders = getValue_int(tfile,"lang_folders");
-	gblOps.langDirs = malloc(sizeof(char*)*gblOps.nlfolders);
-	for (i = 0; i< gblOps.nlfolders; i++) {
-		gblOps.langDirs[i] = getValue_charp(tfile,"lang_dir");
 	}
 	
 	gblOps.repDir = getValue_charp(tfile,"replay_save_folder");	
@@ -247,7 +222,7 @@ int writeConfigFile(char* fname)
     int i;
     
     if ((tfile = fopen(fname,"w"))==NULL) {
-        fprintf(stderr,"WARNING: Can't open config file (%s). Make sure that it is not being used by another app.\n",fname);
+        fprintf(stderr,_("WARNING: Can't open config file (%s). Make sure that it is not being used by another app.\n"),fname);
 		return FALSE;
     }
     
@@ -288,14 +263,6 @@ int writeConfigFile(char* fname)
 	}
 	
 	putLine(tfile);
-    putComment(tfile,"Lang options");
-    putValue_str(tfile,"default_lang",gblOps.langFile);
-    putValue_int(tfile,"lang_folders",gblOps.nlfolders);
-	for (i = 0; i< gblOps.nlfolders; i++) {
-		putValue_str(tfile,"lang_dir",gblOps.langDirs[i]);
-	}
-	
-	putLine(tfile);
     putComment(tfile,"Replay dir options");
     putValue_str(tfile,"replay_save_folder",gblOps.repDir);
     putValue_int(tfile,"replay_folders", gblOps.nrfolders);
@@ -329,7 +296,7 @@ char* getThemeComment(char* fname)
 	strcpy (file,fname); strcat(file,THEMEFILE);
 	
 	if ((fh = fopen(file,"r")) == NULL){
-        fprintf(stderr,"WARNING: Can open theme file (%s).\n", file);
+        fprintf(stderr,_("WARNING: Can open theme file (%s).\n"), file);
 		free(file);
         return NULL;
     }
@@ -337,7 +304,7 @@ char* getThemeComment(char* fname)
 	getValue_str(fh,"format",str,FALSE);
     if (strcmp(str,THEME_VERS)!=0) {
         fclose(fh);
-        fprintf(stderr,"WARNING: Theme file (%s) is not of the correct format.\n", file);
+        fprintf(stderr,_("WARNING: Theme file (%s) is not of the correct format.\n"), file);
 		free(file);
         return NULL;
     }
@@ -345,7 +312,7 @@ char* getThemeComment(char* fname)
 	ret = getValue_charp(fh,"comment");
 	fclose(fh);
 
-	printf("Successfully loaded comment from: %s\n",file);
+	printf(_("Successfully loaded comment from: %s\n"),file);
 	free(file);
 	
 	return ret;
@@ -358,20 +325,20 @@ char* getLangComment(char* fname)
 	char* ret = NULL;
 
 	if ((fh = fopen(fname,"r")) == NULL){
-        fprintf(stderr,"WARNING: Can open lang file (%s).\n", fname);
+        fprintf(stderr,_("WARNING: Can open lang file (%s).\n"), fname);
         return NULL;
     }
 	
 	getValue_str(fh,"format",str,FALSE);
     if (strcmp(str,LANG_VERS)!=0) {
         fclose(fh);
-        fprintf(stderr,"WARNING: Theme file (%s) is not of the correct format.\n", fname);
+        fprintf(stderr,_("WARNING: Theme file (%s) is not of the correct format.\n"), fname);
         return NULL;
     }
 	
 	ret = getValue_charp(fh,"comment");
 	fclose(fh);
-	printf("Successfully loaded comment from: %s\n",fname);
+	printf(_("Successfully loaded comment from: %s\n"),fname);
 	
 	return ret;
 }
@@ -380,14 +347,14 @@ void EngineInit()
 {	
     //Everything starts!!
     if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 ) {
-        fprintf(stderr, "ERROR: SDL_Init did not work because: %s\n", SDL_GetError());
+        fprintf(stderr, _("ERROR: SDL_Init did not work because: %s\n"), SDL_GetError());
     	exit(2);
     }
     
 	atexit(SDL_Quit); //this avoids exiting without ending 
         
     if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
-		fprintf(stderr, "ERROR: Mix_OpenAudio: %s\n", Mix_GetError());
+		fprintf(stderr, _("ERROR: Mix_OpenAudio: %s\n"), Mix_GetError());
 	else	
 		resetVolumes();
 }
@@ -425,7 +392,7 @@ void setWindow()
 		SDL_WM_SetCaption("GNUjump " VERSION " (Sofware rendering)",NULL);
 	}
 	
-	printf("Window created. BPP: %d, Resolution: %dx%d, OpenGL: %d\n",
+	printf(_("Window created. BPP: %d, Resolution: %dx%d, OpenGL: %d\n"),
 		screen->format->BitsPerPixel,
 		screen->w,screen->h,
 		(screen->flags & SDL_OPENGL) == SDL_OPENGL
@@ -447,10 +414,8 @@ void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
 		screen = SDL_SetVideoMode(w, h, bpp, SDL_FULLSCREEN|SDL_OPENGL);
 		if (screen == NULL) {
 			fprintf(stderr,
-				"WARNING: I could not set up fullscreen video for "
-				"640x480 mode."
-				"The Simple DirectMedia error that occured was:"
-				"%s\n", SDL_GetError());
+				_("ERROR: The screen wasn't initialized beacause: %s\n"), 
+				SDL_GetError());
 			use_fullscreen = 0;
 		}
 	} else {
@@ -458,9 +423,8 @@ void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
 	
 		if (screen == NULL) {
 			fprintf(stderr,
-					"ERROR: I could not set up video for 640x480 mode."
-				" The Simple DirectMedia error that occured was: "
-				"%s\n", SDL_GetError());
+				_("ERROR: The screen wasn't initialized beacause: %s\n"),
+				SDL_GetError());
 			exit(1);
 		}
 	}
@@ -491,12 +455,12 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp)
                           SDL_FULLSCREEN |
                           SDL_SWSURFACE);
 		if (screen == NULL) {
-            printf("ERROR: The screen wasn't initialized beacause: %s\n", SDL_GetError());
+            printf(_("ERROR: The screen wasn't initialized beacause: %s\n"), SDL_GetError());
         }
     } else { //Fullscreen OFF
         screen = SDL_SetVideoMode(w,h,bpp,SDL_HWSURFACE /* | SDL_DOUBLEBUF*/);
         if (screen == NULL) {
-            printf("ERROR: The screen wasn't initialized beacause: %s\n", SDL_GetError());
+            printf(_("ERROR: The screen wasn't initialized beacause: %s\n"), SDL_GetError());
         }
     }
 }
@@ -516,11 +480,11 @@ int loadSounds(data_t* data, char* fname)
 	file = malloc(sizeof(char)*(strlen(fname)+strlen(SOUNDFILE)+1));
 	strcpy (file,fname); strcat(file,SOUNDFILE);
 	
-	printf("Loading sounds: %s\n",file);
+	printf(_("Loading sounds: %s\n"),file);
 	data->soundloaded = TRUE;
 	
 	if ((fh = fopen(file,"r")) == NULL){
-        fprintf(stderr,"ERROR: Can open sounds file (%s).\n", file);
+        fprintf(stderr,_("ERROR: Can open sounds file (%s).\n"), file);
 		free(file);
         return 0;
     }
@@ -528,7 +492,7 @@ int loadSounds(data_t* data, char* fname)
 	getValue_str(fh,"format",str,FALSE);
     if (strcmp(str,SOUND_VERS)!=0) {
         fclose(fh);
-        fprintf(stderr,"ERROR: Sound file (%s) is not of the correct format.\n", file);
+        fprintf(stderr,_("ERROR: Sound file (%s) is not of the correct format.\n"), file);
 		free(file);
         return 0;
     }
@@ -590,10 +554,10 @@ int loadGraphics(data_t* data, char* fname)
 	file = malloc(sizeof(char)*(strlen(fname)+strlen(THEMEFILE)+1));
 	strcpy (file,fname); strcat(file,THEMEFILE);
 	
-	printf("Loading theme: %s\n",file);
+	printf(_("Loading theme: %s\n"),file);
 
 	if ((fh = fopen(file,"r")) == NULL){
-        fprintf(stderr,"ERROR: Can open theme file (%s).\n", file);
+        fprintf(stderr,_("ERROR: Can open theme file (%s).\n"), file);
 		free(file);
         return 0;
     }
@@ -604,7 +568,7 @@ int loadGraphics(data_t* data, char* fname)
 	getValue_str(fh,"format",str,FALSE);
     if (strcmp(str,THEME_VERS)!=0) {
         fclose(fh);
-        fprintf(stderr,"ERROR: Theme file (%s) is not of the correct format.\n", file);
+        fprintf(stderr,_("ERROR: Theme file (%s) is not of the correct format.\n"), file);
 		free(file);
         return 0;
     }
@@ -778,236 +742,3 @@ void freeGraphics(data_t* data)
     free(data->gfxauth);
 }
 
-void freeLanguage(data_t* data)
-{
-	int i;
-	for (i = 0; i<MSG_COUNT; i++) {
-		free(data->msg[i]);
-	}
-	for (i = 0; i<TIP_COUNT; i++) {
-		free(data->tip[i]);
-	}
-	for (i = 0; i<TXT_COUNT; i++) {
-		free(data->txt[i]);
-	}
-	for (i = 0; i<OPT_COUNT; i++) {
-		free(data->opt[i]);
-	}
-	free(data->langauth);
-}
-
-int loadLanguage(data_t* data, char* fname)
-{
-    FILE* fh;
-	//char* file = NULL;
-	char str[512];
-	
-/*	for (i = 0; i<MSG_COUNT; i++) {
-		data->msg[i] = NULL;
-	}
-	for (i = 0; i<TIP_COUNT; i++) {
-		data->tip[i] = NULL;
-	}
-	for (i = 0; i<TXT_COUNT; i++) {
-		data->txt[i] = NULL;
-	}
-	for (i = 0; i<OPT_COUNT; i++) {
-		data->opt[i] = NULL;
-	}
-*/
-
-    printf("Loading language: %s\n",fname);
-    
-	if ((fh = fopen(fname,"r")) == NULL){
-        fprintf(stderr,"ERROR: Can open language file (%s).\n", fname);
-        return 0;
-    }
-    
-    /* 
-	 * Global options 
-	 */
-	getValue_str(fh,"format",str,FALSE);
-    if (strcmp(str,LANG_VERS)!=0) {
-        fclose(fh);
-        fprintf(stderr,"ERROR: Language file (%s) is not of the correct format.\n", fname);
-        return 0;
-    }
-    
-    skipValueStr(fh); /* Comment */
-    
- 	data->langauth = getValue_charp(fh,"author");    
-    
-	/*
-	 * In-game messages
-	 */
-	data->txt[txt_name] = getValue_charp(fh, "txt_name");
-	data->txt[txt_floor] = getValue_charp(fh, "txt_floor");
-	data->txt[txt_mode] = getValue_charp(fh, "txt_mode");
-	data->txt[txt_time] = getValue_charp(fh, "txt_time");
-	data->txt[txt_date] = getValue_charp(fh, "txt_date");
-	data->txt[txt_hscnote] = getValue_charp(fh, "txt_hscnote");
-	data->txt[txt_newhsc] = getValue_charp(fh, "txt_newhsc");
-	data->txt[txt_gameover] = getValue_charp(fh, "txt_gameover");
-	data->txt[txt_askquit] = getValue_charp(fh, "txt_askquit");
-	data->txt[txt_askreplay] = getValue_charp(fh, "txt_askreplay");
-	data->txt[txt_pause] = getValue_charp(fh, "txt_pause");
-	data->txt[txt_askquitrep] = getValue_charp(fh, "txt_askquitrep");
-	data->txt[txt_askrepagain] = getValue_charp(fh, "txt_askrepagain");
-	data->txt[txt_codeauthor] = getValue_charp(fh, "txt_codeauthor");
-	data->txt[txt_gfxauthor] = getValue_charp(fh, "txt_gfxauthor");
-	data->txt[txt_sndauthor] = getValue_charp(fh, "txt_sndauthor");
-	data->txt[txt_langauthor] = getValue_charp(fh, "txt_langauthor");
-	
-	/*
-	 * Menu messages
-	 */
-	data->msg[msg_newgame] = getValue_charp(fh, "msg_newgame");
-	data->msg[msg_options] = getValue_charp(fh, "msg_options");
-	data->msg[msg_highscores] = getValue_charp(fh, "msg_highscores");
-	data->msg[msg_replays] = getValue_charp(fh, "msg_replays");
-	data->msg[msg_credits] = getValue_charp(fh, "msg_credits");
-	data->msg[msg_quit] = getValue_charp(fh, "msg_quit");
-	
-	data->msg[msg_back] = getValue_charp(fh, "msg_back");
-	
-	data->msg[msg_startgame] = getValue_charp(fh, "msg_startgame");
-	data->msg[msg_players] = getValue_charp(fh, "msg_players");
-	data->msg[msg_mplives] = getValue_charp(fh, "msg_mplives");
-	data->msg[msg_recreplay] = getValue_charp(fh, "msg_recreplay");
-	data->msg[msg_configplayers] = getValue_charp(fh, "msg_configplayers");
-	
-	data->msg[msg_player] = getValue_charp(fh, "msg_player");
-	data->msg[msg_name] = getValue_charp(fh, "msg_name");
-	data->msg[msg_leftkey] = getValue_charp(fh, "msg_leftkey");
-	data->msg[msg_rightkey] = getValue_charp(fh, "msg_rightkey");
-	data->msg[msg_jumpkey] = getValue_charp(fh, "msg_jumpkey");
-	
-	data->msg[msg_addfolder] = getValue_charp(fh, "msg_addthemefolder");
-	data->msg[msg_deletefolder] = getValue_charp(fh, "msg_deletefolder");
-	data->msg[msg_editfolder] = getValue_charp(fh, "msg_editfolder");
-	
-	data->msg[msg_themes] = getValue_charp(fh, "msg_themes");
-	data->msg[msg_lang] = getValue_charp(fh, "msg_lang");
-	data->msg[msg_gameoptions] = getValue_charp(fh, "msg_gameoptions");
-	data->msg[msg_graphicoptions] = getValue_charp(fh, "msg_graphicoptions");
-	data->msg[msg_soundoptions] = getValue_charp(fh, "msg_soundoptions");
-	data->msg[msg_folders] = getValue_charp(fh, "msg_folders");
-	
-	data->msg[msg_themefolders] = getValue_charp(fh, "msg_themefolders");
-	data->msg[msg_langfolders] = getValue_charp(fh, "msg_langfolders");
-	data->msg[msg_repfolders] = getValue_charp(fh, "msg_repfolders");
-	data->msg[msg_repsavefolder] = getValue_charp(fh, "msg_repsavefolder");
-	
-	data->msg[msg_fpslimit] = getValue_charp(fh, "msg_fpslimit");
-	data->msg[msg_jumpingrot] = getValue_charp(fh, "msg_jumpingrot");
-	data->msg[msg_scrollmode] = getValue_charp(fh, "msg_scrollmode");
-	data->msg[msg_trail] = getValue_charp(fh, "msg_trail");
-	data->msg[msg_blur] = getValue_charp(fh, "msg_blur");
-	
-	data->msg[msg_opengl] = getValue_charp(fh, "msg_opengl");
-	data->msg[msg_bpp] = getValue_charp(fh, "msg_bpp");
-	data->msg[msg_fullscreen] = getValue_charp(fh, "msg_fullscreen");
-	data->msg[msg_antialiasing] = getValue_charp(fh, "msg_antialiasing");
-	
-	data->msg[msg_sndvolume] = getValue_charp(fh, "msg_sndvolume");
-	data->msg[msg_musvolume] = getValue_charp(fh, "msg_musvolume");
-	
-	data->msg[msg_repname] = getValue_charp(fh, "msg_repname");
-	data->msg[msg_repcomment] = getValue_charp(fh, "msg_repcomment");
-	data->msg[msg_repplay] = getValue_charp(fh, "msg_repplay");
-	data->msg[msg_repsave] = getValue_charp(fh, "msg_repsave");
-	data->msg[msg_cancel] = getValue_charp(fh, "msg_cancel");
-	
-	/*
-	 * Menu tips
-	 */
-	data->tip[tip_newgame] = getValue_charp(fh, "tip_newgame");
-	data->tip[tip_options] = getValue_charp(fh, "tip_options");
-	data->tip[tip_highscores] = getValue_charp(fh, "tip_highscores");
-	data->tip[tip_replays] = getValue_charp(fh, "tip_replays");
-	data->tip[tip_credits] = getValue_charp(fh, "tip_credits");
-	data->tip[tip_quit] = getValue_charp(fh, "tip_quit");
-	
-	data->tip[tip_back] = getValue_charp(fh, "tip_back");
-	
-	data->tip[tip_startgame] = getValue_charp(fh, "tip_startgame");
-	data->tip[tip_players] = getValue_charp(fh, "tip_players");
-	data->tip[tip_mplives] = getValue_charp(fh, "tip_mplives");
-	data->tip[tip_recreplay] = getValue_charp(fh, "tip_recreplay");
-	data->tip[tip_configplayers] = getValue_charp(fh, "tip_configplayers");
-	
-	data->tip[tip_player] = getValue_charp(fh, "tip_player");
-	data->tip[tip_name] = getValue_charp(fh, "tip_name");
-	data->tip[tip_leftkey] = getValue_charp(fh, "tip_leftkey");
-	data->tip[tip_rightkey] = getValue_charp(fh, "tip_rightkey");
-	data->tip[tip_jumpkey] = getValue_charp(fh, "tip_jumpkey");
-	
-	data->tip[tip_addfolder] = getValue_charp(fh, "tip_addthemefolder");
-	data->tip[tip_folder] = getValue_charp(fh, "tip_themefolder");
-	data->tip[tip_deletefolder] = getValue_charp(fh, "tip_deletefolder");
-	data->tip[tip_editfolder] = getValue_charp(fh, "tip_editfolder");
-	data->tip[tip_writefolder] = getValue_charp(fh, "tip_writefolder");
-	
-	data->tip[tip_themes] = getValue_charp(fh, "tip_themes");
-	data->tip[tip_lang] = getValue_charp(fh, "tip_lang");
-	data->tip[tip_gameoptions] = getValue_charp(fh, "tip_gameoptions");
-	data->tip[tip_graphicoptions] = getValue_charp(fh, "tip_graphicoptions");
-	data->tip[tip_soundoptions] = getValue_charp(fh, "tip_soundoptions");
-	data->tip[tip_folders] = getValue_charp(fh, "tip_folders");
-	
-	data->tip[tip_themefolders] = getValue_charp(fh, "tip_themefolders");
-	data->tip[tip_langfolders] = getValue_charp(fh, "tip_langfolders");
-	data->tip[tip_repfolders] = getValue_charp(fh, "tip_repfolders");
-	data->tip[tip_repsavefolder] = getValue_charp(fh, "tip_repsavefolder");
-	
-	data->tip[tip_fpslimit] = getValue_charp(fh, "tip_fpslimit");
-	data->tip[tip_jumpingrot] = getValue_charp(fh, "tip_jumpingrot");
-	data->tip[tip_scrollmode] = getValue_charp(fh, "tip_scrollmode");
-	data->tip[tip_trail] = getValue_charp(fh, "tip_trail");
-	data->tip[tip_blur] = getValue_charp(fh, "tip_blur");
-	
-	data->tip[tip_opengl] = getValue_charp(fh, "tip_opengl");
-	data->tip[tip_bpp] = getValue_charp(fh, "tip_bpp");
-	data->tip[tip_fullscreen] = getValue_charp(fh, "tip_fullscreen");
-	data->tip[tip_antialiasing] = getValue_charp(fh, "tip_antialiasing");
-
-	data->tip[tip_sndvolume] = getValue_charp(fh, "tip_sndvolume");
-	data->tip[tip_musvolume] = getValue_charp(fh, "tip_musvolume");
-
-	data->tip[tip_repname] = getValue_charp(fh, "tip_repname");
-	data->tip[tip_repcomment] = getValue_charp(fh, "tip_repcomment");
-	data->tip[tip_repplay] = getValue_charp(fh, "tip_repplay");
-	data->tip[tip_repsave] = getValue_charp(fh, "tip_repsave");
-	data->tip[tip_cancel] = getValue_charp(fh, "tip_cancel");
-	
-	/* MENU OPTIONS */
-	data->opt[opt_40fps] = getValue_charp(fh, "opt_40fps");
-	data->opt[opt_100fps] = getValue_charp(fh, "opt_100fps");
-	data->opt[opt_300fps] = getValue_charp(fh, "opt_300fps");
-	data->opt[opt_nolimit] = getValue_charp(fh, "opt_nolimit");
-	
-	data->opt[opt_norot] = getValue_charp(fh, "opt_norot");
-	data->opt[opt_orginalrot] = getValue_charp(fh, "opt_orginalrot");
-	data->opt[opt_fullrot] = getValue_charp(fh, "opt_fullrot");
-	
-	data->opt[opt_softscroll] = getValue_charp(fh, "opt_softscroll");
-	data->opt[opt_hardscroll] = getValue_charp(fh, "opt_hardscroll");
-	
-	data->opt[opt_notrail] = getValue_charp(fh, "opt_notrail");
-	data->opt[opt_thintrail] = getValue_charp(fh, "opt_thintrail");
-	data->opt[opt_normaltrail] = getValue_charp(fh, "opt_normaltrail");
-	data->opt[opt_strongtrail] = getValue_charp(fh, "opt_strongtrail");
-	
-	data->opt[opt_8bpp] = getValue_charp(fh, "opt_8bpp");
-	data->opt[opt_16bpp] = getValue_charp(fh, "opt_16bpp");
-	data->opt[opt_24bpp] = getValue_charp(fh, "opt_24bpp");
-	data->opt[opt_32bpp] = getValue_charp(fh, "opt_32bpp");
-	data->opt[opt_autobpp] = getValue_charp(fh, "opt_autobpp");
-	
-	data->opt[opt_on] = getValue_charp(fh, "opt_on");
-	data->opt[opt_off] = getValue_charp(fh, "opt_off");
-	
-    fclose(fh);
-	
-    return TRUE;
-}

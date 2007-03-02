@@ -31,7 +31,7 @@ int loadRecords(char* fname, records_t* rtab)
 	int i;
 	
 	if ((fh = fopen(fname,"r"))==NULL) {
-        printf("\n Error while opening records file (%s) \n",fname);
+        printf(_("\nWARNING: Could not open records file (%s). I will create a new one later. \n"),fname);
         return FALSE;
 	}
 	
@@ -53,7 +53,7 @@ int writeRecords(char* fname, records_t* rtab)
 	int i;
 	
 	if ((fh = fopen(fname,"w"))==NULL) {
-        printf("\n Error while opening records file (%s) \n",fname);
+        printf(_("\nERROR: Error while opening records file (%s) for writing. \n"),fname);
         return FALSE;
 	}
 	
