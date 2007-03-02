@@ -60,6 +60,7 @@ typedef struct timer
     Uint32 mscount;
     Uint32 rate;
     Uint32 totalms;
+    Uint32 notdelayed;
 }L_timer;
 
 typedef struct {
@@ -72,6 +73,7 @@ typedef struct {
 	int totalms;
 	int record;
 	
+	int speed;
 	int deadHero[MAX_PLAYERS];
 	int scrolls;
 	int sounds;
@@ -223,12 +225,14 @@ void drawHero(data_t* gfx,hero_t* hero);
 
 void initTimer(L_timer* time, int rate);
 
-void updateTimer(L_timer* time);
+Uint32 updateTimer(L_timer* time);
 
 void rotateHero(hero_t* hero, float ms);
 
 void updateScore(data_t* gfx, game_t* game, Uint32 currtime);
 
 void drawRecords(data_t* gfx, records_t* rtab, int hl);
+
+void setFpsTimer(L_timer* time, int rate);
 
 #endif //_GAME_H_

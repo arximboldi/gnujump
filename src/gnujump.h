@@ -163,9 +163,6 @@ enum {
 #define DELAY   25
 #define FPSRATE 40
 
-/* Default framerate for the replays */
-#define RECFPS 40
-#define RECMS  25
 
 /* Keys ids */
 enum {

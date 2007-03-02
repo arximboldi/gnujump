@@ -27,6 +27,8 @@
 
 extern L_gblOptions gblOps;
 
+const int REPFPS[NREPSPEEDS] = {5,10,20,40,80,160,320,640};
+
 void repPushUInt32(replay_t* rep, Uint32 data)
 {
 	*(Uint32*)(rep->buf) = data;
@@ -199,7 +201,8 @@ void initGameReplay(game_t* game, data_t* gfx, replay_t* rep)
     int i,j;
     
     rep->buf = rep->bst;
-
+	rep->speed = REP_1X;
+    
     game->floorTop = GRIDHEIGHT - 4;
     game->mapIndex = 0;
 	game->scrollCount = 0;
@@ -248,19 +251,50 @@ void scrollReplay(game_t* game, data_t* gfx, replay_t* rep)
 	}
 }
 
-void playRepSounds(data_t* gfx, replay_t* rep)
+void playRepSounds(data_t* gfx, replay_t* rep, int mute)
 {
 	int sounds = repGetUInt8(rep);
-	if ((sounds & S_JUMP) == S_JUMP) Mix_PlayChannel(-1, gfx->gjump, 0);
-	if ((sounds & S_FALL) == S_FALL) Mix_PlayChannel(-1, gfx->gfall, 0);
-	if ((sounds & S_DIE) == S_DIE) Mix_PlayChannel(-1, gfx->gdie, 0);
+	if (!mute) {
+		if ((sounds & S_JUMP) == S_JUMP) Mix_PlayChannel(-1, gfx->gjump, 0);
+		if ((sounds & S_FALL) == S_FALL) Mix_PlayChannel(-1, gfx->gfall, 0);
+		if ((sounds & S_DIE) == S_DIE) Mix_PlayChannel(-1, gfx->gdie, 0);
+	}
 }
 
-void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms)
+void drawRepHud(data_t* gfx, replay_t* rep)
+{
+	char* str;
+	str = malloc(sizeof(char)* strlen(_("Speed: "))+8);	
+	
+	strcpy(str, _(" Speed: "));
+	switch (rep->speed) {
+		case REP_OX: strcat(str, "1/8 X "); break;
+		case REP_QX: strcat(str, "1/4 X "); break;
+		case REP_HX: strcat(str, "1/2 X "); break;
+		case REP_1X: strcat(str, "  1 X "); break;
+		case REP_2X: strcat(str, "  2 X "); break;
+		case REP_4X: strcat(str, "  4 X "); break;
+		case REP_8X: strcat(str, "  8 X "); break;
+		case REP_16X: strcat(str, " 16 X "); break;
+		default: break;
+	}
+	
+	JPB_drawSquare(gfx->gcolor, gfx->galpha,
+		gfx->gameX + BLOCKSIZE,
+		gfx->gameY,
+		SFont_TextWidth(gfx->textfont, str),
+		SFont_TextHeight(gfx->textfont));
+	
+	SFont_Write(gfx->textfont, gfx->gameX + BLOCKSIZE, gfx->gameY, str);
+
+	free(str);
+}
+
+void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms, int mute)
 {
     int i;
        
-    playRepSounds(gfx, rep);
+    playRepSounds(gfx, rep, mute);
     scrollReplay(game, gfx, rep);
     for (i=0; i<game->numHeros; i++) {
 		if (game->heros[i].dead == FALSE) {
@@ -269,27 +303,38 @@ void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms)
 		}
     }
     drawGame(gfx, game);
+    drawRepHud(gfx, rep);
 }
 
-int updateInputReplay()
+int updateInputReplay(replay_t* rep, L_timer* time)
 {
-    int done = 0;
+    int ret = 0;
     SDL_Event event;
     
     while( SDL_PollEvent( &event ) ){
         switch( event.type ){
             /* A key is pressed */
             case SDL_KEYDOWN: 
-                if( event.key.keysym.sym == KEY_QUIT){
-                    done = TRUE;
+				if( event.key.keysym.sym == SDLK_RIGHT){
+                    rep->speed++;
+                    if (rep->speed >= NREPSPEEDS) rep->speed--;
+                    setFpsTimer(time, REPFPS[rep->speed]);
+                }
+                if( event.key.keysym.sym == SDLK_LEFT){
+                    rep->speed--;
+                    if (rep->speed < 0) rep->speed++;
+                    setFpsTimer(time, REPFPS[rep->speed]);
+                }
+				if( event.key.keysym.sym == KEY_QUIT){
+                    ret = TRUE;
                 }
 				if( event.key.keysym.sym == SDLK_p || event.key.keysym.sym == SDLK_PAUSE) {
-                    done = PAUSED;
+                    ret = PAUSED;
                 }
                 break;
             /* Quit: */
             case SDL_QUIT:
-                done = TRUE;
+                ret = TRUE;
                 break;
             /* Default */
             default:
@@ -297,7 +342,7 @@ int updateInputReplay()
         }
     }
     
-    return done;
+    return ret;
 }
 
 int playReplay(data_t* gfx, replay_t* rep)
@@ -305,7 +350,12 @@ int playReplay(data_t* gfx, replay_t* rep)
 	L_timer timer;
     game_t game;
 	int done = FALSE;
-	int r, i = 0;
+	int r, i = 0, j;
+    int timegap;
+    int skipf = 0;
+    int lastskipf = 0;
+    int lastskipf2 = 0;
+    Uint32 mymscount = 0;
     
     Mix_PlayMusic(gfx->musgame, -1);
     
@@ -316,7 +366,7 @@ int playReplay(data_t* gfx, replay_t* rep)
 
 	updateTimer(&timer);
     while(!done) {
-		if ((r = updateInputReplay(&game))) {
+		if ((r = updateInputReplay(rep, &timer))) {
 			if (r == PAUSED ) {
 				done = pauseGame(gfx, &game, _("PAUSE"));
 			} else  {
@@ -324,14 +374,31 @@ int playReplay(data_t* gfx, replay_t* rep)
 			}
 			continueTimer(&timer);
 		}
-		
-        updateTimer(&timer);
-        updateGameReplay(&game, gfx, rep, timer.ms);
-			
-        updateScore(gfx, &game, timer.totalms);
-        FlipScreen();
+		timegap = updateTimer(&timer);
         
-		if (++i == rep->nframes) done = ENDMATCH;
+        /* Cutremode on */
+        skipf = ceil((float)timegap/(1000.0/(float)REPFPS[rep->speed]));
+        		
+		updateGameReplay(&game, gfx, rep, timer.ms, 0);
+
+		/* Be careful when it takes longer than what we want to reach... */
+        if (lastskipf < skipf && lastskipf2 < lastskipf) {
+			skipf = lastskipf;//-1; if (skipf < 0) skipf = 0;
+		} else {
+			lastskipf2 = lastskipf;
+			lastskipf = skipf;
+		}
+		
+		printf("skipping %d frames\n", skipf);
+		mymscount += (skipf+1)*(1000.0/(float)REPFPS[REP_1X]);
+		for(j = 0; j < skipf && i < rep->nframes; i++, j++) {
+			updateGameReplay(&game, gfx, rep, 0, 1);
+		}
+		
+        updateScore(gfx, &game, mymscount);
+        FlipScreen();
+        		
+		if (++i >= rep->nframes) done = ENDMATCH;
     }
 	if (done == ENDMATCH) {
 		r = yesNoQuestion(gfx, &game, _("Do you want to watch this replay again? (Y/n)"));

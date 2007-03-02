@@ -28,10 +28,26 @@
 #define REP_BUFFER_SIZE 500000
 #define REP_MIN_FREE 500
 
+/* Default framerate for the replays */
+//#define RECFPS 40
+#define RECMS  25
+
 enum {
 	S_JUMP = 1,
 	S_FALL = 2,
 	S_DIE = 4
+};
+
+enum {
+	REP_OX = 0,
+	REP_QX,
+	REP_HX,
+	REP_1X,
+	REP_2X,
+	REP_4X,
+	REP_8X,
+	REP_16X,
+	NREPSPEEDS
 };
 
 /*  
@@ -102,9 +118,11 @@ void endReplay(game_t* game, int totalms);
 
 void getPlayerReplay(hero_t* hero, replay_t* rep);
 
+void drawRepHud(data_t* gfx, replay_t* rep);
+
 void initGameReplay(game_t* game, data_t* gfx, replay_t* rep);
 
-void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms);
+void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms, int mute);
 
 int playReplay(data_t* gfx, replay_t* rep);
 
