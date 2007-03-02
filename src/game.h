@@ -61,6 +61,7 @@ typedef struct timer
     Uint32 rate;
     Uint32 totalms;
     Uint32 notdelayed;
+    int ratechanged;
 }L_timer;
 
 typedef struct {

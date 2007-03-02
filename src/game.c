@@ -568,6 +568,7 @@ void scrollHeros(game_t* game, float scroll)
 
 void setFpsTimer(L_timer* time, int rate)
 {
+	time->ratechanged = TRUE;
 	time->framecount = 0;
 	time->rate = rate;
 	time->rateticks = (1000.0 / (float) rate);
@@ -597,7 +598,8 @@ Uint32 updateTimer(L_timer* time)
         } else {
             time->framecount = 0;
             time->lastticks = SDL_GetTicks();
-            ret = current_ticks-target_ticks;
+            if (!time->ratechanged)
+				ret = current_ticks-target_ticks;
         }
         
         if (time->notdelayed > 1) return TRUE;
@@ -607,7 +609,7 @@ Uint32 updateTimer(L_timer* time)
         time->mscount = currms;
     }
     time->totalms += time->ms;
-    
+    time->ratechanged = FALSE;
     return ret;
 }
 
@@ -620,6 +622,7 @@ void initTimer(L_timer* time, int rate)
 {
     time->framecount = 0;
     
+    time->ratechanged = FALSE;
     time->notdelayed = 0;
     time->rate = rate;
     time->rateticks = (1000.0 / (float) time->rate);
