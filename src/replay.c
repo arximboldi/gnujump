@@ -302,8 +302,6 @@ void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms, int mu
 			animateSpriteRot(&(game->heros[i].sprite[game->heros[i].id]), ms);
 		}
     }
-    drawGame(gfx, game);
-    drawRepHud(gfx, rep);
 }
 
 int updateInputReplay(replay_t* rep, L_timer* time)
@@ -381,7 +379,7 @@ int playReplay(data_t* gfx, replay_t* rep)
         tdelay = (1000.0/(float)REPFPS[rep->speed]);
         adelay = (float)timer.ms/(skipf+1);
         if (lskipf <= skipf && ladelay < adelay) skipf--;
-        else if (tdelay < adelay) skipf++;
+        if (tdelay < adelay) skipf++;
         else skipf--;
         
         if (skipf < 0) skipf = 0;
@@ -402,12 +400,14 @@ int playReplay(data_t* gfx, replay_t* rep)
 			lskipf = skipf;
 		}*/
 		
-		//printf("skipping %d frames | %f, %f\n", skipf, (float)timer.ms/(skipf+1), tdelay);
+		//printf("skipping %d frames | %f, %f\n", skipf, adelay, tdelay);
 		mymscount += (skipf+1)*(1000.0/(float)REPFPS[REP_1X]);
 		for(j = 0; j < skipf && i < rep->nframes; i++, j++) {
 			updateGameReplay(&game, gfx, rep, 0, 1);
 		}
 		
+		drawGame(gfx, &game);
+		drawRepHud(gfx, rep);
         updateScore(gfx, &game, mymscount);
         FlipScreen();
         		
