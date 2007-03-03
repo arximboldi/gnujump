@@ -33,117 +33,123 @@
 #define NONE -1
 
 enum {
-	KIDLE,
-	KUP,
-	KDOWN,
-	KENTER,
-	KLEFT,
-	KRIGHT,
-	KMUP,
-	KMDOWN,
-	KMENTER,
-	KBACK
+    KIDLE,
+    KUP,
+    KDOWN,
+    KENTER,
+    KLEFT,
+    KRIGHT,
+    KMUP,
+    KMDOWN,
+    KMENTER,
+    KBACK
 };
 
 enum {
-	A_DOWN,
-	A_UP,
-	ARROWS
+    A_DOWN,
+    A_UP,
+    ARROWS
 };
 
 enum {
-	MB_INPUT = 1,
-	MB_RETURN = 2,
-	MB_KEYDEF = 4,
-	MB_CHOOSE = 8,
-	MB_VOLSET = 16,
+    MB_INPUT = 1,
+    MB_RETURN = 2,
+    MB_KEYDEF = 4,
+    MB_CHOOSE = 8,
+    MB_VOLSET = 16,
 };
 
-typedef struct option {
+typedef struct option
+{
 	char* caption;
 	char* tip;
-	
+
 	int flags;
 	int nops;
 	char** opcap;
 	void* data;
-} opt_t;
+}
+opt_t;
 
-typedef struct {
+typedef struct
+{
 	int id;
 	int x;
 	int y;
 	int clicked;
 	L_spriteCtl sprite[M_STATES];
-} mouse_t;
+}
+mouse_t;
 
-typedef struct menu {
+typedef struct menu
+{
 	int nops;
 	opt_t* opt;
-} menu_t;
+}
+menu_t;
 
 /* NEW MENUS */
-void initMenuT(menu_t* menu);
+void initMenuT ( menu_t* menu );
 
-void addMenuTOption(menu_t* menu, char* caption, char* tip, int flags,
-					void* data, int nops, ...);
-					
-void freeMenuTOption(opt_t* opt);
+void addMenuTOption ( menu_t* menu, char* caption, char* tip, int flags,
+                      void* data, int nops, ... );
 
-void freeMenuT(menu_t* menu);
+void freeMenuTOption ( opt_t* opt );
 
-int playMenuT(data_t* gfx, menu_t* menu);
+void freeMenuT ( menu_t* menu );
 
-void drawMenuTArrows(data_t* gfx, int alphaUp, int alphaDown);
+int playMenuT ( data_t* gfx, menu_t* menu );
 
-void drawMenuT(data_t* gfx, menu_t* menu, int offset);
+void drawMenuTArrows ( data_t* gfx, int alphaUp, int alphaDown );
 
-void drawMenuTOption(data_t* gfx,  int opt, int offset, opt_t* option, int alpha);
+void drawMenuT ( data_t* gfx, menu_t* menu, int offset );
 
-char* inputMenu (data_t* gfx, char* tip, char* inittext, int maxWidth);
+void drawMenuTOption ( data_t* gfx,  int opt, int offset, opt_t* option, int alpha );
 
-void undrawTip(data_t* gfx);
+char* inputMenu ( data_t* gfx, char* tip, char* inittext, int maxWidth );
+
+void undrawTip ( data_t* gfx );
 
 /* OLD MENUS*/
-int playMenu(data_t* gfx, int nops, ...);
+int playMenu ( data_t* gfx, int nops, ... );
 
-int playMenuTab(data_t* gfx, int nops, char **options, char **tips);
+int playMenuTab ( data_t* gfx, int nops, char **options, char **tips );
 
-void drawTip (data_t* gfx, char* tip);
+void drawTip ( data_t* gfx, char* tip );
 
-int checkMenuKeys(mouse_t* mouse);
+int checkMenuKeys ( mouse_t* mouse );
 
-void drawMenu(data_t* gfx, int nops, char** ops);
+void drawMenu ( data_t* gfx, int nops, char** ops );
 
-void drawOption(data_t* gfx,  int opt, char* option, int alpha);
+void drawOption ( data_t* gfx,  int opt, char* option, int alpha );
 
 /* ACTUAL MENUS */
-void saveReplayMenu(data_t* gfx, replay_t* rep);
+void saveReplayMenu ( data_t* gfx, replay_t* rep );
 
-void mainMenu(data_t* gfx);
+void mainMenu ( data_t* gfx );
 
-void newGameMenu(data_t* gfx);
+void newGameMenu ( data_t* gfx );
 
-void configurePlayersMenu(data_t* gfx);
+void configurePlayersMenu ( data_t* gfx );
 
-void optionsMenu(data_t* gfx);
+void optionsMenu ( data_t* gfx );
 
-void folderOptionsMenu(data_t* gfx);
+void folderOptionsMenu ( data_t* gfx );
 
-void soundOptionsMenu(data_t* gfx);
+void soundOptionsMenu ( data_t* gfx );
 
-void gfxOptionsMenu(data_t* gfx);
+void gfxOptionsMenu ( data_t* gfx );
 
-void gameOptionsMenu(data_t* gfx);
+void gameOptionsMenu ( data_t* gfx );
 
-void themeMenu(data_t* gfx);
+void themeMenu ( data_t* gfx );
 
-void viewReplayMenu(data_t* gfx);
+void viewReplayMenu ( data_t* gfx );
 
-void chooseThemeMenu(data_t* gfx);
+void chooseThemeMenu ( data_t* gfx );
 
-int chooseLangMenu(data_t* gfx);
+int chooseLangMenu ( data_t* gfx );
 
-int manageDirsMenu(data_t* gfx, char*** folders, int nfolders);
+int manageDirsMenu ( data_t* gfx, char*** folders, int nfolders );
 
 #endif //_MENU_H_

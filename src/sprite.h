@@ -24,56 +24,51 @@
 
 #include "surface.h"
 
- 
+
 /*
 ** Determines a position relative to whatever matter.
 */
-typedef struct position
-{
-    int x;
-    int y;
-}L_position;
+typedef struct position {
+	int x;
+	int y;
+} L_position;
 
-typedef struct sprite_data
-{
-    JPB_surface **pic;
-    float* time;
-    Uint8 sides;
-    int nFrames;
+typedef struct sprite_data {
+	JPB_surface **pic;
+	float* time;
+	Uint8 sides;
+	int nFrames;
 } L_spriteData;
 
-typedef struct sprite_data_rot
-{
-    JPB_surfaceRot **pic;
-    float* time;
-    Uint8 sides;
-    int nFrames;
+typedef struct sprite_data_rot {
+	JPB_surfaceRot **pic;
+	float* time;
+	Uint8 sides;
+	int nFrames;
 } L_spriteDataRot;
 
-typedef struct sprite_control
-{
-    L_spriteData* sdata;
-    float elpTime;
-    int frame;   
+typedef struct sprite_control {
+	L_spriteData* sdata;
+	float elpTime;
+	int frame;
 } L_spriteCtl;
 
-typedef struct sprite_control_rot
-{
-    L_spriteDataRot* sdata;
-    float elpTime;
-    int frame;
+typedef struct sprite_control_rot {
+	L_spriteDataRot* sdata;
+	float elpTime;
+	int frame;
 } L_spriteCtlRot;
 
-L_spriteDataRot* loadSpriteDataRot(char* filename, int sides, char* path);
-L_spriteData* loadSpriteData(char* filename, int sides, char* path);
-int animateSprite(L_spriteCtl *sprite, float dt);
-int animateSpriteRot(L_spriteCtlRot *sprite, float dt);
-void printSprite(L_spriteCtl *sprite, SDL_Rect *src_r, SDL_Rect *dest_r, int side);
-void printSpriteRot(L_spriteCtlRot *sprite, SDL_Rect *src_r, SDL_Rect *dest_r, int side, float angle);
-void freeSpriteData(L_spriteData *sprite);
-void freeSpriteDataRot(L_spriteDataRot *sprite);
-JPB_surfaceRot* getFrameRot(L_spriteCtlRot *sprite, int side);
-void initializeSpriteCtlRot(L_spriteCtlRot *sprite, L_spriteDataRot *data);
-void initializeSpriteCtl(L_spriteCtl *sprite, L_spriteData *data);
+L_spriteDataRot* loadSpriteDataRot ( char* filename, int sides, char* path );
+L_spriteData* loadSpriteData ( char* filename, int sides, char* path );
+int animateSprite ( L_spriteCtl *sprite, float dt );
+int animateSpriteRot ( L_spriteCtlRot *sprite, float dt );
+void printSprite ( L_spriteCtl *sprite, SDL_Rect *src_r, SDL_Rect *dest_r, int side );
+void printSpriteRot ( L_spriteCtlRot *sprite, SDL_Rect *src_r, SDL_Rect *dest_r, int side, float angle );
+void freeSpriteData ( L_spriteData *sprite );
+void freeSpriteDataRot ( L_spriteDataRot *sprite );
+JPB_surfaceRot* getFrameRot ( L_spriteCtlRot *sprite, int side );
+void initializeSpriteCtlRot ( L_spriteCtlRot *sprite, L_spriteDataRot *data );
+void initializeSpriteCtl ( L_spriteCtl *sprite, L_spriteData *data );
 
 #endif //_SPRITE_H_

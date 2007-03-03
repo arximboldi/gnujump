@@ -36,7 +36,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdlib.h>
-#include <unistd.h> 
+#include <unistd.h>
 #include <time.h>
 
 /* --------------------------- EXTERNAL LIBRARIES ----------------------------*/
@@ -63,13 +63,13 @@
 
 /* Config, theme and language files format version */
 #define PROT_VERS "03"
-#define THEME_VERS "03" 
+#define THEME_VERS "03"
 #define SOUND_VERS "01"
 #define LANG_VERS  "01"
 #define REP_VERS 3
 
 #ifndef HAVE_CONFIG_H
-  #define VERSION "1.0.5"
+#define VERSION "1.0.5"
 #endif
 
 /* Some code switchs */
@@ -86,13 +86,13 @@
 #define CONFDIR ".gnujump"
 
 #ifdef WIN32
-  #define DEFSOUND "sound"
+#define DEFSOUND "sound"
 #else
-  #ifdef DEVEL
-	#define DEFSOUND "../sound"
-  #else
-    #define DEFSOUND DATA_PREFIX"/"PACKAGE"/sound"
-  #endif
+#ifdef DEVEL
+#define DEFSOUND "../sound"
+#else
+#define DEFSOUND DATA_PREFIX"/"PACKAGE"/sound"
+#endif
 #endif
 
 #define MAX_CHAR 512
@@ -104,48 +104,48 @@
 
 /* Hero rotation modes */
 enum {
-	ROTNONE,
-	ROTORIG,
-	ROTFULL
+    ROTNONE,
+    ROTORIG,
+    ROTFULL
 };
 
 /* Scrolling modes */
 enum {
-	HARDSCROLL,
-	SOFTSCROLL
+    HARDSCROLL,
+    SOFTSCROLL
 };
 
 enum {
-	FPS40,
-	FPS100,
-	FPS300,
-	FPSNOLIMIT
+    FPS40,
+    FPS100,
+    FPS300,
+    FPSNOLIMIT
 };
 
 enum {
-	BPP32,
-	BPP16,
-	BPP8,
-	BPPAUTO
+    BPP32,
+    BPP16,
+    BPP8,
+    BPPAUTO
 };
 
 enum {
-	NOTRAIL,
-	THINTRAIL,
-	NORMALTRAIL,
-	STRONGTRAIL
+    NOTRAIL,
+    THINTRAIL,
+    NORMALTRAIL,
+    STRONGTRAIL
 };
 
 #define MAXBLUR 9
 
 /* Player states*/
 enum {
-	H_STAND, H_WALK, H_JUMP, HEROANIMS
+    H_STAND, H_WALK, H_JUMP, HEROANIMS
 };
 
 /* Mouse states*/
 enum {
-	M_IDLE, M_OVER, M_DOWN, M_STATES
+    M_IDLE, M_OVER, M_DOWN, M_STATES
 };
 
 
@@ -166,10 +166,10 @@ enum {
 
 /* Keys ids */
 enum {
- LEFTK,
- RIGHTK,
- JUMPK,
- KEYS
+    LEFTK,
+    RIGHTK,
+    JUMPK,
+    KEYS
 };
 
 /* Default keys */
@@ -202,8 +202,7 @@ enum {
 /*
  * A record entry
  */
-typedef struct
-{
+typedef struct {
 	char* pname;
 	int floor;
 	char* mode;
@@ -214,49 +213,47 @@ typedef struct
 /*
  * Global Options
  */
-typedef struct
-{
-    int useGL;
-    GLint texFilter; /* use GL_NEAREST or GL_LINEAR */
-    int aa;
-    int w;
-    int h;
-    int bpp;
-    int fullsc;
-    int sndvolume;
+typedef struct {
+	int useGL;
+	GLint texFilter; /* use GL_NEAREST or GL_LINEAR */
+	int aa;
+	int w;
+	int h;
+	int bpp;
+	int fullsc;
+	int sndvolume;
 	int musvolume;
-	
-    int fps;
-    int rotMode;
-    int scrollMode;
-    int trailMode;
-    int blur;
-    int mpLives;
-    int nplayers;
-    int recReplay;
-    int repFps;
-    
-    /* Players */
-    SDLKey keys[MAX_PLAYERS][KEYS];
-    char* pname[MAX_PLAYERS];
-    
-    /* Data files */
-    char *dataDir;
+
+	int fps;
+	int rotMode;
+	int scrollMode;
+	int trailMode;
+	int blur;
+	int mpLives;
+	int nplayers;
+	int recReplay;
+	int repFps;
+
+	/* Players */
+	SDLKey keys[MAX_PLAYERS][KEYS];
+	char* pname[MAX_PLAYERS];
+
+	/* Data files */
+	char *dataDir;
 	char **themeDirs;
 	char *repDir;
 	char **repDirs;
 	int nrfolders;
 	int ntfolders;
-	
+
 	/* The records tab, organized from best to worst */
-	records_t records[MAX_RECORDS]; 
+	records_t records[MAX_RECORDS];
 } L_gblOptions;
 
 /*
  * The theme data structure
  */
-typedef struct
-{
+typedef struct {
 	/* Sound */
 	Mix_Chunk* gjump;
 	Mix_Chunk* gfall;
@@ -268,12 +265,12 @@ typedef struct
 	Mix_Music* musmenu;
 	Mix_Music* musgame;
 	int soundloaded;
-	
+
 	/* Mouse */
 	L_spriteData* mouse[M_STATES];
 	int mouseX;
 	int mouseY;
-	
+
 	/* Menu */
 	JPB_surface* menuBg;
 	JPB_surface* upArrow;
@@ -294,39 +291,42 @@ typedef struct
 	int tipH;
 	int mAlign;
 	int tAlign;
-    SFont_Font* menufont;
-    SFont_Font* tipfont;
-    Uint32 hlcolor;
+	SFont_Font* menufont;
+	SFont_Font* tipfont;
+	Uint32 hlcolor;
 	Uint8 hlalpha;
-    
-    /* Players */
-    L_spriteDataRot* heroSprite[MAX_PLAYERS][HEROANIMS];
+
+	/* Players */
+	L_spriteDataRot* heroSprite[MAX_PLAYERS][HEROANIMS];
 	Uint8 tcolorr[MAX_PLAYERS];
 	Uint8 tcolorg[MAX_PLAYERS];
 	Uint8 tcolorb[MAX_PLAYERS];
-	
-    /* In game screen*/
-    JPB_surface* gameBg;
-    JPB_surface* livePic;
-    int liveAlign;
-    int gameX;
-    int gameY;
-    int scoreX[MAX_PLAYERS];
-    int scoreY[MAX_PLAYERS];
-    int livesX[MAX_PLAYERS];
-    int livesY[MAX_PLAYERS];
-    int timeX;
-    int timeY;
-    SFont_Font* scorefont;
+
+	/* In game screen*/
+	JPB_surface* gameBg;
+	JPB_surface* livePic;
+	int liveAlign;
+	int gameX;
+	int gameY;
+	int gameTileH;
+	int borderTileH;
+	int borderTileW;
+	int scoreX[MAX_PLAYERS];
+	int scoreY[MAX_PLAYERS];
+	int livesX[MAX_PLAYERS];
+	int livesY[MAX_PLAYERS];
+	int timeX;
+	int timeY;
+	SFont_Font* scorefont;
 	SFont_Font* textfont;
 	SFont_Font* timefont;
 	Uint32 gcolor;
 	Uint8 galpha;
-	
-    JPB_surface* floorL;
-    JPB_surface* floorR;
-    JPB_surface* floorC;
-	
+
+	JPB_surface* floorL;
+	JPB_surface* floorR;
+	JPB_surface* floorC;
+
 	/* Credits */
 	char* gfxauth;
 	char* sndauth;

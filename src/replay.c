@@ -349,10 +349,10 @@ int playReplay(data_t* gfx, replay_t* rep)
     game_t game;
 	int done = FALSE;
 	int r, i = 0, j;
-    int timegap;
+    /* int timegap; */
     int skipf = 0;
     int lskipf = 0;
-    int lskipf2 = 0;
+    /*int lskipf2 = 0; */
     Uint32 mymscount = 0;
     float tdelay, adelay, ladelay = 0;
     

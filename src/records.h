@@ -25,18 +25,18 @@
 
 #include "gnujump.h"
 
-int loadRecords(char* fname, records_t* rec);
+int loadRecords ( char* fname, records_t* rec );
 
-int writeRecords(char* fname, records_t* rec);
+int writeRecords ( char* fname, records_t* rec );
 
-int addRecord(records_t* rtab, records_t* rec, int pos);
+int addRecord ( records_t* rtab, records_t* rec, int pos );
 
-int checkRecord (records_t* rtab, int floor, int time);
+int checkRecord ( records_t* rtab, int floor, int time );
 
-void makeRecord(records_t* rec, char* name, int floor, int time);
+void makeRecord ( records_t* rec, char* name, int floor, int time );
 
-void defaultRecords(records_t* rec);
+void defaultRecords ( records_t* rec );
 
-void freeRecords(records_t* rec);
+void freeRecords ( records_t* rec );
 
 #endif /* _RECORDS_H */

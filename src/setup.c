@@ -679,6 +679,10 @@ int loadGraphics(data_t* data, char* fname)
     data->gameX = getValue_int(fh,"game_x");
     data->gameY = getValue_int(fh,"game_y");
     
+    data->gameTileH = getValue_int(fh,"game_tile_h");
+    data->borderTileH = getValue_int(fh,"border_tile_h");
+    data->borderTileW = getValue_int(fh,"border_tile_w");
+    
     data->timeX = getValue_int(fh,"timer_x");
     data->timeY = getValue_int(fh,"timer_y");
     

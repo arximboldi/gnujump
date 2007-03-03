@@ -105,8 +105,13 @@ g_blue = 180
 g_alpha = 168
 
 # Where the match grid starts
-game_x = 24
+game_x = 24 # -16
 game_y = 70
+
+# Tile height. If 0, no tile.
+game_tile_h = 16
+border_tile_h = 16
+border_tile_w = 16
 
 # Timer
 timer_x = 552

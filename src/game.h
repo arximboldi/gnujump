@@ -147,7 +147,8 @@ typedef struct game
 {
     int floorTop;
     int mapIndex;
-    float scrollCount;
+    double scrollTotal;
+    double scrollCount;
     int floor_l[GRIDHEIGHT];
     int floor_r[GRIDHEIGHT];
     

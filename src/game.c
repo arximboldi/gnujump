@@ -55,6 +55,7 @@ void initGame(game_t* game, data_t* gfx, int numHeros)
     game->floorTop = GRIDHEIGHT - 4;
     game->mapIndex = 0;
 	game->scrollCount = 0;
+	game->scrollTotal = 0;
     for (i=0; i<GRIDHEIGHT; i++) {
         makeFloor(game,i);
     }
@@ -395,7 +396,7 @@ int updateHero(game_t* game, data_t* gfx, int num, float ms)
 int updateHeroPosition ( game_t* game, int num , float fact)
 {
     float Dy, diff, Dycount;
-    int st = 0, i;
+    int st = 0;
     hero_t* hero = &game->heros[num];
     
     hero->x += hero->vx / 2 *fact;
@@ -411,14 +412,14 @@ int updateHeroPosition ( game_t* game, int num , float fact)
     
     Dy = Dycount = hero->vy *fact;
 
-	/* Whe have to take into account that, at low FPS rates, whe might be
+	/* We have to take into account that, at low FPS rates, we might be
 	   going too fast and missing floors */
-	if (Dy > BLOCKSIZE) {
-		for (i = 0; i <= Dy/BLOCKSIZE; i++) {
+	if (Dy >= BLOCKSIZE) {
+		while (Dycount > 0) {
 			if ((st = isStand(game, hero->x, hero->y))) {
 				return st;
 			}
-			if (Dycount > BLOCKSIZE) diff = BLOCKSIZE;
+			if (Dycount > BLOCKSIZE-1) diff = BLOCKSIZE-1;
 			else diff = Dycount;
 			Dycount -= diff;
 			hero->y += diff;
@@ -532,7 +533,7 @@ void hardScrollUp(game_t* game)
 void softScrollUp(game_t* game, float scroll)
 {
     game->scrollCount += scroll;
-     
+    
     while (game->scrollCount >= BLOCKSIZE) {
         game->scrollCount -= BLOCKSIZE;
 		scrollGrid(game);
@@ -555,6 +556,9 @@ void scrollGrid(game_t* game)
 void scrollHeros(game_t* game, float scroll)
 {
     int i;
+    
+    game->scrollTotal += BLOCKSIZE;
+	
     for (i=0; i<game->numHeros; i++) {
         game->heros[i].y += scroll;
         scrollTrails(&(game->heros[i]), scroll);

@@ -35,24 +35,24 @@
 #include "game.h"
 
 /* Blur ***********************************************************************/
-void updateBlurs(hero_t* hero, float msec);
+void updateBlurs ( hero_t* hero, float msec );
 
-void scrollBlurs(hero_t* hero, float dy);
+void scrollBlurs ( hero_t* hero, float dy );
 
-void drawBlur(data_t* gfx, blur_t* blur, int player);
+void drawBlur ( data_t* gfx, blur_t* blur, int player );
 
-void freeBlurs(hero_t* hero);
+void freeBlurs ( hero_t* hero );
 
 /* Trail **********************************************************************/
 
-trail_t* makeTrail(float x0, float y0, float x1, float y1);
+trail_t* makeTrail ( float x0, float y0, float x1, float y1 );
 
-void updateTrails(hero_t* hero, float msec);
+void updateTrails ( hero_t* hero, float msec );
 
-void scrollTrails(hero_t* hero, float dy);
+void scrollTrails ( hero_t* hero, float dy );
 
-void drawTrail(data_t* gfx, trail_t* trail, int player);
+void drawTrail ( data_t* gfx, trail_t* trail, int player );
 
-void freeTrails(hero_t* hero);
+void freeTrails ( hero_t* hero );
 
 #endif

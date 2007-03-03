@@ -24,36 +24,36 @@
 
 #include "gnujump.h"
 
-void initGblOps(void);
+void initGblOps ( void );
 
-void cleanGblOps(void);
+void cleanGblOps ( void );
 
-int loadConfigFile(char* fname);
+int loadConfigFile ( char* fname );
 
-int writeConfigFile(char* fname);
+int writeConfigFile ( char* fname );
 
-char* getThemeComment(char* fname);
+char* getThemeComment ( char* fname );
 
-char* getLangComment(char* fname);
+char* getLangComment ( char* fname );
 
-void resetTheme(data_t* gfxdata);
+void resetTheme ( data_t* gfxdata );
 
 void EngineInit();
 
 void setWindow();
 
-void SetVideoGl(int w, int h, int use_fullscreen,int bpp);
+void SetVideoGl ( int w, int h, int use_fullscreen,int bpp );
 
-void SetVideoSw(int w, int h, int fullscreen,int bpp);
+void SetVideoSw ( int w, int h, int fullscreen,int bpp );
 
-int loadGraphics(data_t* data, char* fname);
+int loadGraphics ( data_t* data, char* fname );
 
-void freeGraphics(data_t* data);
+void freeGraphics ( data_t* data );
 
 void resetVolumes();
 
-int loadSounds(data_t* data, char* fname);
+int loadSounds ( data_t* data, char* fname );
 
-void freeSounds(data_t* data);
+void freeSounds ( data_t* data );
 
 #endif

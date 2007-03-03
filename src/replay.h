@@ -33,24 +33,24 @@
 #define RECMS  25
 
 enum {
-	S_JUMP = 1,
-	S_FALL = 2,
-	S_DIE = 4
+    S_JUMP = 1,
+    S_FALL = 2,
+    S_DIE = 4
 };
 
 enum {
-	REP_OX = 0,
-	REP_QX,
-	REP_HX,
-	REP_1X,
-	REP_2X,
-	REP_4X,
-	REP_8X,
-	REP_16X,
-	NREPSPEEDS
+    REP_OX = 0,
+    REP_QX,
+    REP_HX,
+    REP_1X,
+    REP_2X,
+    REP_4X,
+    REP_8X,
+    REP_16X,
+    NREPSPEEDS
 };
 
-/*  
+/*
 	REPLAY FORMAT:
 	==============
 	-- HEADER (not stored in the memory buffer) --
@@ -92,49 +92,49 @@ enum {
 		floor (Uint16)
 */
 
-void repPushUInt32(replay_t* rep, Uint32 data);
+void repPushUInt32 ( replay_t* rep, Uint32 data );
 
-void repPushUInt16(replay_t* rep, Uint16 data);
+void repPushUInt16 ( replay_t* rep, Uint16 data );
 
-void repPushUInt8(replay_t* rep, Uint8 data);
+void repPushUInt8 ( replay_t* rep, Uint8 data );
 
-Uint32 repGetUInt32(replay_t* rep);
+Uint32 repGetUInt32 ( replay_t* rep );
 
-Uint16 repGetUInt16(replay_t* rep);
+Uint16 repGetUInt16 ( replay_t* rep );
 
-Uint8 repGetUInt8(replay_t* rep);
+Uint8 repGetUInt8 ( replay_t* rep );
 
-void repPushHeros(game_t* game);
+void repPushHeros ( game_t* game );
 
-void repPushGrid(game_t* game);
+void repPushGrid ( game_t* game );
 
-void initReplay(game_t* game);
+void initReplay ( game_t* game );
 
-void updateReplay(game_t* game, float ms);
+void updateReplay ( game_t* game, float ms );
 
-void freeReplay(replay_t* rep);
+void freeReplay ( replay_t* rep );
 
-void endReplay(game_t* game, int totalms);
+void endReplay ( game_t* game, int totalms );
 
-void getPlayerReplay(hero_t* hero, replay_t* rep);
+void getPlayerReplay ( hero_t* hero, replay_t* rep );
 
-void drawRepHud(data_t* gfx, replay_t* rep);
+void drawRepHud ( data_t* gfx, replay_t* rep );
 
-void initGameReplay(game_t* game, data_t* gfx, replay_t* rep);
+void initGameReplay ( game_t* game, data_t* gfx, replay_t* rep );
 
-void updateGameReplay(game_t* game, data_t* gfx, replay_t* rep, float ms, int mute);
+void updateGameReplay ( game_t* game, data_t* gfx, replay_t* rep, float ms, int mute );
 
-int playReplay(data_t* gfx, replay_t* rep);
+int playReplay ( data_t* gfx, replay_t* rep );
 
-int saveReplay(replay_t* rep, char* fname, char* comment);
+int saveReplay ( replay_t* rep, char* fname, char* comment );
 
-void scrollReplay(game_t* game, data_t* gfx, replay_t* rep);
+void scrollReplay ( game_t* game, data_t* gfx, replay_t* rep );
 
-char* getReplayComment(char* file);
+char* getReplayComment ( char* file );
 
-void freeGameReplay(game_t* game);
+void freeGameReplay ( game_t* game );
 
-int loadReplay(data_t* gfx, char *file);
+int loadReplay ( data_t* gfx, char *file );
 
 #endif /* _REPLAY_H_ */
 
