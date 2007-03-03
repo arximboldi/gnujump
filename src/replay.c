@@ -353,9 +353,10 @@ int playReplay(data_t* gfx, replay_t* rep)
 	int r, i = 0, j;
     int timegap;
     int skipf = 0;
-    int lastskipf = 0;
-    int lastskipf2 = 0;
+    int lskipf = 0;
+    int lskipf2 = 0;
     Uint32 mymscount = 0;
+    float tdelay, adelay, ladelay = 0;
     
     Mix_PlayMusic(gfx->musgame, -1);
     
@@ -374,22 +375,34 @@ int playReplay(data_t* gfx, replay_t* rep)
 			}
 			continueTimer(&timer);
 		}
-		timegap = updateTimer(&timer);
+		/*timegap = */
+		updateTimer(&timer);
         
+        tdelay = (1000.0/(float)REPFPS[rep->speed]);
+        adelay = (float)timer.ms/(skipf+1);
+        if (lskipf <= skipf && ladelay < adelay) skipf--;
+        else if (tdelay < adelay) skipf++;
+        else skipf--;
+        
+        if (skipf < 0) skipf = 0;
+        if (skipf > REPFPS[rep->speed]/REPFPS[REP_1X])
+			skipf = REPFPS[rep->speed]/REPFPS[REP_1X];
+        ladelay = adelay;
+        lskipf = skipf;
         /* Cutremode on */
-        skipf = ceil((float)timegap/(1000.0/(float)REPFPS[rep->speed]));
+        //skipf = ceil((float)timegap/(1000.0/(float)REPFPS[rep->speed]));
         		
 		updateGameReplay(&game, gfx, rep, timer.ms, 0);
 
 		/* Be careful when it takes longer than what we want to reach... */
-        if (lastskipf < skipf && lastskipf2 < lastskipf) {
-			skipf = lastskipf;//-1; if (skipf < 0) skipf = 0;
+        /*if (lskipf < skipf && lskipf2 < lskipf) {
+			skipf = lskipf;//-1; if (skipf < 0) skipf = 0;
 		} else {
-			lastskipf2 = lastskipf;
-			lastskipf = skipf;
-		}
+			lskipf2 = lskipf;
+			lskipf = skipf;
+		}*/
 		
-		//printf("skipping %d frames\n", skipf);
+		//printf("skipping %d frames | %f, %f\n", skipf, (float)timer.ms/(skipf+1), tdelay);
 		mymscount += (skipf+1)*(1000.0/(float)REPFPS[REP_1X]);
 		for(j = 0; j < skipf && i < rep->nframes; i++, j++) {
 			updateGameReplay(&game, gfx, rep, 0, 1);

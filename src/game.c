@@ -598,11 +598,10 @@ Uint32 updateTimer(L_timer* time)
         } else {
             time->framecount = 0;
             time->lastticks = SDL_GetTicks();
+            //ret = TRUE;
             if (!time->ratechanged)
 				ret = current_ticks-target_ticks;
         }
-        
-        if (time->notdelayed > 1) return TRUE;
     } else { /* Dont limit FPS */
         currms = SDL_GetTicks();
         time->ms = currms - time->mscount;
@@ -616,6 +615,8 @@ Uint32 updateTimer(L_timer* time)
 void continueTimer(L_timer* time)
 {
 	time->mscount = SDL_GetTicks();
+	time->framecount = 0;
+	time->ratechanged = TRUE;
 }
 
 void initTimer(L_timer* time, int rate)
