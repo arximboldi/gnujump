@@ -42,7 +42,7 @@ void EngineInit();
 
 void setWindow();
 
-void SetVideoGl ( int w, int h, int use_fullscreen,int bpp );
+int SetVideoGl ( int w, int h, int use_fullscreen,int bpp );
 
 void SetVideoSw ( int w, int h, int fullscreen,int bpp );
 

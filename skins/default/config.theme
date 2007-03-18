@@ -82,7 +82,7 @@ hl_alpha = 128
 # ==============================================================================
 
 # The background of the in-game screen
-game_bg = "gamebg.png"
+game_bg = "gamebg2.png"
 
 # The live picture
 live_pic = "live.png"
@@ -109,7 +109,7 @@ game_x = 24 # -16
 game_y = 70
 
 # Tile height. If 0, no tile.
-game_tile_h = 16
+game_tile_h = 384
 border_tile_h = 16
 border_tile_w = 16
 

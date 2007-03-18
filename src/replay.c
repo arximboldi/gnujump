@@ -206,6 +206,7 @@ void initGameReplay(game_t* game, data_t* gfx, replay_t* rep)
     game->floorTop = GRIDHEIGHT - 4;
     game->mapIndex = 0;
 	game->scrollCount = 0;
+    game->scrollTotal = 0;
     
     for (i = 0; i < GRIDHEIGHT; i++) {
 		game->floor_l[i] = repGetUInt8(rep);
@@ -239,6 +240,9 @@ void scrollReplay(game_t* game, data_t* gfx, replay_t* rep)
 	
 	game->mapIndex -= scrolls;
 	game->floorTop += scrolls;
+	
+	game->scrollTotal += ds;
+	
 	if (game->mapIndex < 0) game->mapIndex += GRIDHEIGHT;
 	for (i = game->mapIndex, j = 0; j < scrolls; j++, i = (i+1)%GRIDHEIGHT) {
 		game->floor_l[i] = repGetUInt8(rep);

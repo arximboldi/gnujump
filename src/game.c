@@ -557,7 +557,7 @@ void scrollHeros(game_t* game, float scroll)
 {
     int i;
     
-    game->scrollTotal += BLOCKSIZE;
+    game->scrollTotal += scroll;
 	
     for (i=0; i<game->numHeros; i++) {
         game->heros[i].y += scroll;
@@ -739,12 +739,57 @@ void drawHero(data_t* gfx,hero_t* hero)
     printSpriteRot(&hero->sprite[hero->id],NULL,&dest,hero->dir,hero->angle);
 }
 
+void drawScrolledBgPart(data_t* gfx, int x, int y, int w, int h, int th, int sc)
+{
+	SDL_Rect src, dest;
+	
+	sc = th - sc;
+	src.x = x;
+	src.y = y+sc;
+	src.w = w;
+	src.h = th-sc;
+	dest.x = x;
+	dest.y = y;
+	dest.w = w;
+	dest.h = th-sc;
+	JPB_PrintSurface(gfx->gameBg, &src, &dest);
+
+	dest.y += dest.h;	
+	src.y = y;
+	dest.h = src.h = th;
+	
+	for (; dest.y < y+h-th; dest.y += dest.h) {
+		//printf("TH:%d Y:%d SC: %d\n", th, dest.y, sc);
+		JPB_PrintSurface(gfx->gameBg, &src, &dest);
+	}
+	
+	src.h = dest.h = y+h-dest.y;
+	JPB_PrintSurface(gfx->gameBg, &src, &dest);
+	
+}
+
 void drawGame(data_t* gfx, game_t* game)
 {
 	int i, y, x, width;
 	
-	drawBg( gfx->gameBg, gfx->gameX, gfx->gameY, BLOCKSIZE*GRIDWIDTH, BLOCKSIZE*GRIDHEIGHT);
-
+	//printf("%d\n", gblOps.scrollBg);
+	if (gblOps.scrollBg && gfx->gameTileH) {
+		drawScrolledBgPart(gfx, gfx->gameX+BLOCKSIZE, gfx->gameY, 
+								BLOCKSIZE*(GRIDWIDTH-2), BLOCKSIZE*GRIDHEIGHT,
+								gfx->gameTileH, (int)(game->scrollTotal/2)%gfx->gameTileH);
+								//printf("Total: %f\n", game->scrollTotal);
+		if (gfx->borderTileH) {
+			drawScrolledBgPart(gfx, gfx->gameX+BLOCKSIZE-gfx->borderTileW, gfx->gameY, 
+									gfx->borderTileW, BLOCKSIZE*GRIDHEIGHT,
+									gfx->borderTileH, (int)(game->scrollTotal*2)%gfx->borderTileH);
+			drawScrolledBgPart(gfx, gfx->gameX+(GRIDWIDTH-1)*BLOCKSIZE, gfx->gameY, 
+									gfx->borderTileW, BLOCKSIZE*GRIDHEIGHT,
+									gfx->borderTileH, (int)(game->scrollTotal*2)%gfx->borderTileH);
+		}
+	} else {
+		drawBg( gfx->gameBg, gfx->gameX, gfx->gameY, BLOCKSIZE*GRIDWIDTH, BLOCKSIZE*GRIDHEIGHT);
+	}
+	
     for( y = game->floorTop % 5 ; y < GRIDHEIGHT ; y += 5 ) {
         x = game->floor_l[ ( y+game->mapIndex) % GRIDHEIGHT ];
         width = game->floor_r[ (y+game->mapIndex) % GRIDHEIGHT ] -x+1;
@@ -1058,12 +1103,12 @@ void drawCredits(data_t* gfx)
 	
 	x = gfx->gameX + 2*BLOCKSIZE;
 	w = GRIDWIDTH*BLOCKSIZE - 4*BLOCKSIZE;
-	h = BLOCKSIZE + 12*gfx->textfont->Surface->h;
+	h = BLOCKSIZE + 10*SFont_TextHeight(gfx->textfont);
 	y = gfx->gameY + (GRIDHEIGHT*BLOCKSIZE - h)/2;
 	
 	drawAnimatedSquare(gfx, gfx->gcolor, gfx->galpha, x, y, w, h, MSGTIME);
 	
-	y += BLOCKSIZE;
+	y += SFont_TextHeight(gfx->textfont);
 	x += BLOCKSIZE;
 	
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
@@ -1096,6 +1141,8 @@ void drawCredits(data_t* gfx)
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
 		0, gfx->sndauth) + SFont_TextHeight(gfx->textfont);
 	
+	/* No idea how to get the translation author with gettext */
+	/*
 	SFont_WriteAligned(gfx->textfont, x, y, w-2*BLOCKSIZE,
 		0, ACENTER, _("THIS TRANSLATION AUTHOR"));
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
@@ -1105,6 +1152,6 @@ void drawCredits(data_t* gfx)
 		0, ACENTER, gfx->langauth);
 	y += SFont_AlignedHeight(gfx->textfont, w-2*BLOCKSIZE,
 		0, gfx->langauth) + SFont_TextHeight(gfx->textfont);
-
+	*/
 	FlipScreen();
 }

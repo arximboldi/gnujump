@@ -914,7 +914,12 @@ void gameOptionsMenu(data_t* gfx)
     			   &gblOps.scrollMode, 2, 
     			   _("Xjump"),
     			   _("Soft"));
-
+	
+	addMenuTOption(&menu, _("Scroll BG"), _("Do you want the background an walls to scroll?"), MB_CHOOSE,
+    			   &gblOps.scrollMode, 2, 
+    			   _("No"),
+    			   _("Yes"));
+    			   
 	addMenuTOption(&menu, _("Trail:"), _("Set this if you want the player to leave a trail behind him."), MB_CHOOSE,
     			   &gblOps.trailMode, 4, 
     			   _("None"),
@@ -1015,7 +1020,7 @@ void viewReplayMenu(data_t* gfx)
 	
 	no = 0;
 	for (i = 0; i < nf; i++) {
-		if (checkExtension(fullpaths[i], REPEXT))
+		if (checkExtension(fullpaths[i], REPEXT) || checkExtension(fullpaths[i], REPEXTOLD))
 			str = getReplayComment(fullpaths[i]);
 		else str = NULL;
 		

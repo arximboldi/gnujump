@@ -43,8 +43,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <SDL/SDL_opengl.h>
 
 #include "gettext.h"
 #define _(str) gettext(str)
@@ -59,7 +58,7 @@
 //==============================================================================
 
 /* Me */
-#define AUTHOR "Juan Pedro Bolívar Puente"
+#define AUTHOR "Juan Pedro Bolivar Puente"
 
 /* Config, theme and language files format version */
 #define PROT_VERS "03"
@@ -82,7 +81,8 @@
 #define DEFTHEME "default"
 #define CFGFILE "gnujump.cfg"
 #define HSCFILE "gnujump.hsc"
-#define REPEXT ".rep"
+#define REPEXTOLD ".rep"
+#define REPEXT ".gjr"
 #define CONFDIR ".gnujump"
 
 #ifdef WIN32
@@ -227,6 +227,7 @@ typedef struct {
 	int fps;
 	int rotMode;
 	int scrollMode;
+	int scrollBg;
 	int trailMode;
 	int blur;
 	int mpLives;

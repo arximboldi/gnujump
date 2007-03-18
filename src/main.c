@@ -114,8 +114,6 @@ void displayHelp()
 This software can be redistributed and modified under the terms of the GPL.\n\n\
 Usage: sdljump [REPLAY_FILE] [OPTIONS] \n\
 Availible options:\n\
--w <int>  --width <int>   Forces the screen width to <int> units.\n\
--h <int>  --height <int>  Forces the screen height to <int> units.\n\
 -b <int>  --bpp <int>     Sets the screen bitdepth to <int>. \n\
 -f        --fullscreen    Force fullscreen mode.\n\
 -s        --software      Force software rendering.\n\

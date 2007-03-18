@@ -33,9 +33,9 @@ void initGblOps(void)
     int i;
     char* homeDir;
     char* cfgDir;
-    
-    gblOps.aa = 0;
-    gblOps.useGL = FALSE;
+
+    gblOps.aa = 0; 
+	gblOps.useGL = TRUE;
     gblOps.w = 0;
     gblOps.h = 0;
     gblOps.bpp = BPPAUTO;
@@ -43,6 +43,7 @@ void initGblOps(void)
     gblOps.fps = FPS100;
     gblOps.rotMode = ROTFULL;
     gblOps.scrollMode = SOFTSCROLL;
+    gblOps.scrollBg = TRUE;
     gblOps.trailMode = NORMALTRAIL;
     gblOps.blur = 4;
     gblOps.mpLives = 3;
@@ -170,6 +171,7 @@ int loadConfigFile(char* fname)
     gblOps.fps = getValue_int(tfile,"fps_limit");
     gblOps.rotMode = getValue_int(tfile,"rotation_mode");
     gblOps.scrollMode = getValue_int(tfile,"scroll_mode");
+    gblOps.scrollBg = getValue_int(tfile,"scroll_bg");
     gblOps.trailMode = getValue_int(tfile,"trail");
     gblOps.blur = getValue_int(tfile,"blur");
     gblOps.mpLives = getValue_int(tfile,"multiplayer_lives");
@@ -235,6 +237,7 @@ int writeConfigFile(char* fname)
     putValue_int(tfile,"fps_limit",gblOps.fps);
     putValue_int(tfile,"rotation_mode",gblOps.rotMode);
     putValue_int(tfile,"scroll_mode",gblOps.scrollMode);
+    putValue_int(tfile,"scroll_bg",gblOps.scrollBg);
     putValue_int(tfile,"trail",gblOps.trailMode);
     putValue_int(tfile,"blur",gblOps.blur);
     putValue_int(tfile,"multiplayer_lives", gblOps.mpLives);
@@ -385,9 +388,11 @@ void setWindow()
 	else gblOps.texFilter = GL_LINEAR;
 				
 	if (gblOps.useGL) {
-		SetVideoGl(gblOps.w, gblOps.h, gblOps.fullsc, bpp);
-		SDL_WM_SetCaption("GNUjump " VERSION " (OpenGL rendering)",NULL);
-	} else {
+		if (SetVideoGl(gblOps.w, gblOps.h, gblOps.fullsc, bpp))
+			SDL_WM_SetCaption("GNUjump " VERSION " (OpenGL rendering)",NULL);
+		else gblOps.useGL = FALSE;
+	}
+	if (!gblOps.useGL) {
 		SetVideoSw(gblOps.w, gblOps.h, gblOps.fullsc, bpp);
 		SDL_WM_SetCaption("GNUjump " VERSION " (Sofware rendering)",NULL);
 	}
@@ -401,8 +406,10 @@ void setWindow()
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
-void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
+int SetVideoGl(int w, int h, int use_fullscreen,int bpp)
 {
+	char* glstr;
+	int error = FALSE;
 	
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
@@ -411,6 +418,7 @@ void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     
 	if (use_fullscreen) {
+			printf(_("Setting up an OpenGL fullscreen window.\n"));
 		screen = SDL_SetVideoMode(w, h, bpp, SDL_FULLSCREEN|SDL_OPENGL);
 		if (screen == NULL) {
 			fprintf(stderr,
@@ -418,16 +426,28 @@ void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
 				SDL_GetError());
 			use_fullscreen = 0;
 		}
-	} else {
+	}
+	if (!use_fullscreen) {
+		printf(_("Setting up an OpenGL window.\n"));
 		screen = SDL_SetVideoMode(w, h, bpp, SDL_OPENGL);
 	
 		if (screen == NULL) {
 			fprintf(stderr,
 				_("ERROR: The screen wasn't initialized beacause: %s\n"),
 				SDL_GetError());
-			exit(1);
+			error = TRUE;
 		}
 	}
+	
+	glstr = (char*)glGetString(GL_RENDERER);
+	if (!strcmp(glstr, "Mesa X11") || !strcmp(glstr, "Mesa GLX Indirect")) {
+		error = TRUE;
+		printf("WARNING: OpenGl Renderer is %s. Falling back to software mode.",
+				glstr);
+	}
+	
+	/* If error */
+	if (error) return FALSE;
 	
 	/*
 	* Set up OpenGL for 2D rendering.
@@ -445,11 +465,14 @@ void SetVideoGl(int w, int h, int use_fullscreen,int bpp)
 	
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	
+	return TRUE;
 }
 
 void SetVideoSw(int w, int h, int fullscreen,int bpp)
 {
-    if (fullscreen == 1) {
+    if (fullscreen) {
+		printf(_("Setting up a software fullscreen window.\n"));
         screen = SDL_SetVideoMode(w,h,bpp, 
                           SDL_ANYFORMAT |
                           SDL_FULLSCREEN |
@@ -457,7 +480,9 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp)
 		if (screen == NULL) {
             printf(_("ERROR: The screen wasn't initialized beacause: %s\n"), SDL_GetError());
         }
-    } else { //Fullscreen OFF
+    }
+    if (!fullscreen){ //Fullscreen OFF
+		printf(_("Setting up a software window.\n"));
         screen = SDL_SetVideoMode(w,h,bpp,SDL_HWSURFACE /* | SDL_DOUBLEBUF*/);
         if (screen == NULL) {
             printf(_("ERROR: The screen wasn't initialized beacause: %s\n"), SDL_GetError());
