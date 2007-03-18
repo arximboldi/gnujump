@@ -473,17 +473,14 @@ void SetVideoSw(int w, int h, int fullscreen,int bpp)
 {
     if (fullscreen) {
 		printf(_("Setting up a software fullscreen window.\n"));
-        screen = SDL_SetVideoMode(w,h,bpp, 
-                          SDL_ANYFORMAT |
-                          SDL_FULLSCREEN |
-                          SDL_SWSURFACE);
+        screen = SDL_SetVideoMode(w,h,bpp, SDL_FULLSCREEN);
 		if (screen == NULL) {
             printf(_("ERROR: The screen wasn't initialized beacause: %s\n"), SDL_GetError());
         }
     }
     if (!fullscreen){ //Fullscreen OFF
 		printf(_("Setting up a software window.\n"));
-        screen = SDL_SetVideoMode(w,h,bpp,SDL_HWSURFACE /* | SDL_DOUBLEBUF*/);
+        screen = SDL_SetVideoMode(w,h,bpp,0/*SDL_HWSURFACE | SDL_DOUBLEBUF*/);
         if (screen == NULL) {
             printf(_("ERROR: The screen wasn't initialized beacause: %s\n"), SDL_GetError());
         }
