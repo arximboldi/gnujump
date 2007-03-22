@@ -1,0 +1,7 @@
+src/main.c
+src/setup.c
+src/game.c
+src/menu.c
+src/replay.c
+src/records.c
+src/tools.c
