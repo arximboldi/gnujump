@@ -1,0 +1,8 @@
+
+## This is the cursor sprite of SDLjump
+## Make sure that the specified number of frames is correct
+
+frames = 1
+  pic = "cursor.png"
+  	time = 100
+
