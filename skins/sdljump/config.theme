@@ -1,0 +1,178 @@
+
+## SDLjump theme file
+## ==================
+## Important:
+## - You can't alter the order in which these values are present.
+## - The string length can't be larger than 512 characters
+## - String variables must go between ""
+
+# ==============================================================================
+#   General
+# ==============================================================================
+
+format = "03"
+
+comment = "This is the default theme of SDLjump"
+
+author = "Juan Pedro Bolivar Puente"
+
+window_width = 640
+window_height = 480
+
+# If "default" it will use the one distributed with the SDLjump package.
+# Else, give a relative path to the folder of the sound theme.
+sound_theme = "default"
+
+# ==============================================================================
+#   Mouse
+# ==============================================================================
+
+mouse_idle = "cursor/idle.anim"
+mouse_over = "cursor/over.anim"
+mouse_down = "cursor/down.anim"
+mouse_x = 0
+mouse_y = 0
+
+# ==============================================================================
+#   Menu 
+# ==============================================================================
+
+menu_bg = "menu.png"
+
+menu_dwarrow = "dwarrow.png"
+menu_uparrow = "uparrow.png"
+
+# The fonts
+menu_font  = "menufont.png"
+tip_font = "tipfont.png"
+
+# Define the text alignment for the menu entries and the tips
+# Left -> 0;  Center -> 1; Right -> 2;
+menu_align = 1
+tip_align = 0
+
+# Define the menu rectangle
+menu_x = 26
+menu_y = 164
+menu_width = 294
+menu_max_options = 7
+
+menu_dwarrow_x = 26
+menu_dwarrow_y = 438
+menu_uparrow_x = 46
+menu_uparrow_y = 438
+
+# Gap between items and space between left/right border and the text
+menu_margin = 7
+
+# Define the tips rectangle
+tip_x = 350
+tip_y = 383
+tip_width = 245
+tip_height = 60
+
+# Higligthed item color 
+hl_red = 255
+hl_green = 255
+hl_blue = 0
+hl_alpha = 128
+
+# ==============================================================================
+#   In-game
+# ==============================================================================
+
+# The background of the in-game screen
+game_bg = "gamebg.png"
+
+# The live picture
+live_pic = "live.png"
+# 0: Horizontal; 1: Vertical
+live_align = 0
+
+# The scoreboard font
+score_font = "scorefont.png"
+
+# The time font
+timer_font = "timefont.png"
+
+# The in-game text font
+game_font = "textfont.png"
+
+# In-game text square color 
+g_red = 60
+g_green = 60
+g_blue = 180
+g_alpha = 168
+
+# Where the match grid starts
+game_x = 24 # -16
+game_y = 70
+
+# Tile height. If 0, no tile.
+game_tile_h = 0
+border_tile_h = 16
+border_tile_w = 16
+
+# Timer
+timer_x = 552
+timer_y = 428
+
+# Postition of the score boards (remember: 4!)
+score_x = 557
+score_y = 104
+lives_x = 545
+lives_y = 138
+
+score_x = 557
+score_y = 170
+lives_x = 545
+lives_y = 204
+
+score_x = 557
+score_y = 236
+lives_x = 545
+lives_y = 270
+
+score_x = 557
+score_y = 302
+lives_x = 545
+lives_y = 336
+
+# The floor bricks
+floor_left   = "floorL.png"
+floor_right  = "floorR.png"
+floor_center = "floorC.png"
+
+# The hero sprite
+hero_stand_anim  = "hero0.anim"
+hero_run_anim  = "hero0.anim"
+hero_jump_anim  = "hero0.anim"
+
+hero_stand_anim  = "hero1.anim"
+hero_run_anim  = "hero1.anim"
+hero_jump_anim  = "hero1.anim"
+
+hero_stand_anim  = "hero2.anim"
+hero_run_anim  = "hero2.anim"
+hero_jump_anim  = "hero2.anim"
+
+hero_stand_anim  = "hero3.anim"
+hero_run_anim  = "hero3.anim"
+hero_jump_anim  = "hero3.anim"
+
+# Colors of the player trails
+trail_red = 255
+trail_green = 0
+trail_blue = 0
+
+trail_red = 0
+trail_green = 255
+trail_blue = 0
+
+trail_red = 0
+trail_green = 0
+trail_blue = 255
+
+trail_red = 255
+trail_green = 255
+trail_blue = 255

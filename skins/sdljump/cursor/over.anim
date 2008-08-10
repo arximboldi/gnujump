@@ -1,0 +1,29 @@
+
+## This is the cursor sprite of SDLjump
+## Make sure that the specified number of frames is correct
+
+frames = 12
+  pic = "cursor/cursor7.png"
+  	time = 100
+  pic = "cursor/cursor6.png"
+  	time = 100
+  pic = "cursor/cursor5.png"
+  	time = 100
+  pic = "cursor/cursor4.png"
+  	time = 100
+  pic = "cursor/cursor3.png"
+  	time = 100
+  pic = "cursor/cursor2.png"
+  	time = 100
+  pic = "cursor/cursor1.png"
+  	time = 100
+  pic = "cursor/cursor2.png"
+  	time = 100
+  pic = "cursor/cursor3.png"
+  	time = 100
+  pic = "cursor/cursor4.png"
+  	time = 100
+  pic = "cursor/cursor5.png"
+  	time = 100
+  pic = "cursor/cursor6.png"
+  	time = 100
