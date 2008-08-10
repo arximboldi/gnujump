@@ -1,3 +1,23 @@
+#
+# GNUjump
+# =======
+#
+# Copyright (C) 2005-2008, Juan Pedro Bolivar Puente
+#
+# GNUjump is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# GNUjump is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 AC_INIT(configure.in)
 
 AC_CANONICAL_BUILD
@@ -21,7 +41,7 @@ AX_CHECK_GLU
 CFLAGS="$CFLAGS $GL_CFLAGS $GLU_CFLAGS"
 LIBS="$LIBS $GL_LIBS $GLU_LIBS"
 
-dnl Checks for header files.
+# Checks for header files.
 
 AC_CHECK_HEADER([SDL/SDL_image.h],
 		:,
@@ -35,14 +55,15 @@ AC_CHECK_HEADER([SDL/SDL_mixer.h],
 )
 LIBS="$LIBS -lSDL_mixer"
 
-dnl Set PACKAGE PREFIX
+# Set PACKAGE PREFIX
+
 if test "x${prefix}" = "xNONE"; then
   packageprefix=${ac_default_prefix}
 else
   packageprefix=${prefix}
 fi
 
-CFLAGS="$CFLAGS -DPREFIX=\\\"$packageprefix\\\" -DDATA_PREFIX=\\\"$datadir\\\""
+CFLAGS="$CFLAGS -g -DPREFIX=\\\"$packageprefix\\\" -DDATA_PREFIX=\\\"$datadir\\\""
 
 AC_LANG_C
 AC_PROG_CC

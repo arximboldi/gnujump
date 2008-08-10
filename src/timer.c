@@ -24,29 +24,3 @@
 #include "sprite.h"
 #include "tools.h"
 
-extern L_gblOptions gblOps;
-
-void
-addParticle (particle_t ** list, JPB_surfaceRot * pic, float x, float y,
-	     int vx, int vy, int ax, int ay, int rv, int rot, int av,
-	     int alpha)
-{
-}
-
-void
-updateParticles (particle_t ** list)
-{
-}
-
-void
-drawParticles (data_t * gfx, particle_t * list)
-{
-}
-
-void
-freeParticles (particle_t ** list)
-{
-}
-
-
-

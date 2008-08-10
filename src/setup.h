@@ -2,7 +2,7 @@
  * GNUjump
  * =======
  *
- * Copyright (C) 2005-2006, Juan Pedro Bolivar Puente
+ * Copyright (C) 2005-2008, Juan Pedro Bolivar Puente
  *
  * GNUjump is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNUjump; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef SETUP_H
@@ -24,36 +23,36 @@
 
 #include "gnujump.h"
 
-void initGblOps ( void );
+void initGblOps (void);
 
-void cleanGblOps ( void );
+void cleanGblOps (void);
 
-int loadConfigFile ( char* fname );
+int loadConfigFile (char *fname);
 
-int writeConfigFile ( char* fname );
+int writeConfigFile (char *fname);
 
-char* getThemeComment ( char* fname );
+char *getThemeComment (char *fname);
 
-char* getLangComment ( char* fname );
+char *getLangComment (char *fname);
 
-void resetTheme ( data_t* gfxdata );
+void resetTheme (data_t * gfxdata);
 
-void EngineInit();
+void EngineInit ();
 
-void setWindow();
+void setWindow ();
 
-int SetVideoGl ( int w, int h, int use_fullscreen,int bpp );
+int SetVideoGl (int w, int h, int use_fullscreen, int bpp);
 
-void SetVideoSw ( int w, int h, int fullscreen,int bpp );
+void SetVideoSw (int w, int h, int fullscreen, int bpp);
 
-int loadGraphics ( data_t* data, char* fname );
+int loadGraphics (data_t * data, char *fname);
 
-void freeGraphics ( data_t* data );
+void freeGraphics (data_t * data);
 
-void resetVolumes();
+void resetVolumes ();
 
-int loadSounds ( data_t* data, char* fname );
+int loadSounds (data_t * data, char *fname);
 
-void freeSounds ( data_t* data );
+void freeSounds (data_t * data);
 
 #endif

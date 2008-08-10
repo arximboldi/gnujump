@@ -2,7 +2,7 @@
  * GNUjump
  * =======
  *
- * Copyright (C) 2005-2006, Juan Pedro Bolivar Puente
+ * Copyright (C) 2005-2008, Juan Pedro Bolivar Puente
  *
  * GNUjump is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNUjump; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _TOOLS_H_
@@ -26,63 +25,63 @@
 
 typedef struct fader
 {
-	float value;
-	float target;
-	float start;
-	float time;
-	float delta;
-	int loop;
+  float value;
+  float target;
+  float start;
+  float time;
+  float delta;
+  int loop;
 }
 fader_t;
 
-long getFileSize ( char *fname );
+long getFileSize (char *fname);
 
-int getFps();
+int getFps ();
 
-void setFader ( fader_t* fader, int start, int target, int time, int loop );
+void setFader (fader_t * fader, int start, int target, int time, int loop);
 
-int updateFader ( fader_t* fader, int ms );
+int updateFader (fader_t * fader, int ms);
 
-int rnd ( int range );
+int rnd (int range);
 
-void srnd ( void );
+void srnd (void);
 
 void pressAnyKey ();
 
-void findNextValue ( FILE* tfile );
+void findNextValue (FILE * tfile);
 
-void skipValueStr ( FILE* tfile );
+void skipValueStr (FILE * tfile);
 
-int getValue_int ( FILE* tfile, char * value );
+int getValue_int (FILE * tfile, char *value);
 
-float getValue_float ( FILE * tfile, char * value );
+float getValue_float (FILE * tfile, char *value);
 
-void getValue_str ( FILE * tfile, char * value, char * data, char* path );
+void getValue_str (FILE * tfile, char *value, char *data, char *path);
 
-char* getValue_charp ( FILE * tfile, char * value );
+char *getValue_charp (FILE * tfile, char *value);
 
-int isOdd ( int n );
+int isOdd (int n);
 
-void putValue_int ( FILE* tfile, char* data, int value );
+void putValue_int (FILE * tfile, char *data, int value);
 
-void putValue_str ( FILE* tfile, char* data, char* value );
+void putValue_str (FILE * tfile, char *data, char *value);
 
-void putLine ( FILE* tfile );
+void putLine (FILE * tfile);
 
-void putComment ( FILE* tfile, char* comment );
+void putComment (FILE * tfile, char *comment);
 
-int bool2sign ( int n );
+int bool2sign (int n);
 
-int checkExtension ( char* file, char* ext );
+int checkExtension (char *file, char *ext);
 
-int getDirList ( char* folder, char*** tab );
+int getDirList (char *folder, char ***tab);
 
-int getFileList ( char* folder, char*** tab );
+int getFileList (char *folder, char ***tab);
 
-int sumDirList ( char*** a, int an, char** b, int bn );
+int sumDirList (char ***a, int an, char **b, int bn);
 
-int sumStringTabs ( char*** a, int an, char** b, int bn );
+int sumStringTabs (char ***a, int an, char **b, int bn);
 
-int sumStringTabs_Cat ( char*** a, int an, char** b, int bn, char* string );
+int sumStringTabs_Cat (char ***a, int an, char **b, int bn, char *string);
 
 #endif //_TOOLS_H_

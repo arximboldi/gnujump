@@ -2,7 +2,7 @@
  * GNUjump
  * =======
  *
- * Copyright (C) 2005-2006, Juan Pedro Bolivar Puente
+ * Copyright (C) 2005-2008, Juan Pedro Bolivar Puente
  *
  * GNUjump is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNUjump; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 
 #ifndef _EFFECTS_H_
 #define _EFFECTS_H_
@@ -34,25 +34,30 @@
 #include "gnujump.h"
 #include "game.h"
 
-/* Blur ***********************************************************************/
-void updateBlurs ( hero_t* hero, float msec );
+/*
+  Blur
+*/
 
-void scrollBlurs ( hero_t* hero, float dy );
+void updateBlurs (hero_t * hero, float msec);
 
-void drawBlur ( data_t* gfx, blur_t* blur, int player );
+void scrollBlurs (hero_t * hero, float dy);
 
-void freeBlurs ( hero_t* hero );
+void drawBlur (data_t * gfx, blur_t * blur, int player);
 
-/* Trail **********************************************************************/
+void freeBlurs (hero_t * hero);
 
-trail_t* makeTrail ( float x0, float y0, float x1, float y1 );
+/*
+  Trail
+*/
 
-void updateTrails ( hero_t* hero, float msec );
+trail_t *makeTrail (float x0, float y0, float x1, float y1);
 
-void scrollTrails ( hero_t* hero, float dy );
+void updateTrails (hero_t * hero, float msec);
 
-void drawTrail ( data_t* gfx, trail_t* trail, int player );
+void scrollTrails (hero_t * hero, float dy);
 
-void freeTrails ( hero_t* hero );
+void drawTrail (data_t * gfx, trail_t * trail, int player);
+
+void freeTrails (hero_t * hero);
 
 #endif
