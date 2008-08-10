@@ -115,6 +115,16 @@ drawGame (data_t * gfx, game_t * game)
 			      (int) (game->scrollTotal * 2) %
 			      gfx->borderTileH);
 	}
+      else
+	{
+	  drawBg (gfx->gameBg,
+		  gfx->gameX, gfx->gameY,
+		  BLOCKSIZE, BLOCKSIZE * GRIDHEIGHT);
+
+	  drawBg (gfx->gameBg,
+		  gfx->gameX + BLOCKSIZE * (GRIDWIDTH - 1), gfx->gameY,
+		  BLOCKSIZE, BLOCKSIZE * GRIDHEIGHT);
+	}
     }
   else
     {

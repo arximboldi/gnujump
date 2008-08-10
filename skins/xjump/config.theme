@@ -10,9 +10,11 @@
 #   General
 # ==============================================================================
 
-format = "02"
+format = "03"
 
 comment = "This theme tries to evocate the appereance of the original Xjump."
+
+author = "Juan Pedro Bolivar Puente"
 
 window_width = 540
 window_height = 592
@@ -106,6 +108,11 @@ g_alpha = 190
 game_x = 14
 game_y = 149
 
+# Tile height. If 0, no tile.
+game_tile_h = 0
+border_tile_h = 16
+border_tile_w = 16
+
 # Timer
 timer_x = 490
 timer_y = 540
@@ -152,3 +159,20 @@ hero_jump_anim  = "hero2.anim"
 hero_stand_anim  = "hero3.anim"
 hero_run_anim  = "hero3.anim"
 hero_jump_anim  = "hero3.anim"
+
+# Colors of the player trails
+trail_red = 255
+trail_green = 0
+trail_blue = 0
+
+trail_red = 0
+trail_green = 255
+trail_blue = 0
+
+trail_red = 0
+trail_green = 0
+trail_blue = 255
+
+trail_red = 255
+trail_green = 255
+trail_blue = 255

@@ -1,4 +1,5 @@
 
-SUBDIRS = auri default xjump wincrash
+SUBDIRS = auri default xjump wincrash sdljump
+
 
 

@@ -10,9 +10,11 @@
 #   General
 # ==============================================================================
 
-format = "02"
+format = "03"
 
 comment = "This is a new funny theme for SDLjump. NOTE: We recommend to disable rotation with this theme."
+
+author = "Juan Pedro Bolivar Puente and Aurora Bolivar Puente"
 
 window_width = 640
 window_height = 480
@@ -106,6 +108,11 @@ g_alpha = 168
 game_x = 24
 game_y = 70
 
+# Tile height. If 0, no tile.
+game_tile_h = 0
+border_tile_h = 0
+border_tile_w = 16
+
 # Timer
 timer_x = 576
 timer_y = 415
@@ -152,3 +159,20 @@ hero_jump_anim  = "heroanim3/jump.anim"
 hero_stand_anim  = "heroanim4/stand.anim"
 hero_run_anim  = "heroanim4/run.anim"
 hero_jump_anim  = "heroanim4/jump.anim"
+
+# Colors of the player trails
+trail_red = 0
+trail_green = 255
+trail_blue = 0
+
+trail_red = 255
+trail_green = 0
+trail_blue = 0
+
+trail_red = 255
+trail_green = 255
+trail_blue = 0
+
+trail_red = 255
+trail_green = 255
+trail_blue = 255
