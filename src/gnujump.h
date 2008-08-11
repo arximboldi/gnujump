@@ -68,7 +68,7 @@
 #endif
 
 /* Some code switchs */
-#define DEVEL
+//#define DEVEL
 #define GLFINISH
 
 /* Files */

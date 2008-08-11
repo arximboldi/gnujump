@@ -301,7 +301,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile po/Makefile.in src/Makefile doc/Makefile sound/Makefile skins/Makefile skins/default/Makefile skins/default/cursor/Makefile skins/xjump/Makefile skins/auri/Makefile skins/auri/heroanim1/Makefile skins/auri/heroanim2/Makefile skins/auri/heroanim3/Makefile skins/auri/heroanim4/Makefile skins/wincrash/Makefile skins/wincrash/heroanim1/Makefile skins/wincrash/heroanim2/Makefile skins/wincrash/heroanim3/Makefile skins/wincrash/heroanim4/Makefile"
+config_files=" Makefile po/Makefile.in src/Makefile doc/Makefile sound/Makefile skins/Makefile skins/default/Makefile skins/default/cursor/Makefile skins/sdljump/Makefile skins/sdljump/cursor/Makefile skins/xjump/Makefile skins/auri/Makefile skins/auri/heroanim1/Makefile skins/auri/heroanim2/Makefile skins/auri/heroanim3/Makefile skins/auri/heroanim4/Makefile skins/wincrash/Makefile skins/wincrash/heroanim1/Makefile skins/wincrash/heroanim2/Makefile skins/wincrash/heroanim3/Makefile skins/wincrash/heroanim4/Makefile"
 config_headers=" config.h"
 config_commands=" po-directories depfiles"
 
@@ -453,6 +453,8 @@ do
     "skins/Makefile") CONFIG_FILES="$CONFIG_FILES skins/Makefile" ;;
     "skins/default/Makefile") CONFIG_FILES="$CONFIG_FILES skins/default/Makefile" ;;
     "skins/default/cursor/Makefile") CONFIG_FILES="$CONFIG_FILES skins/default/cursor/Makefile" ;;
+    "skins/sdljump/Makefile") CONFIG_FILES="$CONFIG_FILES skins/sdljump/Makefile" ;;
+    "skins/sdljump/cursor/Makefile") CONFIG_FILES="$CONFIG_FILES skins/sdljump/cursor/Makefile" ;;
     "skins/xjump/Makefile") CONFIG_FILES="$CONFIG_FILES skins/xjump/Makefile" ;;
     "skins/auri/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/Makefile" ;;
     "skins/auri/heroanim1/Makefile") CONFIG_FILES="$CONFIG_FILES skins/auri/heroanim1/Makefile" ;;

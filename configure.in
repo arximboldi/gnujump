@@ -78,6 +78,8 @@ AC_OUTPUT(
 		skins/Makefile
 		skins/default/Makefile
 		skins/default/cursor/Makefile
+		skins/sdljump/Makefile
+		skins/sdljump/cursor/Makefile
 		skins/xjump/Makefile
 		skins/auri/Makefile
 		skins/auri/heroanim1/Makefile
