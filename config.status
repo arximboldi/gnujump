@@ -341,7 +341,7 @@ Copyright (C) 2006 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/raskolnikov/devel/gnujump'
+ac_pwd='/home/raskolnikov/devel/gnujump/trunk'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -579,22 +579,23 @@ s,@am__isrc@,|#_!!_#|,g
 s,@CYGPATH_W@,|#_!!_#|echo,g
 s,@PACKAGE@,|#_!!_#|gnujump,g
 s,@VERSION@,|#_!!_#|1.0.5,g
-s,@ACLOCAL@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/missing --run aclocal-1.10,g
-s,@AUTOCONF@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/missing --run autoconf,g
-s,@AUTOMAKE@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/missing --run automake-1.10,g
-s,@AUTOHEADER@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/missing --run autoheader,g
-s,@MAKEINFO@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/missing --run makeinfo,g
-s,@install_sh@,|#_!!_#|$(SHELL) /home/raskolnikov/devel/gnujump/install-sh,g
+s,@ACLOCAL@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/trunk/missing --run aclocal-1.10,g
+s,@AUTOCONF@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/trunk/missing --run autoconf,g
+s,@AUTOMAKE@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/trunk/missing --run automake-1.10,g
+s,@AUTOHEADER@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/trunk/missing --run autoheader,g
+s,@MAKEINFO@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/trunk/missing --run makeinfo,g
+s,@install_sh@,|#_!!_#|$(SHELL) /home/raskolnikov/devel/gnujump/trunk/install-sh,g
 s,@STRIP@,|#_!!_#|strip,g
 s,@INSTALL_STRIP_PROGRAM@,|#_!!_#|$(install_sh) -c -s,g
 s,@mkdir_p@,|#_!!_#|/bin/mkdir -p,g
 s,@AWK@,|#_!!_#|gawk,g
 s,@SET_MAKE@,|#_!!_#|,g
 s,@am__leading_dot@,|#_!!_#|.,g
-s,@AMTAR@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/missing --run tar,g
+s,@AMTAR@,|#_!!_#|${SHELL} /home/raskolnikov/devel/gnujump/trunk/missing --run tar,g
 s,@am__tar@,|#_!!_#|${AMTAR} chof - "$$tardir",g
 s,@am__untar@,|#_!!_#|${AMTAR} xf -,g
 s,@USE_NLS@,|#_!!_#|yes,g
+s,@GETTEXT_MACRO_VERSION@,|#_!!_#|0.17,g
 s,@MSGFMT@,|#_!!_#|/usr/bin/msgfmt,g
 s,@GMSGFMT@,|#_!!_#|/usr/bin/msgfmt,g
 s,@MSGFMT_015@,|#_!!_#|/usr/bin/msgfmt,g
@@ -602,6 +603,7 @@ s,@GMSGFMT_015@,|#_!!_#|/usr/bin/msgfmt,g
 s,@XGETTEXT@,|#_!!_#|/usr/bin/xgettext,g
 s,@XGETTEXT_015@,|#_!!_#|/usr/bin/xgettext,g
 s,@MSGMERGE@,|#_!!_#|/usr/bin/msgmerge,g
+s,@XGETTEXT_EXTRA_OPTIONS@,|#_!!_#|,g
 s,@CC@,|#_!!_#|gcc,g
 s,@CFLAGS@,|#_!!_#|-g -O2 -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -Wall   -g -DPREFIX=\\"/usr/local\\" -DDATA_PREFIX=\\"${datarootdir}\\",g
 s,@LDFLAGS@,|#_!!_#|,g
@@ -618,11 +620,11 @@ s,@AMDEPBACKSLASH@,|#_!!_#|\\,g
 s,@CCDEPMODE@,|#_!!_#|depmode=gcc3,g
 s,@am__fastdepCC_TRUE@,|#_!!_#|,g
 s,@am__fastdepCC_FALSE@,|#_!!_#|#,g
-s,@INTL_MACOSX_LIBS@,|#_!!_#|,g
-s,@LIBICONV@,|#_!!_#|-liconv,g
 CEOF
 cat >"$tmp/subs-2.sed" <<\CEOF
 /@[a-zA-Z_][a-zA-Z_0-9]*@/!b end
+s,@INTL_MACOSX_LIBS@,|#_!!_#|,g
+s,@LIBICONV@,|#_!!_#|-liconv,g
 s,@LTLIBICONV@,|#_!!_#|-liconv,g
 s,@INTLLIBS@,|#_!!_#|,g
 s,@LIBINTL@,|#_!!_#|,g

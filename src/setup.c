@@ -138,7 +138,7 @@ initGblOps (void)
   /* Default player names */
   for (i = 0; i < MAX_PLAYERS; i++)
     {
-      gblOps.pname[i] = malloc (sizeof (char) * (strlen (PNAME) + 1));
+      gblOps.pname[i] = malloc (sizeof (char) * (strlen (PNAME) + 4));
       sprintf (gblOps.pname[i], "%s%d", PNAME, i + 1);
     }
 }
