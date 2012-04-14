@@ -326,8 +326,8 @@ endMatch (data_t * gfx, game_t * game, int time)
       Mix_PlayChannel (-1, gfx->grecord, 0);
       if (yesNoQuestion
 	  (gfx, game,
-	   _
-	   ("Congratulations! You have made a new local highscore. Do you want to play again? (Y/n)")))
+	   _ ("Congratulations! You have made a new local highscore. "
+	      "Do you want to play again? (Y/n)")))
 	{
 	  return TRUE;
 	}

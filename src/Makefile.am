@@ -7,10 +7,10 @@ INCLUDES= $(all_includes)
 gnujump_LDFLAGS = $(all_libraries) 
 
 gnujump_SOURCES = \
-	game.h\
-	menu.h\	
-	records.h\
-	SDL_2dgl.h\
+	game.h \
+	menu.h \
+	records.h \
+	SDL_2dgl.h \
 	gnujump.h\
 	SDL_rotozoom.h \
 	setup.h \
@@ -39,7 +39,7 @@ gnujump_SOURCES = \
 	surface.c \
 	tools.c \
 	replay.c \
-	effects-trail.c\
+	effects-trail.c \
 	effects-blur.c
 
 datadirdir = $(prefix)/share/$(package)

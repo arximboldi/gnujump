@@ -1,0 +1,738 @@
+# Italian translations for gnujump package
+# Traduzioni italiane per il pacchetto gnujump..
+# Copyright (C) 2012 Juan Pedro Bolivar Puente
+# This file is distributed under the same license as the gnujump package.
+# NOTA: i font presenti nel gioco non hanno permesso l'uso delle vocali accentate nella traduzione
+# Paolo Straffi <p_straffi@hotmail.com>, 2012.
+#
+#: src/menu.c:750 src/menu.c:751
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: magnicida@gmail.com\n"
+"POT-Creation-Date: 2012-04-14 19:15+0200\n"
+"PO-Revision-Date: 2012-02-26 16:26+0100\n"
+"Last-Translator: Paolo Straffi <p_straffi@hotmail.com>\n"
+"Language-Team: Italiano <>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bits\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: src/main.c:112
+#, c-format
+msgid ""
+"\n"
+"Have a nice day!\n"
+"\n"
+msgstr ""
+"\n"
+"Buona Giornata!\n"
+"\n"
+
+#: src/main.c:120
+#, c-format
+msgid ""
+"GNUjump, an xjump clone. By Juan Pedro Bolivar Puente.\n"
+"This software can be redistributed and modified under the terms of the GPL.\n"
+"\n"
+"Usage: sdljump [REPLAY_FILE] [OPTIONS] \n"
+"Availible options:\n"
+"-b <int>  --bpp <int>     Sets the screen bitdepth to <int>. \n"
+"-f        --fullscreen    Force fullscreen mode.\n"
+"-s        --software      Force software rendering.\n"
+"-o        --opengl        Force OpenGL rendering.\n"
+"-a        --antialias     Force antialiasing for rotating sprites. \n"
+"-n        --no-aa         Disables antialiasing for rotating sprites. \n"
+"-?        --help          Displays this help screen.\n"
+"\n"
+"Example: sdljump myRep.rep -o -f\n"
+msgstr ""
+"GNUjump, di Juan Pedro Bolivar Puente, è un clone di xjump.\n"
+"Questo software può essere redistribuito e modificato secondo i termini "
+"della licenza GPL\n"
+"\n"
+"Uso: sdljump [REPLAY_FILE] [OPZIONI]\n"
+"Opzioni disponibili:\n"
+"-b <int>  --bpp <int>     Imposta la profondità di colore dello schermo "
+"<int>. \n"
+"-f        --fullscreen    Forza alla modalità schermo intero.\n"
+"-s        --software      Forza il software rendering.\n"
+"-o        --opengl        Forza l'OpenGL rendering.\n"
+"-a        --antialias     Forza l'antialias per gli sprite che ruotano. \n"
+"-n        --no-aa         Disabilita l'antialias per gli sprite che "
+"ruotano. \n"
+"-?        --help          Mostra questo aiuto.\n"
+"\n"
+"Esempio: sdljump myRep.rep -o -f\n"
+
+#: src/setup.c:179
+#, c-format
+msgid "WARNING: Can't open config file (%s). I will create one later.\n"
+msgstr ""
+"ATTENZIONE: Non è possibile aprire il file di configurazione (%s). Ne verra' "
+"creato uno in futuro.\n"
+
+#: src/setup.c:189
+#, c-format
+msgid ""
+"WARNING: Config file (%s) is not compatible with this version of gnujump. I "
+"will rewrite it later.\n"
+msgstr ""
+"ATTENZIONE: Il file di configurazione (%s) non è compatibile con questa "
+"versione di gnujump. Verra' riscritto in futuro.\n"
+
+#: src/setup.c:257
+#, c-format
+msgid ""
+"WARNING: Can't open config file (%s). Make sure that it is not being used by "
+"another app.\n"
+msgstr ""
+"ATTENZIONE: Non è possibile aprire il file di configurazione (%s). "
+"Assicurarsi che non sia usato da un'altra applicazione.\n"
+
+#: src/setup.c:339
+#, c-format
+msgid "WARNING: Can open theme file (%s).\n"
+msgstr "ATTENZIONE: Non è possibile aprire il file (%s) del tema.\n"
+
+#: src/setup.c:349 src/setup.c:382
+#, c-format
+msgid "WARNING: Theme file (%s) is not of the correct format.\n"
+msgstr "ATTENZIONE: Il file (%s) del tema non è del formato corretto.\n"
+
+#: src/setup.c:358 src/setup.c:389
+#, c-format
+msgid "Successfully loaded comment from: %s\n"
+msgstr "Commento caricato correttamente da: %s\n"
+
+#: src/setup.c:373
+#, c-format
+msgid "WARNING: Can open lang file (%s).\n"
+msgstr "ATTENZIONE: Non posso aprire il file (%s) della lingua.\n"
+
+#: src/setup.c:400
+#, c-format
+msgid "ERROR: SDL_Init did not work because: %s\n"
+msgstr "ERRORE: SDL_Init non funziona perché: %s\n"
+
+#: src/setup.c:408
+#, c-format
+msgid "ERROR: Mix_OpenAudio: %s\n"
+msgstr "ERRORE: Mix_OpenAudio: %s\n"
+
+#: src/setup.c:458
+#, c-format
+msgid "Window created. BPP: %d, Resolution: %dx%d, OpenGL: %d\n"
+msgstr "Finestra creata. BPP: %d, Risoluzione: %dx%d, OpenGL: %d\n"
+
+#: src/setup.c:479
+#, c-format
+msgid "Setting up an OpenGL fullscreen window.\n"
+msgstr "Imposta una finestra OpenGL a schermo intero.\n"
+
+#: src/setup.c:484 src/setup.c:497 src/setup.c:545 src/setup.c:556
+#, c-format
+msgid "ERROR: The screen wasn't initialized beacause: %s\n"
+msgstr "ERRORE: Lo schermo non è stato inizializzato perché: %s\n"
+
+#: src/setup.c:491
+#, c-format
+msgid "Setting up an OpenGL window.\n"
+msgstr "Imposta una finestra OpenGL.\n"
+
+#: src/setup.c:541
+#, c-format
+msgid "Setting up a software fullscreen window.\n"
+msgstr "Imposta una finestra software a schermo intero.\n"
+
+#: src/setup.c:551
+#, c-format
+msgid "Setting up a software window.\n"
+msgstr "Imposta una finestra software.\n"
+
+#: src/setup.c:580
+#, c-format
+msgid "Loading sounds: %s\n"
+msgstr "Caricamento dei suoni: %s\n"
+
+#: src/setup.c:585
+#, c-format
+msgid "ERROR: Can open sounds file (%s).\n"
+msgstr "ERRORE: è possibile aprire il file dei suoni (%s).\n"
+
+#: src/setup.c:595
+#, c-format
+msgid "ERROR: Sound file (%s) is not of the correct format.\n"
+msgstr "ERRORE: Il file sonoro (%s) non è del formato corretto.\n"
+
+#: src/setup.c:661
+#, c-format
+msgid "Loading theme: %s\n"
+msgstr "Caricamento tema: %s\n"
+
+#: src/setup.c:665
+#, c-format
+msgid "ERROR: Can open theme file (%s).\n"
+msgstr "ERRORE: è possibile aprire il file del tema (%s).\n"
+
+#: src/setup.c:678
+#, c-format
+msgid "ERROR: Theme file (%s) is not of the correct format.\n"
+msgstr "ERRORE: Il file del tema (%s) non è del formato corretto.\n"
+
+#: src/game.c:124 src/game.c:137 src/replay.c:448
+msgid "PAUSE"
+msgstr "PAUSA"
+
+#: src/game.c:130
+msgid "Are you sure you want to end this match? (Y/n)"
+msgstr "Sei sicuro di voler terminare questa partita? (Y/n)"
+
+#: src/game.c:279
+msgid "Do you really want to quit this match? (Y/n)"
+msgstr "Desideri veramente uscire da questa partita? (Y/n)"
+
+#: src/game.c:316
+msgid "Do you want to view or save the replay of this match?"
+msgstr "Desideri visionare o salvare il replay di questa partita?"
+
+#: src/game.c:329
+msgid ""
+"Congratulations! You have made a new local highscore. Do you want to play "
+"again? (Y/n)"
+msgstr ""
+"Congratulazioni! Hai realizzato il nuovo punteggio locale piu' alto. "
+"Desideri giocare ancora? (Y/n)"
+
+#: src/game.c:342
+msgid "Game Over. Do you want to play again? (Y/n)"
+msgstr "Gioco terminato. Desideri provare ancora? (Y/n)"
+
+#: src/menu.c:47
+msgid "Play"
+msgstr "Riproduci"
+
+#: src/menu.c:47
+msgid "Watch this replay."
+msgstr "Guarda questo replay."
+
+#: src/menu.c:49
+msgid "Filename"
+msgstr "Nome del file"
+
+#: src/menu.c:50
+msgid "Give a nice filename to your replay."
+msgstr "Dai un bel nome al replay."
+
+#: src/menu.c:52
+msgid "Comment"
+msgstr "Commento"
+
+#: src/menu.c:53
+msgid "Attach some annotations or explanations to the replay"
+msgstr "Aggiungi qualche annotazione al replay"
+
+#: src/menu.c:55
+msgid "Save"
+msgstr "Salva"
+
+#: src/menu.c:57
+msgid "Store the replay to the disk with the given parameters."
+msgstr "Salva il replay sul disco con i parametri indicati."
+
+#: src/menu.c:59
+msgid "Cancel"
+msgstr "Annulla"
+
+#: src/menu.c:60
+msgid "I do not want to store this replay."
+msgstr "Non voglio salvare questo replay."
+
+#: src/menu.c:101
+msgid "New Game"
+msgstr "Nuova partita"
+
+#: src/menu.c:101
+msgid "Play a new game."
+msgstr "Gioca una nuova partita."
+
+#: src/menu.c:102
+msgid "Options"
+msgstr "Opzioni"
+
+#: src/menu.c:102
+msgid "Configure some settings."
+msgstr "Configura alcune impostazioni."
+
+#: src/menu.c:103
+msgid "Highscores"
+msgstr "Punteggi"
+
+#: src/menu.c:104
+msgid "Have a look at the local Hall of Fame."
+msgstr "Dai uno sguardo alla Hall of Fame."
+
+#: src/menu.c:105
+msgid "Replays"
+msgstr "Replay"
+
+#: src/menu.c:105
+msgid "Watch previously played games."
+msgstr "Visiona le partite giocate precedentemente."
+
+#: src/menu.c:106
+msgid "Credits"
+msgstr "Riconoscimenti"
+
+#: src/menu.c:106
+msgid "See who made this program."
+msgstr "Mostra chi ha fatto questo programma."
+
+#: src/menu.c:107
+msgid "Quit"
+msgstr "Esci"
+
+#: src/menu.c:107
+msgid "See you some other day :)"
+msgstr "Sara' per un altro giorno :)"
+
+#: src/menu.c:149
+msgid "Start Game"
+msgstr "Gioca"
+
+#: src/menu.c:149
+msgid "Start playing this match"
+msgstr "Avvia la partita"
+
+#: src/menu.c:151
+msgid "Players:"
+msgstr "Giocatori:"
+
+#: src/menu.c:152
+msgid "Set the number of players for this match."
+msgstr "Imposta il numero dei giocatori per questa partita."
+
+#: src/menu.c:154
+msgid "MP Lives:"
+msgstr "Vite MP:"
+
+#: src/menu.c:156
+msgid "Set the number of tries each player will have in multiplayer games."
+msgstr ""
+"Imposta il numero dei tentativi di cui dispone ciascun giocatore nelle "
+"partite in multiplayer."
+
+#: src/menu.c:158
+msgid "Replay:"
+msgstr "Replay:"
+
+#: src/menu.c:160
+msgid ""
+"Activate this option if you want the match to be recorder while you play."
+msgstr ""
+"Attivare questa opzione se si desidera registrare la partita mentre si gioca."
+
+#: src/menu.c:161 src/menu.c:434 src/menu.c:440 src/menu.c:451
+msgid "Off"
+msgstr "Disattivato"
+
+#: src/menu.c:161 src/menu.c:435 src/menu.c:440 src/menu.c:451
+msgid "On"
+msgstr "Attivato"
+
+#: src/menu.c:162
+msgid "Configure Players"
+msgstr "Configura i giocatori"
+
+#: src/menu.c:164
+msgid "Select some options for each player, such as keys, name, etc."
+msgstr ""
+"Selezione di alcune opzioni per ciascun giocatore, come tasti, nome, ecc."
+
+#: src/menu.c:166 src/menu.c:220 src/menu.c:253 src/menu.c:309 src/menu.c:348
+#: src/menu.c:415 src/menu.c:453 src/menu.c:721 src/menu.c:752
+msgid "Back"
+msgstr "Indietro"
+
+#: src/menu.c:166
+msgid "Leave this menu"
+msgstr "Abbandona questo menu"
+
+#: src/menu.c:202
+msgid "Player:"
+msgstr "Giocatore:"
+
+#: src/menu.c:203
+msgid "Choose which player do you want to configure."
+msgstr "Sceglie quale giocatore configurare."
+
+#: src/menu.c:205
+msgid "Name:"
+msgstr "Nome:"
+
+#: src/menu.c:205
+msgid "Choose a name for this player."
+msgstr "Sceglie il nome del giocatore."
+
+#: src/menu.c:207
+msgid "Left Key:"
+msgstr "Tasto sinistro:"
+
+#: src/menu.c:209 src/menu.c:213 src/menu.c:217
+msgid "Press enter and then press the key you want to use."
+msgstr "Premere invio e quindi il tasto che si desidera usare."
+
+#: src/menu.c:211
+msgid "Right Key:"
+msgstr "Tasto destro:"
+
+#: src/menu.c:215
+msgid "Jump Key:"
+msgstr "Tasto del salto:"
+
+#: src/menu.c:220 src/menu.c:253 src/menu.c:309 src/menu.c:348 src/menu.c:415
+#: src/menu.c:453 src/menu.c:723 src/menu.c:752
+msgid "Leave this menu."
+msgstr "Abbandona questo menu."
+
+#: src/menu.c:238
+msgid "Choose Theme"
+msgstr "Scelta del tema"
+
+#: src/menu.c:239
+msgid "Change the appearance and sounds of the game."
+msgstr "Cambia l'aspetto e i suoni del gioco."
+
+#: src/menu.c:242
+msgid "Game Options"
+msgstr "Opzioni di gioco"
+
+#: src/menu.c:242
+msgid "Change the gameplay."
+msgstr "Cambia alcuni aspetti del gioco"
+
+#: src/menu.c:244
+msgid "Graphic Options"
+msgstr "Opzioni grafiche"
+
+#: src/menu.c:245
+msgid "Modify how the game is displayed in the screen."
+msgstr "Modifica il modo in cui il gioco e' visualizzato sullo schermo"
+
+#: src/menu.c:247
+msgid "Sound Options"
+msgstr "Opzioni audio"
+
+#: src/menu.c:248
+msgid "Modify options related to sound effects and music."
+msgstr "Modifica le opzioni relative agli effetti sonori e alla musica."
+
+#: src/menu.c:250
+msgid "Manage Folders"
+msgstr "Gestione cartelle"
+
+#: src/menu.c:251
+msgid "Change the folders where themes and replays are."
+msgstr "Cambia le cartelle dove sono collocati temi e replay"
+
+#: src/menu.c:299
+msgid "Sound Volume:"
+msgstr "Volume suono:"
+
+#: src/menu.c:301
+msgid ""
+"Set how low you want to hear the sounds. 0 means off. 9 is the max value."
+msgstr ""
+"Imposta il volume dei suoni. 0 significa spento. 9 e' il valore massimo."
+
+#: src/menu.c:304
+msgid "Music Volume:"
+msgstr "Volume musica:"
+
+#: src/menu.c:306
+msgid ""
+"Set how low you want to hear the music. 0 means off. 9 is the max value."
+msgstr ""
+"Imposta il volume della musica. 0 significa spento. 9 e' il valore massimo."
+
+#: src/menu.c:337
+msgid "Replay save folder:"
+msgstr "Cartella salvataggio replay:"
+
+#: src/menu.c:338
+msgid "Choose where new recorded replays should be stored."
+msgstr "Sceglie dove i nuovi replay saranno salvati."
+
+#: src/menu.c:340
+msgid "Replay Folders"
+msgstr "Cartella replay"
+
+#: src/menu.c:342
+msgid "Manage the folders where GNUjump should look for replays."
+msgstr "Gestisce le cartelle dove GNUjump cerca i replay."
+
+#: src/menu.c:344
+msgid "Theme Folders"
+msgstr "Cartella temi"
+
+#: src/menu.c:346
+msgid "Manage the folders where GNUjump should look for themes."
+msgstr "Gestisce le cartelle dove GNUjump cerca i temi."
+
+#: src/menu.c:385
+msgid "FPS Limit:"
+msgstr "Limite FPS:"
+
+#: src/menu.c:387
+msgid ""
+"The original Xjump worked at 40 fps. Higher FPS imply more fluid gameplay, "
+"but limiting it is good if you don't want to use all your CPU."
+msgstr ""
+"L'originale Xjump lavorava a 40 fps. Un piu' alto FPS implica una "
+"giocabilita' piu' fluida, ma limitarlo e' un bene se non si vuole usare "
+"tutta la CPU."
+
+#: src/menu.c:389
+msgid "No limit."
+msgstr "Nessun limite."
+
+#: src/menu.c:391
+msgid "Rotation:"
+msgstr "Rotazione:"
+
+#: src/menu.c:392
+msgid "Change how the player rotates when jumping."
+msgstr "Cambia il modo in cui il giocatore piroetta quando salta."
+
+#: src/menu.c:393 src/menu.c:406
+msgid "None"
+msgstr "Nessuna"
+
+#: src/menu.c:393 src/menu.c:397
+msgid "Xjump"
+msgstr "Xjump"
+
+#: src/menu.c:393
+msgid "Full"
+msgstr "Completa"
+
+#: src/menu.c:395
+msgid "Scrolling"
+msgstr "Scorrimento"
+
+#: src/menu.c:396
+msgid "How do you want the tower to fall."
+msgstr "Come cade la torre."
+
+#: src/menu.c:397
+msgid "Soft"
+msgstr "Facile"
+
+#: src/menu.c:399
+msgid "Scroll BG"
+msgstr "Scroll BG"
+
+#: src/menu.c:400
+msgid "Do you want the background an walls to scroll?"
+msgstr "Desideri che lo sfondo e i muri scorrano?"
+
+#: src/menu.c:401
+msgid "No"
+msgstr "No"
+
+#: src/menu.c:401
+msgid "Yes"
+msgstr "Si"
+
+#: src/menu.c:403
+msgid "Trail:"
+msgstr "Scia:"
+
+#: src/menu.c:405
+msgid "Set this if you want the player to leave a trail behind him."
+msgstr ""
+"Imposta questa opzione se desideri che il giocatore lasci una scia dietro di "
+"se."
+
+#: src/menu.c:406
+msgid "Thin"
+msgstr "Sottile"
+
+#: src/menu.c:407
+msgid "Normal"
+msgstr "Normale"
+
+#: src/menu.c:407
+msgid "Strong"
+msgstr "Spessa"
+
+#: src/menu.c:409
+msgid "Blur:"
+msgstr "Sfocatura:"
+
+#: src/menu.c:411
+msgid ""
+"Nice blur effect. Set a level from 0 to 9. Only availible in OpenGL mode."
+msgstr ""
+"Effetto sfocatura. Imposta un livello da 0 a 9. Disponibile solo nella "
+"modalita' OpenGL."
+
+#: src/menu.c:431
+msgid "Fullscreen:"
+msgstr "S. intero:"
+
+#: src/menu.c:433
+msgid ""
+"Choose wether you want to play in a window or feel the overwhelming "
+"sensation of falling in all your screen!"
+msgstr ""
+"Scegli se vuoi giocare in una finestra o provare la travolgente sensazione "
+"di cadere per tutto lo schermo!"
+
+#: src/menu.c:437
+msgid "OpenGL:"
+msgstr "OpenGL:"
+
+#: src/menu.c:439
+msgid ""
+"Use OpenGL if you've got a 3d card. In most cases it will improve the "
+"performance. Some fading effects are only availible in this mode."
+msgstr ""
+"Usa OpenGL se possiedi una scheda 3d. In molti casi migliorera' le "
+"performance. Alcuni effetti di dissolvenza sono disponibili solo in questa "
+"modalita'."
+
+#: src/menu.c:442
+msgid "Color depth:"
+msgstr "Prof. colore:"
+
+#: src/menu.c:444
+msgid ""
+"How many colors do you want to see in the screen. Usually auto is the best "
+"option, but when playing in fullscreen lower values might improve "
+"performance."
+msgstr ""
+"Quantita' di colori che desideri vedere sullo schermo. Solitamente auto e' "
+"l'opzione migliore, ma quando si gioca a schermo intero valori piu' bassi "
+"possono migliorare le performance."
+
+#: src/menu.c:446
+msgid "Auto"
+msgstr "Auto"
+
+#: src/menu.c:448
+msgid "Antialiasing:"
+msgstr "Antialias:"
+
+#: src/menu.c:450
+msgid ""
+"Antialiasing will improve the look of the character when full rotation is "
+"set."
+msgstr ""
+"L'antialias migliora l'aspetto del personaggio quando e' impostata la "
+"piroetta completa."
+
+#: src/menu.c:720
+msgid "Add"
+msgstr "Aggiungi"
+
+#: src/menu.c:722
+msgid "Add a folder to the list."
+msgstr "Aggiunge una cartella alla lista."
+
+#: src/menu.c:728
+msgid "View more options about this folder."
+msgstr "Mostra piu' opzioni riguardanti la cartella."
+
+#: src/menu.c:740 src/menu.c:757
+msgid "Write a full or relative path."
+msgstr "Scrivi un percorso assoluto o relativo."
+
+#: src/menu.c:750
+msgid "Modify"
+msgstr "Modifica"
+
+#: src/menu.c:751
+msgid "Delete"
+msgstr "Cancella"
+
+#: src/replay.c:308
+msgid "Speed: "
+msgstr "Velocita': "
+
+#: src/replay.c:310
+msgid " Speed: "
+msgstr " Velocita': "
+
+#: src/replay.c:455
+msgid "Are you sure you want to stop playing this replay? (Y/n)"
+msgstr "Sei sicuro di voler fermare il replay? (Y/n)"
+
+#: src/replay.c:509
+msgid "Do you want to watch this replay again? (Y/n)"
+msgstr "Desideri rivedere il replay? (Y/n)"
+
+#: src/replay.c:556
+#, c-format
+msgid "ERROR: Could not save replay to %s\n"
+msgstr "ERRORE: Impossibile salvare il replay in %s\n"
+
+#: src/replay.c:625
+#, c-format
+msgid "ERROR: Could not open replay %s\n"
+msgstr "ERRORE: Impossibile aprire il replay %s\n"
+
+#: src/replay.c:632
+#, c-format
+msgid "ERROR: Replay %s is of a different version.\n"
+msgstr "ERRORE: Il replay %s è di una versione differente.\n"
+
+#: src/replay.c:656
+#, c-format
+msgid ""
+"Replay loaded: Size: %d FPS: %d Frames: %d Record: %d Time: %d Comment: %s\n"
+msgstr ""
+"Replay caricato: Dimensione: %d FPS: %d Frame: %d Record: %d Tempo: %d "
+"Commento: %s\n"
+
+#: src/replay.c:677
+#, c-format
+msgid "WARNING: Could not open replay %s\n"
+msgstr "ATTENZIONE: Impossibile aprire il replay %s\n"
+
+#: src/replay.c:684
+#, c-format
+msgid "WARNING: Replay %s is of a different version.\n"
+msgstr "ATTENZIONE: Il replay %s è di una versione differente.\n"
+
+#: src/records.c:36
+#, c-format
+msgid ""
+"\n"
+"WARNING: Could not open records file (%s). I will create a new one later. \n"
+msgstr ""
+"\n"
+"ATTENZIONE: Impossibile aprire il file dei records (%s). Ne sara' creato un "
+"altro piu' tardi. \n"
+
+#: src/records.c:63
+#, c-format
+msgid ""
+"\n"
+"ERROR: Error while opening records file (%s) for writing. \n"
+msgstr ""
+"\n"
+"ERRORE: Errore nell'aprire il file dei record (%s) in scrittura. \n"
+
+#: src/tools.c:108 src/tools.c:147
+#, c-format
+msgid "WARNING: Folder (%s) doesn't exist.\n"
+msgstr "ATTENZIONE: La cartella (%s) non esiste.\n"
+
+#: src/tools.c:360 src/tools.c:383 src/tools.c:415 src/tools.c:443
+#, c-format
+msgid "ERROR: Value Mismatch ('%s' expected but '%s' obtained)\n"
+msgstr ""
+"ERRORE: Discordanza di valore (era atteso '%s' ma si è ottenuto '%s')\n"
