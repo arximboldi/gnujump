@@ -11,7 +11,7 @@
 # Origin: gettext-0.16
 
 PACKAGE = gnujump
-VERSION = 1.0.7
+VERSION = 1.0.8
 PACKAGE_BUGREPORT = 
 
 SHELL = /bin/sh
@@ -21,7 +21,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /usr/local
+prefix = /home/raskolnikov/usr
 exec_prefix = ${prefix}
 datarootdir = ${prefix}/share
 datadir = ${datarootdir}

@@ -13,7 +13,7 @@ author = "Juan Pedro Bolivar Puente"
 #   GAME
 # ==============================================================================
 
-mus_game = "I_Put_A_Spell_On_You.mid"
+mus_game = "silence.ogg"
 
 snd_die = "die.ogg"
 snd_fall = "fall.ogg"
@@ -25,7 +25,7 @@ snd_record = "record.ogg"
 #   MENU
 # ==============================================================================
 
-mus_menu = "Midnight_Special.mid"
+mus_menu = "silence.ogg"
 
 snd_click = "mclick.ogg"
 snd_back = "mback.ogg"
