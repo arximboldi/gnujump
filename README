@@ -5,14 +5,14 @@ GNUjump
 [![GNU](http://www.gnu.org/graphics/gnubanner-2.png)](http://www.gnu.org)
 [![GPL](http://psychosynth.com/images/gplv3.png)](http://gplv3.fsf.org/)
 
+GNUjump is a clone of the simple yet addictive game Xjump, adding new
+features like multiplaying, unlimited FPS, smooth floor falling,
+themable graphics, sounds, replays, ...
+
 GNUjump is part of the GNU project.
 More info at: http://gnujump.es.gnu.org
 
 ![screenshot](http://gnujump.es.gnu.org/upload/0/0e/Screenie2.png)
-
-GNUjump is a clone of the simple yet addictive game Xjump, adding new
-features like multiplaying, unlimited FPS, smooth floor falling,
-themable graphics, sounds, replays, ...
 
 The goal in this game is to jump to the next floor trying not to fall
 down. As you go upper in the Falling Tower the floors will fall
